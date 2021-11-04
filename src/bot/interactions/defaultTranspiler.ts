@@ -8,7 +8,6 @@ let buildSystemInitialized = false;
 export const runTranspiler = async (rawCode: string) => {
   if (!buildSystemInitialized) {
     await esbuild.initialize({
-      //wasmURL: "./esbuild.wasm",
       worker: true,
       wasmURL: "https://unpkg.com/esbuild-wasm@0.11.6/esbuild.wasm",
     });

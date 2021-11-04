@@ -8,14 +8,6 @@ import { useDynamicScript } from "../hooks/useDynamicScript";
 
 const loadComponent = (scope: any, module: any) => {
   return async () => {
-    // debugger;
-    // const __webpack_init_sharing__ = (window as any)[
-    //   "__webpack_init_sharing__"
-    // ];
-    // const __webpack_share_scopes__ = (window as any)[
-    //   "__webpack_share_scopes__"
-    // ];
-    // Initializes the share scope. This fills it with known provided modules from this build and all remotes
     await __webpack_init_sharing__("default");
 
     const container = window[scope] as any; // or get the container somewhere else
@@ -83,7 +75,6 @@ export const BotCustomNode = (props: IBotNodeInteractionLoaderProps) => {
   }, {});
 
   const onUserAction = (value: any, port: string) => {
-    debugger;
     props.onUserAction({
       port,
       value,

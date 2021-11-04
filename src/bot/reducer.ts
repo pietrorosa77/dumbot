@@ -160,7 +160,6 @@ const onGetNextMessage = (
 const onUserAction = (state: IBotState, userAnswer: IUserAction): IBotState => {
   const activeNode = state.activeInteraction as IBotNode;
   const silent = SilentNodes.includes(activeNode.type);
-  debugger;
   const processedMessage: IMessage = {
     nodeId: activeNode.id,
     output: userAnswer,

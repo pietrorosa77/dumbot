@@ -24,8 +24,9 @@ const deps = require("./package.json").peerDependencies;
 
 module.exports = {
   mode: "development",
+  watch: true,
   output: {
-    publicPath: "/",
+    publicPath: "/dumbot",
   },
   entry: "./index.ts",
   module: {
