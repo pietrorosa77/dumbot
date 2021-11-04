@@ -4,6 +4,7 @@ import * as WaitingLoaders from "./LoadingMessage";
 import { BotTheme } from "./defaultTheme";
 import { DEFAULTPORT, BUBBLE_DELIMITER } from "./definitions";
 import * as MessageControls from "./Message";
+import * as utils from "./utils";
 
 export {
   Dumbot,
@@ -13,4 +14,5 @@ export {
   MessageControls,
   WaitingLoaders,
   Interaction,
+  utils,
 };

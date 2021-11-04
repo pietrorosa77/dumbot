@@ -27,7 +27,7 @@ import { FloatingTrigger } from "./FloatingTrigger";
 import BotContext from "./BotContext";
 import { Interaction } from "./interactions/Interaction";
 import { useBotReducer } from "./botReducer";
-import { transpile } from "./interactions/defaultTranspiler";
+import { getNodeFromState } from "./utils";
 
 function DumbotInner(props: IDumbotProps) {
   const bottheme: IBotTheme = React.useContext(ThemeContext);
@@ -151,7 +151,10 @@ function DumbotInner(props: IDumbotProps) {
     if (props.onTranspileCode) {
       return await props.onTranspileCode(nodeId);
     } else {
-      return await transpile(nodeId, botState);
+      const node = getNodeFromState(botState, nodeId);
+      return node.type === "snippet"
+        ? `return ${node.properties.code}`
+        : node.properties.code;
     }
   };
 

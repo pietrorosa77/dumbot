@@ -1,6 +1,6 @@
 {
   "name": "@pietrorosa77/dumbot",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -18,8 +18,7 @@
     "lodash": "^4.17.21",
     "nanoid": "^3.1.30",
     "react-json-prettify": "^0.2.0",
-    "use-resize-observer": "8.0.0",
-    "esbuild-wasm": "0.13.12"
+    "use-resize-observer": "8.0.0"
   },
   "peerDependencies": {
     "grommet": "^2.18.0",
