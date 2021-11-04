@@ -1,0 +1,65 @@
+import { Keyboard, TextInput } from "grommet";
+import React, { ChangeEvent } from "react";
+import { IInputComponentProps } from "../../definitions";
+
+export const BotTextInput = (props: IInputComponentProps) => {
+  const suggestionsProps = props.inputProps.suggestions;
+  const allSuggestions = React.useMemo(
+    () => suggestionsProps || [],
+    [suggestionsProps]
+  );
+  const [suggestions, setSuggestions] = React.useState(allSuggestions);
+  const newValue = props.value;
+
+  React.useEffect(() => {
+    if (!newValue) setSuggestions(allSuggestions);
+    else {
+      try {
+        const regexp = new RegExp(`^${newValue}`);
+        setSuggestions(allSuggestions.filter((s: string) => regexp.test(s)));
+      } catch (error) {
+        console.log("unable to filter suggestions", error);
+      }
+    }
+  }, [newValue, allSuggestions]);
+
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const nextValue = event.target.value;
+    props.onChange(nextValue);
+  };
+
+  const onSelect = (event: any) => {
+    event.fromSuggestion = true;
+    props.onChange(event.suggestion);
+  };
+
+  const onSubmit = (e: any) => {
+    if (e.fromSuggestion || e.shiftKey) {
+      return true;
+    }
+
+    props.onSubmit();
+  };
+
+  return (
+    <Keyboard target="component" onEnter={onSubmit}>
+      <TextInput
+        {...props.inputProps}
+        focusIndicator={false}
+        plain
+        tabIndex={0}
+        onFocus={() => props.onFocus(true)}
+        onBlur={() => props.onFocus(false)}
+        value={newValue}
+        onChange={onChange}
+        onSelect={onSelect}
+        suggestions={suggestions}
+        style={{
+          fontWeight: "normal",
+          color: props.fontColor,
+        }}
+        icon={props.Icon}
+      />
+    </Keyboard>
+  );
+};

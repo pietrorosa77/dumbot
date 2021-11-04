@@ -1,17 +1,33 @@
 {
-  "name": "dumbot",
-  "version": "1.0.0",
+  "name": "@pietrorosa77/dumbot-flowchart",
+  "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "scripts": {
-    "start": "webpack serve --config webpack.dev.config.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack serve --config webpack.dev.config.js",
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "prebuild": "npm run clean",
+    "clean": "rm -rf ./lib",
+    "build": "tsc --build \"./libBuildTsconfig.json\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "lodash": "^4.17.21",
+    "nanoid": "^3.1.30",
+    "react-json-prettify": "^0.2.0",
+    "use-resize-observer": "8.0.0"
+  },
+  "peerDependencies": {
+    "grommet": "^2.18.0",
+    "grommet-icons": "^4.6.2",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "styled-components": "^5.3.3"
+  },
+  "publishConfig": {
+    "@pietrorosa77:registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
@@ -20,20 +36,27 @@
     "@babel/preset-react": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0",
     "@babel/runtime": "^7.16.0",
+    "@types/fork-ts-checker-webpack-plugin": "^0.4.5",
     "@types/react": "^17.0.34",
     "@types/react-dom": "^17.0.11",
     "@types/webpack-dev-server": "^4.3.1",
     "@typescript-eslint/eslint-plugin": "^5.3.0",
     "@typescript-eslint/parser": "^5.3.0",
+    "@types/lodash": "4.14.176",
+    "@types/node": "^12.0.0",
+    "@types/styled-components": "5.1.15",
     "babel-loader": "^8.2.3",
     "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-webpack-plugin": "^3.1.0",
+    "fork-ts-checker-webpack-plugin": "^6.4.0",
     "html-webpack-plugin": "^5.5.0",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4",
     "webpack": "^5.61.0",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.4.0"
+    "webpack-dev-server": "^4.4.0",
+    "esbuild-wasm": "0.13.12"
   }
 }

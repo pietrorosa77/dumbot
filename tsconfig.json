@@ -11,7 +11,8 @@
       "resolveJsonModule": true,
       "isolatedModules": true,
       "noEmit": true,
-      "jsx": "react"
+      "module":"esnext",
+      "jsx": "react-jsx",
     },
     "include": ["src"]
   }
