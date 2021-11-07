@@ -34,13 +34,20 @@ const InteractionsMap = new Map<
   ["custom", BotCustomNode],
 ]);
 
-export const Interaction = (props: IBotNodeInteractionLoaderProps) => {
+export const Interaction = (
+  props: IBotNodeInteractionLoaderProps & {
+    onGetExternalComponent: (
+      props: IBotNodeInteractionProps
+    ) => (props: IBotNodeInteractionProps) => JSX.Element;
+  }
+) => {
   const [forceLoading, setForceLoading] = React.useState(false);
   const botContext: IBotState = React.useContext(BotContext);
   const theme: IBotTheme = React.useContext(ThemeContext) as IBotTheme;
   const usrInputRef = React.useRef<HTMLInputElement>(null);
   const InteractionControl = props.node
-    ? InteractionsMap.get(props.node.type) || EmptyInteraction
+    ? InteractionsMap.get(props.node.type) ||
+      props.onGetExternalComponent(props as any)
     : EmptyInteraction;
   const propsOnSizeChanged = props.onSizeChanged;
   const propsOnLoaded = props.onLoaded;

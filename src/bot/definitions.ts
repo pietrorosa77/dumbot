@@ -295,4 +295,7 @@ export interface IDumbotProps {
   onStateChanged?: (state: IBotState) => void;
   onBotFinished?: (state: IBotState) => void;
   onTranspileCode?: (nodeId: string) => Promise<any>;
+  onGetExternalComponent?: (
+    props: IBotNodeInteractionProps
+  ) => (props: IBotNodeInteractionProps) => JSX.Element;
 }

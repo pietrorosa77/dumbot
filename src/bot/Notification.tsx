@@ -8,8 +8,8 @@ export const DumbotNotification = (props: {
   message: string;
   onClose?: () => void;
   status: NotificationType;
-  title: string;
-  toast: boolean;
+  title?: string;
+  toast?: boolean;
   preserve?: boolean;
 }) => {
   const theme = useContext(ThemeContext) || "base";
@@ -48,7 +48,9 @@ export const DumbotNotification = (props: {
         flex
       >
         <Box>
-          <Text {...theme.notification.title}>{props.title}</Text>
+          <Text {...theme.notification.title}>
+            {props.title || "Dumbot Notification"}
+          </Text>
           {!props.preserve && (
             <Paragraph {...theme.notification.message}>
               {props.message || ""}

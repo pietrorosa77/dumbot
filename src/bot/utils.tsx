@@ -1,12 +1,15 @@
 import { get, isEmpty } from "lodash";
+import { DEFAULT_PORT_ID as DefaultPort } from ".";
 import {
   BotNodeOutputType,
   BUBBLE_DELIMITER,
   DEFAULT_PORT_ID,
   IBotNode,
+  IBotNodeInteractionProps,
   IBotState,
   IMessage,
 } from "./definitions";
+import { DumbotNotification } from "./Notification";
 // eslint-disable-next-line
 const AllIcons = require("grommet-icons");
 
@@ -135,3 +138,20 @@ export const getInteractionLabel = (content: string) => {
 
 export const GetIcon = (icon?: string) =>
   icon ? AllIcons[icon] || null : null;
+
+export const MissingExternalComponent = (props: IBotNodeInteractionProps) => {
+  const message = `Node type ${props.node.type} not implemented. Moving to next node`;
+  return (
+    <DumbotNotification
+      message={message}
+      status="warning"
+      onClose={() =>
+        props.onUserAction({
+          value: message,
+          port: DefaultPort,
+          type: "string",
+        })
+      }
+    />
+  );
+};

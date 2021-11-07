@@ -8,6 +8,7 @@ import {
   BotActionPayload,
   BotNodeOutputType,
   IBotNode,
+  IBotNodeInteractionProps,
   IBotState,
   IBotThemableProps,
   IBotTheme,
@@ -27,7 +28,7 @@ import { FloatingTrigger } from "./FloatingTrigger";
 import BotContext from "./BotContext";
 import { Interaction } from "./interactions/Interaction";
 import { useBotReducer } from "./botReducer";
-import { getNodeFromState } from "./utils";
+import { getNodeFromState, MissingExternalComponent } from "./utils";
 
 function DumbotInner(props: IDumbotProps) {
   const bottheme: IBotTheme = React.useContext(ThemeContext);
@@ -158,6 +159,14 @@ function DumbotInner(props: IDumbotProps) {
     }
   };
 
+  const onGetExternalComponent = (data: IBotNodeInteractionProps) => {
+    if (props.onGetExternalComponent) {
+      return props.onGetExternalComponent(data);
+    } else {
+      return MissingExternalComponent;
+    }
+  };
+
   return (
     <BotContext.Provider value={botState}>
       <Box width="100%" height="100%" className={props.className}>
@@ -207,6 +216,7 @@ function DumbotInner(props: IDumbotProps) {
                       onSendAttachments={onSendAttachments}
                       onUserAction={onUserAction}
                       onTranspileCode={onTranspileCode}
+                      onGetExternalComponent={onGetExternalComponent}
                     />
                     <FinalNotes
                       onLoaded={onLoaded}
