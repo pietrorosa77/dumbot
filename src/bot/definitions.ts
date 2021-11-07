@@ -7,7 +7,8 @@ export type BotNodeType =
   | "start"
   | "snippet"
   | "custom"
-  | "message";
+  | "message"
+  | string;
 
 export type BotNodeOutputType =
   | "string"
