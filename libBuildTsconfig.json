@@ -18,10 +18,5 @@
     "jsx": "react-jsx"
   },
   "include": ["src"],
-  "exclude": [
-    "./index.ts",
-    "./src/exData.ts",
-    "./bootstrap.tsx",
-    "**/*.stories.tsx"
-  ]
+  "exclude": ["./index.tsx", "./src/exData.ts", "**/*.stories.tsx"]
 }

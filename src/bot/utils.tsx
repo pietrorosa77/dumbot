@@ -10,8 +10,7 @@ import {
   IMessage,
 } from "./definitions";
 import { DumbotNotification } from "./Notification";
-// eslint-disable-next-line
-const AllIcons = require("grommet-icons");
+import * as AllIcons from "grommet-icons";
 
 export const convertToType = ({
   value,
@@ -137,7 +136,7 @@ export const getInteractionLabel = (content: string) => {
 };
 
 export const GetIcon = (icon?: string) =>
-  icon ? AllIcons[icon] || null : null;
+  icon ? (AllIcons as any)[icon] || null : null;
 
 export const MissingExternalComponent = (props: IBotNodeInteractionProps) => {
   const message = `Node type ${props.node.type} not implemented. Moving to next node`;

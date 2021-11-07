@@ -4,7 +4,7 @@ import { ThemeContext } from "styled-components";
 import JSONPretty from "react-json-prettify";
 import { IBotThemableProps } from "../definitions";
 // eslint-disable-next-line
-const themes = require("react-json-prettify/dist/themes");
+import * as themes from "react-json-prettify/dist/themes";
 
 export const UserAnswer = (props: { type: string; value: string }) => {
   const { type, value } = props;
@@ -34,7 +34,7 @@ export const UserAnswer = (props: { type: string; value: string }) => {
       <JSONPretty
         json={json}
         padding={2}
-        themes={themes[theme.jsonViewerTheme || "github"]}
+        themes={(themes as any)[theme.jsonViewerTheme || "github"]}
       />
     );
   }

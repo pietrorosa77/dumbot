@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ISnippetContext } from "../../definitions";
 
-const ctx: Worker = global.self as any;
+const ctx: Worker = globalThis.self as any;
 
 const onCallHost = (funcLabel: string, variables: any) => {
   return new Promise((res, rej) => {

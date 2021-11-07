@@ -2,14 +2,21 @@ import { Box } from "grommet";
 import * as React from "react";
 import { IBotNodeInteractionProps, ISnippetContext } from "../definitions";
 import { BotSpinner } from "../LoadingMessage";
+//import Worker from "./workers/SnippetWorker?worker";
 
-const runSnippet = (
+const runSnippet = async (
   code: string,
   snippetcontext: ISnippetContext
 ): Promise<any> => {
-  const worker = new Worker(
-    new URL("./workers/SnippetWorker", import.meta.url)
-  );
+  let worker: Worker;
+  if ((import.meta as any).env.DEV) {
+    console.log("running dev server mode");
+    worker = (
+      await import("./workers/SnippetWorker?worker" as any)
+    ).default() as Worker;
+  } else {
+    worker = new Worker(new URL("./workers/SnippetWorker", import.meta.url));
+  }
 
   worker.onmessage = async (event: MessageEvent) => {
     const ret: any = {
