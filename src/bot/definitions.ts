@@ -131,6 +131,8 @@ export interface IBotThemableProps {
   allowRestartOnEnd?: boolean;
   jsonViewerTheme?: string;
   prefillOldAnswers?: boolean;
+  buttonsRadius?: string;
+  onlyIconButtonsRadius?: string;
 }
 
 export interface IBotThemableColors extends Colors {

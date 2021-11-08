@@ -11,6 +11,7 @@ import {
   IBotState,
   IStartNode,
 } from "./src/bot/definitions";
+import { Box } from "grommet";
 
 const defPortId: DEFAULT_PORT_ID = "default";
 const getInitialState = (): IBotState => {
@@ -102,6 +103,11 @@ ReactDOM.render(
       externalVariables={{
         test: {
           names: ["pietro", "tommaso", "filippo"],
+        },
+      }}
+      theme={{
+        bot: {
+          buttonsRadius: "6px",
         },
       }}
     />

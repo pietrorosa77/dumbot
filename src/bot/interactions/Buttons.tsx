@@ -1,8 +1,12 @@
 import { Box, Button } from "grommet";
 import React from "react";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import { PlayFill } from "grommet-icons";
-import { IBotNodeInteractionProps, IButtonsProps } from "../definitions";
+import {
+  IBotNodeInteractionProps,
+  IBotTheme,
+  IButtonsProps,
+} from "../definitions";
 import { GetIcon, substituteVars } from "../utils";
 import { ActionButtonBot } from "../ActionButtonBot";
 import { isArray } from "lodash";
@@ -13,7 +17,10 @@ const ButtonOption = styled(Button)<{ onlyIcon: boolean; selected: boolean }>`
       props.selected ? "botBubbleColor" : "botUserBubbleColor"
     ]};
   border: 2px solid ${(props) => props.theme.global.colors["botBubbleColor"]};
-  border-radius: ${(props) => (props.onlyIcon ? "50%" : "18px")};
+  border-radius: ${(props) =>
+    props.onlyIcon
+      ? props.theme.bot.onlyIconButtonsRadius || "50%"
+      : props.theme.bot.buttonsRadius || "8px"};
   color: ${(props) =>
     props.theme.global.colors[
       props.selected ? "botFontColor" : "botUserFontColor"
@@ -39,6 +46,7 @@ const ButtonOption = styled(Button)<{ onlyIcon: boolean; selected: boolean }>`
     opacity: 0.9;
     transform: scale(1.1);
     transition: 0.3s ease-out;
+    color: ${(props) => props.theme.global.colors["botFocusColor"]};
     svg {
       fill: ${(props) => props.theme.global.colors["botFocusColor"]};
       stroke: ${(props) => props.theme.global.colors["botFocusColor"]};

@@ -8,7 +8,9 @@ const runSnippet = async (
   snippetcontext: ISnippetContext
 ): Promise<any> => {
   let worker: Worker;
+
   if ((import.meta as any)?.env?.DEV) {
+    console.log("ENV IS", (import.meta as any).env);
     console.log("running dev server mode");
     worker = (
       await import("./workers/SnippetWorker?worker" as any)
