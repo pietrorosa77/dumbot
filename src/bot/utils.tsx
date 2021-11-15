@@ -11,6 +11,7 @@ import {
 } from "./definitions";
 import { DumbotNotification } from "./Notification";
 import * as AllIcons from "grommet-icons";
+import { Avatar } from "grommet";
 
 export const convertToType = ({
   value,
@@ -135,8 +136,9 @@ export const getInteractionLabel = (content: string) => {
   return content.replaceAll(BUBBLE_DELIMITER, `\n`);
 };
 
+const getImageIcon = (src: string) => (props: any) => <Avatar src={src} className="dbot-icon" size="20px" {...props} />
 export const GetIcon = (icon?: string) =>
-  icon ? (AllIcons as any)[icon] || null : null;
+  icon ? (AllIcons as any)[icon] || getImageIcon(icon) : null;
 
 export const MissingExternalComponent = (props: IBotNodeInteractionProps) => {
   const message = `Node type ${props.node.type} not implemented. Moving to next node`;
