@@ -16,6 +16,7 @@ import React from "react";
 import { isEqual } from "lodash";
 import styled from "styled-components";
 import { UserAnswer } from "./interactions/UserAnswerDisplay";
+import { BotNodeOutputType } from "./definitions";
 
 interface IMarkdownViewProps {
   text: any;
@@ -23,7 +24,7 @@ interface IMarkdownViewProps {
   variables: { [key: string]: any };
 }
 
-const StyledMarkdow = styled(Markdown)`
+export const StyledMarkdow = styled(Markdown)`
   font-size: inherit !important;
   * {
     font-size: inherit !important;
@@ -92,7 +93,12 @@ export const MarkdownView = React.memo(
             type: string;
             value: string;
           }) {
-            return <UserAnswer type={props.type} value={props.value} />;
+            return (
+              <UserAnswer
+                type={props.type as BotNodeOutputType}
+                value={props.value}
+              />
+            );
           },
         },
         TextInput: {

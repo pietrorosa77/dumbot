@@ -1,12 +1,8 @@
 import { Box, Button } from "grommet";
 import React from "react";
-import styled, { ThemeContext } from "styled-components";
+import styled from "styled-components";
 import { PlayFill } from "grommet-icons";
-import {
-  IBotNodeInteractionProps,
-  IBotTheme,
-  IButtonsProps,
-} from "../definitions";
+import { IBotNodeInteractionProps, IButtonsProps } from "../definitions";
 import { GetIcon, substituteVars } from "../utils";
 import { ActionButtonBot } from "../ActionButtonBot";
 import { isArray } from "lodash";

@@ -2,11 +2,15 @@ import { Box } from "grommet";
 import React from "react";
 import { ThemeContext } from "styled-components";
 import JSONPretty from "react-json-prettify";
-import { IBotThemableProps } from "../definitions";
+import { BotNodeOutputType, IBotThemableProps } from "../definitions";
 // eslint-disable-next-line
 import * as themes from "react-json-prettify/dist/themes";
+import { StyledMarkdow } from "../MarkdownView";
 
-export const UserAnswer = (props: { type: string; value: string }) => {
+export const UserAnswer = (props: {
+  type: BotNodeOutputType;
+  value: string;
+}) => {
   const { type, value } = props;
   const theme = React.useContext(ThemeContext).bot as IBotThemableProps;
   if (type === "password") {
@@ -17,11 +21,7 @@ export const UserAnswer = (props: { type: string; value: string }) => {
     return <Box background={value} width="50px" height="50px" round="medium" />;
   }
 
-  if (type === "textarea") {
-    return <pre style={{ margin: "unset" }}>{value}</pre>;
-  }
-
-  if (type === "datetime-local" || type === "date") {
+  if (type === "date") {
     const date = new Date(value);
     return (
       <Box>{`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`}</Box>
@@ -49,5 +49,9 @@ export const UserAnswer = (props: { type: string; value: string }) => {
     );
   }
 
-  return <Box>{value}</Box>;
+  return (
+    <StyledMarkdow>
+      {`<pre style={{ margin: "unset" }}>${value}</pre>`}
+    </StyledMarkdow>
+  );
 };

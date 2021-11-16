@@ -18,6 +18,9 @@ export type BotNodeOutputType =
   | "boolean"
   | "object"
   | "null"
+  | "password"
+  | "file"
+  | "color"
   | "error";
 
 export type Actions =
