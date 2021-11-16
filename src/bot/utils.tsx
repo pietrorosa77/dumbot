@@ -136,7 +136,9 @@ export const getInteractionLabel = (content: string) => {
   return content.replaceAll(BUBBLE_DELIMITER, `\n`);
 };
 
-const getImageIcon = (src: string) => (props: any) => <Avatar src={src} className="dbot-icon" size="20px" {...props} />
+// eslint-disable-next-line
+const getImageIcon = (src: string) => (props: any) =>
+  <Avatar src={src} className="dbot-icon" size="20px" {...props} />;
 export const GetIcon = (icon?: string) =>
   icon ? (AllIcons as any)[icon] || getImageIcon(icon) : null;
 

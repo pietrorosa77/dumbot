@@ -21,7 +21,8 @@ export type BotNodeOutputType =
   | "password"
   | "file"
   | "color"
-  | "error";
+  | "error"
+  | "text";
 
 export type Actions =
   | "onBack"

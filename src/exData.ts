@@ -167,7 +167,7 @@ export const data = {
       title: "Simple Question",
       content:
         "from second block ${2ndblock}?\n(from exit default)?\nuser choice: ${usrClikked}\nid:${cstmReactNode.id}\nname:${cstmReactNode.name}\nemail:${cstmReactNode.email}\n",
-      output: { id: "answerq", type: "string" },
+      output: { id: "answerq", type: "color" },
       ports: {
         default: {
           id: "default",
@@ -178,7 +178,7 @@ export const data = {
       },
       properties: {
         controlType: "input",
-        type: "text",
+        type: "color",
         label: "text",
         value: "text",
         size: "medium",
@@ -200,7 +200,7 @@ export const data = {
       title: "Simple Question",
       content:
         "can you answer this (from exit 1)?\nuser choice: ${usrClikked}\nid:${cstmReactNode.id}\nname:${cstmReactNode.name}\nemail:${cstmReactNode.email}\n",
-      output: { id: "answerq", type: "string" },
+      output: { id: "answerq", type: "color" },
       ports: {
         default: {
           id: "default",
@@ -211,7 +211,7 @@ export const data = {
       },
       properties: {
         controlType: "input",
-        type: "text",
+        type: "color",
         label: "text",
         size: "medium",
         width: "medium",
