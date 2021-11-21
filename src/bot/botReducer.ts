@@ -36,15 +36,14 @@ export const useBotReducer = (
   };
 
   React.useEffect(() => {
-    if (appState.finished) {
-      if (!callFinished.current) {
-        onBotFinished(appState);
-        callFinished.current = true;
-      }
+    if (appState.finished && !callFinished.current) {
+      onBotFinished(appState);
+      callFinished.current = true;
     } else {
       onStateChanged(appState);
     }
-  }, [appState, onStateChanged, onBotFinished]);
+    // eslint-disable-next-line
+  }, [appState.processedMessages.length]);
 
   return [appState, wrappedDispatch];
 };
