@@ -62,8 +62,8 @@ export const getContentForMessage = (
   message: IMessage,
   viewSilentNodes: boolean
 ) => {
-  if (message.silent && viewSilentNodes) {
-    return message.output?.value;
+  if (message.silent && !viewSilentNodes) {
+    return "";
   }
 
   if (message.user && message.output?.type) {

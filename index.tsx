@@ -105,9 +105,11 @@ ReactDOM.render(
           names: ["pietro", "tommaso", "filippo"],
         },
       }}
+      viewSilentNodes
       theme={{
         bot: {
           buttonsRadius: "6px",
+          messageDelay: 2000,
         },
       }}
     />
