@@ -70,7 +70,7 @@ export const BotButtons = (props: IBotNodeInteractionProps) => {
 
   const onPress = (port: string, value: string, isSelected: boolean) => {
     if (!multiple) {
-      props.onUserAction({ value, port, type });
+      props.onUserAction({ value, port, type, id: props.node.id });
     } else {
       const newSelected = isSelected
         ? selected.filter((el) => el !== port)
@@ -92,6 +92,7 @@ export const BotButtons = (props: IBotNodeInteractionProps) => {
       value: selectedValues,
       port: defaultPort,
       type: "array",
+      id: props.node.id,
     });
   };
 

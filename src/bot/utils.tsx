@@ -153,6 +153,7 @@ export const MissingExternalComponent = (props: IBotNodeInteractionProps) => {
           value: message,
           port: DefaultPort,
           type: "string",
+          id: props.node.id 
         })
       }
     />

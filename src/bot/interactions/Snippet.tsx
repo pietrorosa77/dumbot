@@ -111,12 +111,14 @@ export const BotSnippet = (props: IBotNodeInteractionProps) => {
         port: result.exit,
         value: `ERR: snippet ${props.node.id} error ${result.error}`,
         type: "string",
+        id: props.node.id,
       });
     } else {
       props.onUserAction({
         port: result.exit,
         value: `OK: snippet ${props.node.id} exit result ${result.exit}`,
         type: "string",
+        id: props.node.id,
       });
     }
     // eslint-disable-next-line

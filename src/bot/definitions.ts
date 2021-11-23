@@ -256,6 +256,7 @@ export interface IBotNodeInteractionLoaderProps {
     value: any;
     port: string;
     type: BotNodeOutputType;
+    id: string;
   }) => void;
   onLoaded: (ref: React.RefObject<any>) => void;
   onTranspileCode: (nodeId: string) => Promise<any>;
@@ -271,6 +272,7 @@ export interface IBotNodeInteractionProps
 export interface IDumbotProps {
   initialState: IBotState;
   botUUID: string;
+  uuid?: string;
   trigger?: {
     icon?: string;
     size: "small" | "medium" | "large";
@@ -289,6 +291,7 @@ export interface IDumbotProps {
     value: any;
     port: string;
     type: BotNodeOutputType;
+    id: string;
   }) => void;
   onCallHost?: (label: string, variables: any) => Promise<any>;
   onSetVariable?: (name: string, value: any) => void;

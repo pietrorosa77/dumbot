@@ -24,6 +24,7 @@ export const BotCustomNode = (props: IBotNodeInteractionProps) => {
               port,
               value,
               type: props.node.output.type,
+              id: props.node.id,
             });
           },
           onSendAttachments: props.onSendAttachments,
@@ -84,6 +85,7 @@ export const BotCustomNode = (props: IBotNodeInteractionProps) => {
                 port: "default",
                 value: "COMPONENT RENDER ERROR",
                 type: "error",
+                id: props.node.id,
               });
             }}
           />

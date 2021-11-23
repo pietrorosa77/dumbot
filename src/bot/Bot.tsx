@@ -134,6 +134,7 @@ function DumbotInner(props: IDumbotProps) {
     value: any;
     port: string;
     type: BotNodeOutputType;
+    id: string;
   }) => {
     onBotEvent("onUserAction", answer);
     if (props.onUserAction) {
