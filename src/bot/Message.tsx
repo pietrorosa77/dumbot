@@ -163,21 +163,36 @@ const MessagePart = (
   const { onProcessed, active, hasAvatar } = props;
   const refEl = React.useRef<HTMLDivElement>(null);
   const [loading, setLoading] = React.useState(active);
+  // 0 means the node will be processed, 2 it's been already processed, 1 processed should notify parent
+  const [processed, setProcessed] = React.useState<0 | 1 | 2>(active ? 0 : 2);
   const { user } = props.message;
   const propsOnLoaded = props.onLoaded;
 
   React.useEffect(() => {
+    let timer: any = 0;
     if (loading) {
-      propsOnLoaded(refEl);
-      setTimeout(() => {
+      timer = setTimeout(() => {
         setLoading(false);
-        if (onProcessed) {
-          onProcessed();
-          propsOnLoaded(refEl);
-        }
+        // processed state to 1 means notify parents
+        setProcessed(1);
       }, messageDelay);
     }
-  }, [loading, onProcessed, messageDelay, propsOnLoaded]);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [loading, messageDelay]);
+
+  React.useEffect(() => {
+    if (processed !== 1) {
+      return;
+    }
+    // processed state to 1 means notify parents
+    if (onProcessed) {
+      onProcessed();
+      propsOnLoaded(refEl);
+    }
+  }, [processed, onProcessed, propsOnLoaded]);
 
   return (
     <MessagePartContainer

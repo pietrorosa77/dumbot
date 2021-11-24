@@ -32,6 +32,9 @@ export const useBotReducer = (
     payload: BotActionPayload;
   }> = (value: { type: Actions; payload: BotActionPayload }) => {
     onStateChanging(appState, value.type, value.payload);
+    if (value.type === "onBotRestart") {
+      callFinished.current = false;
+    }
     dispatch({ type: value.type, payload: value.payload });
   };
 
