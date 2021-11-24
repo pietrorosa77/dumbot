@@ -112,7 +112,7 @@ export const Interaction = (
             text={getInteractionLabel(props.node.content)}
           ></MarkdownView>
         )}
-        <div ref={ref}>
+        <div ref={ref} style={{ marginTop: "20px" }}>
           <InteractionControl
             key={`botInteraction-${props.node?.id}`}
             onUserAction={props.onUserAction}

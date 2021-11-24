@@ -100,7 +100,7 @@ export const BotButtons = (props: IBotNodeInteractionProps) => {
     <Box align="center" justify="start" pad="none" fill>
       <Box
         justify="center"
-        gap="small"
+        gap="medium"
         wrap={controlProperties.direction === "row"}
         direction={controlProperties.direction}
       >
