@@ -35,6 +35,7 @@ export const BotMaskedInput = (props: IInputComponentProps) => {
         }}
         icon={props.Icon}
         mask={mask}
+        width="100%"
       />
     </Keyboard>
   );

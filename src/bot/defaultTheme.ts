@@ -22,10 +22,12 @@ const BotProps: IBotThemableProps = {
   fontFamily:
     "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
   bubbleFontSize: "14px",
-  bubbleMaxWidth: "100%",
+  bubbleMaxWidth: "500px",
   bubbleBoxShadow: "0 3px 5px 0 rgba(0, 0, 0, 0.90)",
   bubblePxRadius: "18px",
   bubblePadding: "12px",
+  bubbleControlWidth: "100%",
+  bubbleControlMaxWidth: "500px",
   headerHeight: "100px",
   headerLogoSize: "40px",
   headerFontSize: "16px",
@@ -44,11 +46,11 @@ const BotProps: IBotThemableProps = {
   disableAvatars: false,
   allowRestartOnEnd: true,
   bubbleAnimationDuration: "0.5s",
-  maxBotColumnSize: "1024px",
+  maxBotColumnSize: "800px",
   minBotColumnSize: "300px",
   avatarClock: true,
   jsonViewerTheme: "rjv-default",
-  prefillOldAnswers: true
+  prefillOldAnswers: true,
 };
 
 const BotColors: IBotThemableColors = {

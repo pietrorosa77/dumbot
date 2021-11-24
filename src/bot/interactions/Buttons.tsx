@@ -56,7 +56,9 @@ export const BotButtons = (props: IBotNodeInteractionProps) => {
   const prevValue = props.theme.bot?.prefillOldAnswers
     ? isArray(props.node.prevOutput?.value)
       ? (props.node.prevOutput?.value as any[])
-      : [props.node.prevOutput?.value || ""]
+      : props.node.prevOutput?.value
+      ? [props.node.prevOutput.value]
+      : []
     : [];
 
   const [selected, setSelected] = React.useState<string[]>(prevValue);

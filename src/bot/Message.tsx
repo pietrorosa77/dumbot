@@ -52,13 +52,16 @@ export const Bubble = styled.div<{
   user: boolean;
   hasAvatar: boolean;
   active: boolean;
+  width?: string;
+  maxWidth?: string;
 }>`
   display: inline-block;
   overflow: hidden;
   position: relative;
   font-size: ${(props) => props.theme.bot.bubbleFontSize};
-  max-width: ${(props) => props.theme.bot.bubbleMaxWidth};
-  width: ${(props) => props.theme.bot.bubbleWidth || "unset"};
+  max-width: ${(props) => props.maxWidth || props.theme.bot.bubbleMaxWidth};
+  width: ${(props) =>
+    props.width ? props.width : props.theme.bot.bubbleWidth || "unset"};
   background: ${(props) =>
     props.user
       ? props.theme.global.colors.botUserBubbleColor
@@ -95,6 +98,8 @@ export const MessagePartContainer = React.forwardRef(
       hasAvatar: boolean;
       children: any;
       foceLoading?: boolean;
+      width?: string;
+      maxWidth?: string;
     },
     refEl: any
   ) => {
@@ -139,7 +144,13 @@ export const MessagePartContainer = React.forwardRef(
             )}
           </AvatarContainer>
         )}
-        <Bubble user={user} active={active} hasAvatar={hasAvatar && showavatar}>
+        <Bubble
+          user={user}
+          active={active}
+          hasAvatar={hasAvatar && showavatar}
+          width={props.width}
+          maxWidth={props.maxWidth}
+        >
           {props.children}
         </Bubble>
       </Box>

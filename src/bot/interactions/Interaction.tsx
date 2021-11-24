@@ -103,6 +103,14 @@ export const Interaction = (
         active={true}
         ref={usrInputRef}
         user={false}
+        width={
+          props.node.properties.width || theme.bot?.bubbleControlWidth || "100%"
+        }
+        maxWidth={
+          props.node.properties.maxWidth ||
+          theme.bot?.bubbleControlMaxWidth ||
+          "600px"
+        }
       >
         {forceLoading ? (
           <LoadingMessage />

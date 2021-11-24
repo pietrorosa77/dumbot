@@ -111,6 +111,8 @@ export interface IBotThemableProps {
   bubbleMaxWidth?: string;
   bubbleBoxShadow?: string;
   bubblePadding?: string;
+  bubbleControlWidth?:string;
+  bubbleControlMaxWidth?:string;
   avatarClock?: boolean;
   headerHeight?: string;
   headerLogoSize?: string;

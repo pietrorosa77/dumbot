@@ -59,6 +59,7 @@ export const BotTextInput = (props: IInputComponentProps) => {
           color: props.fontColor,
         }}
         icon={props.Icon}
+        width="100%"
       />
     </Keyboard>
   );

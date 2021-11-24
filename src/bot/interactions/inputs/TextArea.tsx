@@ -29,6 +29,7 @@ export const BotTextAreaInput = (props: IInputComponentProps) => {
           fontWeight: "normal",
           color: props.fontColor,
         }}
+        width="100%"
       />
     </Keyboard>
   );
