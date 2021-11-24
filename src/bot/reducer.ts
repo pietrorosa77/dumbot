@@ -22,7 +22,7 @@ export const getInitialState = (
   state: IBotState,
   externalVariables: object
 ): IBotState => {
-  if (state.finished || state.activeMessage) {
+  if (state.finished || state.activeMessage || state.activeInteraction) {
     return state;
   }
 
