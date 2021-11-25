@@ -21,7 +21,6 @@ const Header = styled.div`
 const HeaderTitle = styled.h2`
   margin-left: 10px;
   flex: 1;
-  font-size: ${({ theme }) => theme.bot.headerFontSize};
 `;
 
 export const BotHeader = (props: IBotHeaderProps) => {
@@ -35,7 +34,12 @@ export const BotHeader = (props: IBotHeaderProps) => {
         size={theme.bot.headerLogoSize}
       />
       <HeaderTitle className="rsc-header-title">
-        <Box align={theme.bot.headerTextAlign}>{theme.bot.headerText}</Box>
+        <Box
+          align={theme.bot.headerTextAlign}
+          style={{ fontSize: theme.bot.headerFontSize }}
+        >
+          {theme.bot.headerText}
+        </Box>
       </HeaderTitle>
       {props.allowClose && (
         <ActionButtonBot

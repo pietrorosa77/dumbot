@@ -9,7 +9,10 @@ export const BotTextAreaInput = (props: IInputComponentProps) => {
     props.onChange(nextValue);
   };
 
-  const onSubmit = () => {
+  const onSubmit = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.shiftKey) {
+      return true;
+    }
     props.onSubmit();
   };
 

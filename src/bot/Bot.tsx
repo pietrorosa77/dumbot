@@ -29,6 +29,21 @@ import BotContext from "./BotContext";
 import { Interaction } from "./interactions/Interaction";
 import { useBotReducer } from "./botReducer";
 import { getNodeFromState, MissingExternalComponent } from "./utils";
+import { createGlobalStyle } from "styled-components";
+
+const GlobalStyle = createGlobalStyle`
+    @font-face {
+      font-family: ${(props: any) =>
+        props.theme.global.font?.family || "unset"};
+      src: ${(props: any) => props.theme.global.font?.family || "unset"};
+      font-size: ${(props: any) => props.theme.global.font?.size || "unset"};
+    }
+
+    * {
+      font-family: ${(props: any) =>
+        props.theme.global.font?.family || "unset"};
+    }
+`;
 
 function DumbotInner(props: IDumbotProps) {
   const bottheme: IBotTheme = React.useContext(ThemeContext);
@@ -256,7 +271,7 @@ export const ThemeWrapper = (props: {
   const style: React.CSSProperties = {
     boxSizing: "border-box",
     ...(props.styleOverrides || {}),
-    fontFamily: (theme.bot as IBotThemableProps).fontFamily,
+    // fontFamily: (theme.bot as IBotThemableProps).fontFamily,
   };
 
   return (
@@ -269,6 +284,7 @@ export const ThemeWrapper = (props: {
 export const Dumbot = (props: IDumbotProps) => {
   return (
     <ThemeWrapper themeOverrides={props.theme}>
+      <GlobalStyle />
       <DumbotInner {...props} />
     </ThemeWrapper>
   );

@@ -105,7 +105,6 @@ export interface IBotState {
 }
 
 export interface IBotThemableProps {
-  fontFamily?: string;
   bubblePxRadius?: string;
   bubbleFontSize?: string;
   bubbleMaxWidth?: string;
@@ -166,6 +165,7 @@ export interface IBotThemableColors extends Colors {
   botBackButtonBgColor: string;
   botCloseButtonFontColor: string;
   botBackButtonFontColor: string;
+  tipColor: string;
 }
 
 export type IBotTheme = ThemeType & {

@@ -66,12 +66,14 @@ export const getContentForMessage = (
     return "";
   }
 
-  if (message.user && message.output?.type) {
+  if (message.user && message.output) {
     const value =
-      message.output.type === "object"
+      message.output?.type === "object"
         ? encodeURIComponent(JSON.stringify(message.output.value))
         : message.output.value;
-    return `<useranswer type="${message.output.type}" value="${value}"></useranswer>`;
+    return `<useranswer type="${
+      message.output.type || "text"
+    }" value="${value}"></useranswer>`;
   }
 
   return message.nodeContent;
@@ -153,7 +155,7 @@ export const MissingExternalComponent = (props: IBotNodeInteractionProps) => {
           value: message,
           port: DefaultPort,
           type: "string",
-          id: props.node.id 
+          id: props.node.id,
         })
       }
     />

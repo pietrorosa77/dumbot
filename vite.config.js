@@ -5,5 +5,5 @@ export default {
   server: {
     port: 5679,
   },
-  plugins: [reactJsx(), eslintPlugin()],
+  plugins: [reactJsx(), eslintPlugin({ cache: false })],
 };

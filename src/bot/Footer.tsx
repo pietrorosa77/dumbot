@@ -20,7 +20,6 @@ const Footer = styled.div`
   height: ${({ theme }) => theme.bot.footerHeight};
   justify-content: center;
   padding: 0 10px;
-  font-size: ${({ theme }) => theme.bot.footerFontSize};
 `;
 
 export const BotFooter = (props: IBotFooterProps) => {
@@ -30,7 +29,12 @@ export const BotFooter = (props: IBotFooterProps) => {
   return (
     <Footer className="rsc-header">
       <Box flex="grow">
-        <Box align={theme.footerTextAlign}>{theme.footerText}</Box>
+        <Box
+          align={theme.footerTextAlign}
+          style={{ fontSize: theme.footerFontSize }}
+        >
+          {theme.footerText}
+        </Box>
       </Box>
       {((props.isEnd && theme.allowRestartOnEnd) || props.waitingForUser) && (
         <ActionButtonBot

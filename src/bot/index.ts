@@ -1,7 +1,7 @@
 import { Dumbot } from "./Bot";
 import { Interaction } from "./interactions/Interaction";
 import * as WaitingLoaders from "./LoadingMessage";
-import { BotTheme } from "./defaultTheme";
+import { BotTheme, DefaultBotFont } from "./defaultTheme";
 import { DEFAULTPORT, BUBBLE_DELIMITER } from "./definitions";
 import * as MessageControls from "./Message";
 import * as utils from "./utils";
@@ -16,5 +16,6 @@ export {
   WaitingLoaders,
   Interaction,
   utils,
-  MarkdownView
+  MarkdownView,
+  DefaultBotFont,
 };
