@@ -32,16 +32,10 @@ import { getNodeFromState, MissingExternalComponent } from "./utils";
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-    @font-face {
-      font-family: ${(props: any) =>
-        props.theme.global.font?.family || "unset"};
-      src: ${(props: any) => props.theme.global.font?.family || "unset"};
-      font-size: ${(props: any) => props.theme.global.font?.size || "unset"};
-    }
-
     * {
       font-family: ${(props: any) =>
         props.theme.global.font?.family || "unset"};
+        font-size: ${(props: any) => props.theme.global.font?.size || "unset"};
     }
 `;
 

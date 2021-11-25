@@ -19,7 +19,7 @@ const defaultuserAvatar =
   "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgNTMgNTMiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUzIDUzOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cGF0aCBzdHlsZT0iZmlsbDojZWRlZWY5OyIgZD0iTTE4LjYxMyw0MS41NTJsLTcuOTA3LDQuMzEzYy0wLjQ2NCwwLjI1My0wLjg4MSwwLjU2NC0xLjI2OSwwLjkwM0MxNC4wNDcsNTAuNjU1LDE5Ljk5OCw1MywyNi41LDUzICBjNi40NTQsMCwxMi4zNjctMi4zMSwxNi45NjQtNi4xNDRjLTAuNDI0LTAuMzU4LTAuODg0LTAuNjgtMS4zOTQtMC45MzRsLTguNDY3LTQuMjMzYy0xLjA5NC0wLjU0Ny0xLjc4NS0xLjY2NS0xLjc4NS0yLjg4OHYtMy4zMjIgIGMwLjIzOC0wLjI3MSwwLjUxLTAuNjE5LDAuODAxLTEuMDNjMS4xNTQtMS42MywyLjAyNy0zLjQyMywyLjYzMi01LjMwNGMxLjA4Ni0wLjMzNSwxLjg4Ni0xLjMzOCwxLjg4Ni0yLjUzdi0zLjU0NiAgYzAtMC43OC0wLjM0Ny0xLjQ3Ny0wLjg4Ni0xLjk2NXYtNS4xMjZjMCwwLDEuMDUzLTcuOTc3LTkuNzUtNy45NzdzLTkuNzUsNy45NzctOS43NSw3Ljk3N3Y1LjEyNiAgYy0wLjU0LDAuNDg4LTAuODg2LDEuMTg1LTAuODg2LDEuOTY1djMuNTQ2YzAsMC45MzQsMC40OTEsMS43NTYsMS4yMjYsMi4yMzFjMC44ODYsMy44NTcsMy4yMDYsNi42MzMsMy4yMDYsNi42MzN2My4yNCAgQzIwLjI5NiwzOS44OTksMTkuNjUsNDAuOTg2LDE4LjYxMyw0MS41NTJ6Ii8+DQo8Zz4NCgk8cGF0aCBzdHlsZT0iZmlsbDp0cmFuc3BhcmVudDsiIGQ9Ik0yNi45NTMsMC4wMDRDMTIuMzItMC4yNDYsMC4yNTQsMTEuNDE0LDAuMDA0LDI2LjA0N0MtMC4xMzgsMzQuMzQ0LDMuNTYsNDEuODAxLDkuNDQ4LDQ2Ljc2ICAgYzAuMzg1LTAuMzM2LDAuNzk4LTAuNjQ0LDEuMjU3LTAuODk0bDcuOTA3LTQuMzEzYzEuMDM3LTAuNTY2LDEuNjgzLTEuNjUzLDEuNjgzLTIuODM1di0zLjI0YzAsMC0yLjMyMS0yLjc3Ni0zLjIwNi02LjYzMyAgIGMtMC43MzQtMC40NzUtMS4yMjYtMS4yOTYtMS4yMjYtMi4yMzF2LTMuNTQ2YzAtMC43OCwwLjM0Ny0xLjQ3NywwLjg4Ni0xLjk2NXYtNS4xMjZjMCwwLTEuMDUzLTcuOTc3LDkuNzUtNy45NzcgICBzOS43NSw3Ljk3Nyw5Ljc1LDcuOTc3djUuMTI2YzAuNTQsMC40ODgsMC44ODYsMS4xODUsMC44ODYsMS45NjV2My41NDZjMCwxLjE5Mi0wLjgsMi4xOTUtMS44ODYsMi41MyAgIGMtMC42MDUsMS44ODEtMS40NzgsMy42NzQtMi42MzIsNS4zMDRjLTAuMjkxLDAuNDExLTAuNTYzLDAuNzU5LTAuODAxLDEuMDNWMzguOGMwLDEuMjIzLDAuNjkxLDIuMzQyLDEuNzg1LDIuODg4bDguNDY3LDQuMjMzICAgYzAuNTA4LDAuMjU0LDAuOTY3LDAuNTc1LDEuMzksMC45MzJjNS43MS00Ljc2Miw5LjM5OS0xMS44ODIsOS41MzYtMTkuOUM1My4yNDYsMTIuMzIsNDEuNTg3LDAuMjU0LDI2Ljk1MywwLjAwNHoiLz4NCjwvZz4NCjwvc3ZnPg==";
 
 const BotProps: IBotThemableProps = {
-  bubbleFontSize: "16px",
+  bubbleFontSize: "14px",
   bubbleMaxWidth: "500px",
   bubbleBoxShadow: "0 3px 5px 0 rgba(0, 0, 0, 0.90)",
   bubblePxRadius: "18px",
@@ -28,7 +28,7 @@ const BotProps: IBotThemableProps = {
   bubbleControlMaxWidth: "500px",
   headerHeight: "100px",
   headerLogoSize: "40px",
-  headerFontSize: "24px",
+  headerFontSize: "20px",
   headerText: "Welcome to this amazing experience",
   headerTextAlign: "center",
   headerLogo: defaultbotAvatar,
@@ -80,37 +80,26 @@ const BotColors: IBotThemableColors = {
 };
 
 export const DefaultBotFont = {
-  family: "'Metric', Arial, sans-serif",
-  face: `
-      @font-face {
-        font-family: "Metric";
-        src: url("https://d3hq6blov2iije.cloudfront.net/fonts/HPEXS-Metric-Fonts/MetricHPEXS-Regular.woff2") format('woff2'),
-             url("https://d3hq6blov2iije.cloudfront.net/fonts/HPEXS-Metric-Fonts/MetricHPEXS-Regular.woff") format('woff');
-      }
-      @font-face {
-        font-family: "Metric";
-        src: url("https://d3hq6blov2iije.cloudfront.net/fonts/HPEXS-Metric-Fonts/MetricHPEXS-Bold.woff2") format('woff2'),
-             url("https://d3hq6blov2iije.cloudfront.net/fonts/HPEXS-Metric-Fonts/MetricHPEXS-Bold.woff") format('woff');
-        font-weight: 700;
-      }
-      @font-face {
-        font-family: "Metric";
-        src: url("https://d3hq6blov2iije.cloudfront.net/fonts/HPEXS-Metric-Fonts/MetricHPEXSSemibold-Regular.woff2") format('woff2'),
-             url("https://d3hq6blov2iije.cloudfront.net/fonts/HPEXS-Metric-Fonts/MetricHPEXSSemibold-Regular.woff") format('woff');
-        font-weight: 600;
-      }
-      @font-face {
-        font-family: "Metric";
-        src: url("https://d3hq6blov2iije.cloudfront.net/fonts/HPEXS-Metric-Fonts/MetricHPEXSMedium-Regular.woff2") format('woff2'),
-             url("https://d3hq6blov2iije.cloudfront.net/fonts/HPEXS-Metric-Fonts/MetricHPEXSMedium-Regular.woff") format('woff');
-        font-weight: 500;
-      }
-      @font-face {
-        font-family: "Metric";
-        src: url("https://d3hq6blov2iije.cloudfront.net/fonts/HPEXS-Metric-Fonts/MetricHPEXSLight-Regular.woff2") format('woff2'),
-             url("https://d3hq6blov2iije.cloudfront.net/fonts/HPEXS-Metric-Fonts/MetricHPEXSLight-Regular.woff") format('woff');
-        font-weight: 100;
-      }`,
+  family: "'Sora',sans-serif",
+  size: "14px",
+  face: `/* latin-ext */
+  @font-face {
+    font-family: 'Sora';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/sora/v3/xMQOuFFYT72X5wkB_18qmnndmSdSnk-DKQJRBg.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  /* latin */
+  @font-face {
+    font-family: 'Sora';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/sora/v3/xMQOuFFYT72X5wkB_18qmnndmSdSnk-NKQI.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }`,
 };
 
 export const BotTheme: IBotTheme = deepMerge(base, {
