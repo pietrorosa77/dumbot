@@ -7,7 +7,7 @@ export const data = {
       user: false,
       title: "Start!",
       content:
-        'Welcome *your* user with a nice **message**!😂\n<img src="//v2.grommet.io/assets/IMG_4245.jpg" alt="test" /><dumbot-boubble/>test part 2',
+        'Welcome :smile: *your* user with a nice **message**!😂\n~~~js\nconsole.log("It works!")\n~~~\n![image.png](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==)<dumbot-boubble/>test part 2',
       position: { x: 22, y: 19 },
       ports: {
         default: {

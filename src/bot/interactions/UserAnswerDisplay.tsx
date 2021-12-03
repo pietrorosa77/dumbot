@@ -5,13 +5,16 @@ import JSONPretty from "react-json-prettify";
 import { BotNodeOutputType, IBotThemableProps } from "../definitions";
 // eslint-disable-next-line
 import * as themes from "react-json-prettify/dist/themes";
-import { StyledMarkdow } from "../MarkdownView";
+import { MarkdownView } from "../MarkdownView";
 
 export const UserAnswer = (props: {
-  type: BotNodeOutputType;
-  value: string;
+  answer: {
+    type: BotNodeOutputType;
+    value: string;
+  };
+  variables?: any;
 }) => {
-  const { type, value } = props;
+  const { type, value } = props.answer;
   const theme = React.useContext(ThemeContext).bot as IBotThemableProps;
   if (type === "password") {
     return <Box>{"***********"}</Box>;
@@ -29,10 +32,9 @@ export const UserAnswer = (props: {
   }
 
   if (type === "object") {
-    const json = JSON.parse(decodeURIComponent(value));
     return (
       <JSONPretty
-        json={json}
+        json={value}
         padding={2}
         themes={(themes as any)[theme.jsonViewerTheme || "github"]}
       />
@@ -49,9 +51,5 @@ export const UserAnswer = (props: {
     );
   }
 
-  return (
-    <StyledMarkdow>
-      {`<pre style={{ margin: "unset" }}>${value}</pre>`}
-    </StyledMarkdow>
-  );
+  return <MarkdownView text={value} variables={props.variables} />;
 };

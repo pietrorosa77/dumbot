@@ -1,7 +1,6 @@
 import * as React from "react";
 import { IMessage } from "./definitions";
 import { Message } from "./Message";
-import { getContentForMessage } from "./utils";
 
 export const ProcessedMessages = (props: {
   processedMessages: IMessage[];
@@ -12,12 +11,11 @@ export const ProcessedMessages = (props: {
   return (
     <>
       {processed.map((m) => {
-        const nodeContent = getContentForMessage(m, props.viewSilentNodes);
         return (
           <Message
             message={m}
             active={false}
-            content={nodeContent}
+            viewSilentNodes={props.viewSilentNodes}
             key={m.id}
             onLoaded={() => null}
           />

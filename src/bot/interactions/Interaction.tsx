@@ -19,7 +19,6 @@ import { DumbotNotification } from "../Notification";
 import { getInteractionLabel } from "../utils";
 import { BotButtons } from "./Buttons";
 import { BotCustomNode } from "./Custom";
-//import { BotCustomNode } from "./CustomDynComponent";
 import { BotQuestion } from "./Question";
 import { BotSnippet } from "./Snippet";
 

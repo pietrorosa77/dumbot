@@ -1,7 +1,6 @@
 import * as React from "react";
 import { IMessage } from "./definitions";
 import { Message } from "./Message";
-import { getContentForMessage } from "./utils";
 
 export const ActiveMessage = (props: {
   activeMessage?: IMessage | null;
@@ -19,7 +18,7 @@ export const ActiveMessage = (props: {
       message={activeMessage}
       active={true}
       key={activeMessage.id}
-      content={getContentForMessage(activeMessage, props.viewSilentNodes)}
+      viewSilentNodes={props.viewSilentNodes}
       onLoaded={props.onLoaded}
       onProcessed={() => props.onProcessed(activeMessage)}
     />

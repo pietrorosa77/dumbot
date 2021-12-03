@@ -68,6 +68,7 @@ export interface IBotNode {
   };
   ports: [DEFAULT_PORT_ID, ...string[]];
   user: boolean;
+  silent?: boolean;
   prevOutput?: {
     value: any;
     type: BotNodeOutputType;
@@ -110,8 +111,8 @@ export interface IBotThemableProps {
   bubbleMaxWidth?: string;
   bubbleBoxShadow?: string;
   bubblePadding?: string;
-  bubbleControlWidth?:string;
-  bubbleControlMaxWidth?:string;
+  bubbleControlWidth?: string;
+  bubbleControlMaxWidth?: string;
   avatarClock?: boolean;
   headerHeight?: string;
   headerLogoSize?: string;

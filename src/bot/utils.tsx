@@ -7,7 +7,6 @@ import {
   IBotNode,
   IBotNodeInteractionProps,
   IBotState,
-  IMessage,
 } from "./definitions";
 import { DumbotNotification } from "./Notification";
 import * as AllIcons from "grommet-icons";
@@ -56,27 +55,6 @@ export const getNextBotNodeId = (
     state.paths[`${fromNodeId}-${fromPortId}`] ||
     state.paths[`${fromNodeId}-${defaultPortId}`]
   );
-};
-
-export const getContentForMessage = (
-  message: IMessage,
-  viewSilentNodes: boolean
-) => {
-  if (message.silent && !viewSilentNodes) {
-    return "";
-  }
-
-  if (message.user && message.output) {
-    const value =
-      message.output?.type === "object"
-        ? encodeURIComponent(JSON.stringify(message.output.value))
-        : message.output.value;
-    return `<useranswer type="${
-      message.output.type || "text"
-    }" value="${value}"></useranswer>`;
-  }
-
-  return message.nodeContent;
 };
 
 const navigateObjectPropertiesAndSubastitute = (path: string, bag: any) => {

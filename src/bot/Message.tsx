@@ -8,6 +8,7 @@ import {
   IBotThemableProps,
   IMessage,
 } from "./definitions";
+import { UserAnswer } from "./interactions/UserAnswerDisplay";
 import { LoadingMessage } from "./LoadingMessage";
 import { MarkdownView } from "./MarkdownView";
 
@@ -15,7 +16,6 @@ type IMessageProps = {
   message: IMessage;
   onProcessed?: () => void;
   active: boolean;
-  content: string;
 };
 
 const scale = keyframes`
@@ -159,11 +159,28 @@ export const MessagePartContainer = React.forwardRef(
 );
 MessagePartContainer.displayName = "MessagePartContainer";
 
+const USERANSWER = "<USERANSWER/>";
+export const getContentForMessage = (
+  message: IMessage,
+  viewSilentNodes: boolean
+) => {
+  if (message.silent && !viewSilentNodes) {
+    return "";
+  }
+
+  if (message.user && message.output) {
+    return USERANSWER;
+  }
+
+  return message.nodeContent;
+};
+
 const MessagePart = (
   props: IMessageProps & {
     hasAvatar: boolean;
     onLoaded: (ref: React.RefObject<any>) => void;
     forceLoading?: boolean;
+    content: string;
   }
 ) => {
   const theme: IBotThemableProps = React.useContext(ThemeContext)
@@ -176,7 +193,7 @@ const MessagePart = (
   const [loading, setLoading] = React.useState(active);
   // 0 means the node will be processed, 2 it's been already processed, 1 processed should notify parent
   const [processed, setProcessed] = React.useState<0 | 1 | 2>(active ? 0 : 2);
-  const { user } = props.message;
+  const { user, output } = props.message;
   const propsOnLoaded = props.onLoaded;
 
   React.useEffect(() => {
@@ -205,6 +222,16 @@ const MessagePart = (
     }
   }, [processed, onProcessed, propsOnLoaded]);
 
+  const Loading = loading || props.forceLoading ? <LoadingMessage /> : null;
+  const MessageDisplay = loading ? null : props.content === USERANSWER ? (
+    <UserAnswer
+      answer={output || { value: "", type: "string" }}
+      variables={botContext.variables}
+    />
+  ) : (
+    <MarkdownView text={props.content} variables={botContext.variables} />
+  );
+
   return (
     <MessagePartContainer
       active={active}
@@ -212,24 +239,21 @@ const MessagePart = (
       ref={refEl}
       user={user}
     >
-      {loading || props.forceLoading ? (
-        <LoadingMessage />
-      ) : (
-        <MarkdownView
-          text={props.content}
-          variables={botContext.variables}
-        ></MarkdownView>
-      )}
+      {Loading}
+      {MessageDisplay}
     </MessagePartContainer>
   );
 };
 
 export const Message = (
-  props: IMessageProps & { onLoaded?: (ref: React.RefObject<any>) => void }
+  props: IMessageProps & {
+    onLoaded?: (ref: React.RefObject<any>) => void;
+    viewSilentNodes: boolean;
+  }
 ) => {
   const { message, onProcessed, active } = props;
-
-  const messageParts: (IMessage & { content: string })[] = (props.content || "")
+  const msgContent = getContentForMessage(message, props.viewSilentNodes);
+  const messageParts: (IMessage & { content: string })[] = (msgContent || "")
     .split(BUBBLE_DELIMITER)
     .filter((el: string) => el)
     .map((mesagePart) => ({
@@ -271,8 +295,8 @@ export const Message = (
         <MessagePart
           key={`${part.id}-${i}`}
           message={part}
-          active={false}
           content={part.content}
+          active={false}
           onLoaded={props.onLoaded || (() => null)}
           hasAvatar={hasAvatar(part, i)}
         />
@@ -284,7 +308,7 @@ export const Message = (
           key={`${current.id}-${activeIndex}`}
           onProcessed={onPartProcessed}
           active={true}
-          content={current.content}
+          content={(current as any).content}
           hasAvatar={hasAvatar(current)}
         />
       )}
