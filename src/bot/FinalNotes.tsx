@@ -23,7 +23,7 @@ export const FinalNotes = (props: {
       }}
       active={true}
       key="FINALNODE"
-      content={props.finalMessageContent}
+      viewSilentNodes={false}
       onLoaded={props.onLoaded}
     />
   );
