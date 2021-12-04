@@ -6,8 +6,68 @@ export const data = {
       type: "start",
       user: false,
       title: "Start!",
-      content:
-        'Welcome :smile: *your* user with a nice **message**!😂\n~~~js\nconsole.log("It works!")\n~~~\n![image.png](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==)<dumbot-boubble/>test part 2',
+      content: `Welcome :smile: *your* user with a nice **message**!😂\n~~~js\nconsole.log("It works!")\n~~~\n![image.png](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==)<dumbot-boubble/>
+        These features **do not work by default**.
+👆 Use the toggle above to add the plugin.
+
+
+<blockquote>
+  👆 Use the toggle above to add the plugin.
+</blockquote>
+
+![Kitten](https://d33wubrfki0l68.cloudfront.net/200d166fc3dff29e5b8a6703d8e83cc25821bcf4/10dd6/media/2018/08/kitten.jpg "A cute kitten")
+
+You know, sometimes in life it seems like there's no way out. Like
+11  a sheep trapped in a maze designed by wolves. See all the
+12  options [here](https://github.com/probablyup/markdown-to-jsx/) sometimes in life it seems like there's no way out. Like
+
+[here](https://github.com/probablyup/markdown-to-jsx/)
+
+![alt text](//v2.grommet.io/assets/IMG_4245.jpg "Markdown Image")
+
+| Syntax      | Description | Test Text     |
+| :---        |    :----:   |          ---: |
+| Header      | Title       | Here's this   |
+| Paragraph   | Text        | And more      |
+
+Markdown | Less | Pretty
+  --- | --- | ---
+  *Still* | \`renders\` | **nicely**
+  1 | 2 | 3
+
+~~strikethrough~~
+
+* [ ] task list
+* [x] checked item
+
+https://example.com
+
+~~~js
+import React from "react";
+import uniquePropHOC from "./lib/unique-prop-hoc";
+
+// this comment is here to demonstrate an extremely long line length, well beyond what you should probably allow in your own code, though sometimes you'll be highlighting code you can't refactor, which is unfortunate but should be handled gracefully
+
+class Expire extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { component: props.children }
+    }
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({
+                component: null
+            });
+        }, this.props.time || this.props.seconds * 1000);
+    }
+    render() {
+        return this.state.component;
+    }
+}
+
+export default uniquePropHOC(["time", "seconds"])(Expire);
+~~~
+        `,
       position: { x: 22, y: 19 },
       ports: {
         default: {

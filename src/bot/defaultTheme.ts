@@ -49,6 +49,7 @@ const BotProps: IBotThemableProps = {
   avatarClock: true,
   jsonViewerTheme: "rjv-default",
   prefillOldAnswers: true,
+  botCodeHighLightTheme: "nord",
 };
 
 const BotColors: IBotThemableColors = {
@@ -141,6 +142,29 @@ export const BotTheme: IBotTheme = deepMerge(base, {
       background: "none",
       pad: "none",
     },
+  },
+
+  table: {
+    body: {
+      background: {
+        color: "bars",
+        opacity: "strong",
+      },
+    },
+    header: {
+      background: {
+        color: "accent-1",
+        opacity: "strong",
+      },
+    },
+  },
+  anchor: {
+    color: "accent-1",
+    fontWeight: 400,
+    hover: {
+      textDecoration: "underline",
+    },
+    textDecoration: "none",
   },
   bot: BotProps,
   textInput: {

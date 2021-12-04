@@ -139,6 +139,7 @@ export interface IBotThemableProps {
   prefillOldAnswers?: boolean;
   buttonsRadius?: string;
   onlyIconButtonsRadius?: string;
+  botCodeHighLightTheme?: string;
 }
 
 export interface IBotThemableColors extends Colors {
