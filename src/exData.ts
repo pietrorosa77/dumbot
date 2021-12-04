@@ -21,7 +21,7 @@ You know, sometimes in life it seems like there's no way out. Like
 11  a sheep trapped in a maze designed by wolves. See all the
 12  options [here](https://github.com/probablyup/markdown-to-jsx/) sometimes in life it seems like there's no way out. Like
 
-[here](https://github.com/probablyup/markdown-to-jsx/)
+[here](https://github.com/probablyup/markdown-to-jsx/ "Markdown Image")
 
 ![alt text](//v2.grommet.io/assets/IMG_4245.jpg "Markdown Image")
 

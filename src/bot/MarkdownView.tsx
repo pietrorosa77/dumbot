@@ -17,7 +17,6 @@ import {
   TableHeader,
   TableRow,
 } from "grommet";
-import { Link } from "grommet-icons";
 
 interface IMarkdownViewProps {
   text: any;
@@ -68,7 +67,7 @@ export const MarkdownView = React.memo(
             );
           },
           table(props: any) {
-            const { className, inline, node, ...others } = props;
+            const { node } = props;
             const head = node.children.find(
               (el: any) => el.tagName === "thead"
             );
