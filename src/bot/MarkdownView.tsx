@@ -13,6 +13,7 @@ import * as HGT from "react-syntax-highlighter/dist/esm/styles/prism";
 import { IBotTheme } from "./definitions";
 import {
   Anchor,
+  Box,
   Heading,
   Image,
   Paragraph,
@@ -28,7 +29,20 @@ interface IMarkdownViewProps {
   text: any;
   variables: { [key: string]: any };
 }
+const TableContainer = styled(Box)`
+  overflow-x: auto;
+  overflow-y: auto;
+  scrollbar-width: none;
+  /* this will hide the scrollbar in mozilla based browsers */
+  overflow: -moz-scrollbars-none;
+  /* this will hide the scrollbar in internet explorers */
+  -ms-overflow-style: none;
 
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    display: none;
+  }
+`;
 const StyledMarkdow = styled(ReactMarkdown)`
   font-size: inherit !important;
   p,
@@ -53,6 +67,12 @@ const StyledMarkdow = styled(ReactMarkdown)`
 
   video {
     max-width: 100%;
+  }
+
+  ol,
+  ul {
+    padding-inline-start: 10px;
+    list-style-position: inside;
   }
 
   span.linenumber {
@@ -114,7 +134,9 @@ export const MarkdownView = React.memo(
           },
           table(props: any) {
             return (
-              <Table {...props} style={{ width: "100%", maxWidth: "100%" }} />
+              <TableContainer>
+                <Table {...props} style={{ width: "100%", maxWidth: "100%" }} />
+              </TableContainer>
             );
           },
           thead(props: any) {
