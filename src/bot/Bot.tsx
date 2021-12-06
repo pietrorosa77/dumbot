@@ -37,6 +37,18 @@ const GlobalStyle = createGlobalStyle`
         props.theme.global.font?.family || "unset"};
         font-size: ${(props: any) => props.theme.global.font?.size || "unset"};
     }
+
+    p,
+    span,
+    tr,
+    th,
+    tbody,
+    a,
+    td,
+    div,
+    th {
+      font-size: ${(props: any) => props.theme.global.font?.size || "unset"};
+    }
 `;
 
 function DumbotInner(props: IDumbotProps) {

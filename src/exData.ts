@@ -6,9 +6,31 @@ export const data = {
       type: "start",
       user: false,
       title: "Start!",
-      content: `Welcome :smile: *your* user with a nice **message**!😂\n~~~js\nconsole.log("It works!")\n~~~\n![image.png](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==)<dumbot-boubble/>
-        These features **do not work by default**.
+      content: `
+# A demo of React
+
+Welcome *your* user with a nice **message**!
+
+Lift($L$) can be determined by Lift Coefficient ($C_L$) like the following
+equation.
+
+$$
+L = \\frac{1}{2} \\rho v^2 S C_L
+$$
+
+http://techslides.com/demos/sample-videos/small.webm
+
+![image.png](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==)<dumbot-boubble/>
+These features **do not work by default**.
 👆 Use the toggle above to add the plugin.
+
+## Overview
+
+* Follows [CommonMark](https://commonmark.org)
+* Optionally follows [GitHub Flavored Markdown](https://github.github.com/gfm/)
+* Renders actual React elements instead of using \`dangerouslySetInnerHTML\`
+* Lets you define your own components (to render \`MyHeading\` instead of \`h1\`)
+* Has a lot of plugins
 
 
 <blockquote>
@@ -28,12 +50,8 @@ You know, sometimes in life it seems like there's no way out. Like
 | Syntax      | Description | Test Text     |
 | :---        |    :----:   |          ---: |
 | Header      | Title       | Here's this   |
-| Paragraph   | Text        | And more      |
+| Paragraph   | Text        | And more \`testpie\`     |
 
-Markdown | Less | Pretty
-  --- | --- | ---
-  *Still* | \`renders\` | **nicely**
-  1 | 2 | 3
 
 ~~strikethrough~~
 

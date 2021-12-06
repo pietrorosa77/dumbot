@@ -1,6 +1,6 @@
 {
   "name": "@pietrorosa77/dumbot",
-  "version": "0.7.2",
+  "version": "0.7.5",
   "description": "",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -22,8 +22,11 @@
     "react-json-prettify": "^0.2.0",
     "react-markdown": "^7.1.1",
     "react-syntax-highlighter": "^15.4.5",
+    "rehype-katex": "^6.0.2",
+    "rehype-video": "^1.1.1",
     "remark-emoji": "^3.0.2",
     "remark-gfm": "^3.0.1",
+    "remark-math": "^5.1.1",
     "use-resize-observer": "8.0.0"
   },
   "peerDependencies": {

@@ -143,7 +143,6 @@ export const BotTheme: IBotTheme = deepMerge(base, {
       pad: "none",
     },
   },
-
   table: {
     body: {
       background: {
