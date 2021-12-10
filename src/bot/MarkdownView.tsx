@@ -101,7 +101,7 @@ export const MarkdownView = React.memo(
         ]}
         components={{
           a(props: any) {
-            return <Anchor {...props} />;
+            return <Anchor {...props} target="_blank" />;
           },
           h1(props: any) {
             return <Heading {...props} level={1} size="medium" />;
