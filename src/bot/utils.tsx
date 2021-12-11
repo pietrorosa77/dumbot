@@ -41,7 +41,9 @@ export const getNodeFromState = (state: IBotState, id: string) => {
 };
 
 export const getBotStartingNode = (state: IBotState) => {
-  return state.nodes.find((el) => el.type === "start");
+  return state.nodes.find(
+    (el) => el.type === "start" || el.properties?.asStart
+  );
 };
 
 export const getNextBotNodeId = (

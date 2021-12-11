@@ -93,6 +93,10 @@ const onGetPrevMessage = (
   state: IBotState,
   activeInteraction: IBotNode
 ): IBotState => {
+  if (!state.processedMessages || !state.processedMessages.length) {
+    return state;
+  }
+
   const prevMessages = state.processedMessages.filter(
     (el) => el.wasInteractive && el.nodeId !== activeInteraction.id
   );
