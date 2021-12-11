@@ -6,7 +6,6 @@ import {
   IBotState,
   IMessage,
   ISetVariable,
-  IStartNode,
   IUserAction,
 } from "./definitions";
 import {
@@ -26,7 +25,7 @@ export const getInitialState = (
     return state;
   }
 
-  const startNode = getBotStartingNode(state) as IStartNode;
+  const startNode = getBotStartingNode(state) as IBotNode;
 
   return {
     ...state,
@@ -34,13 +33,18 @@ export const getInitialState = (
       ...state.variables,
       ...externalVariables,
     },
-    activeMessage: {
-      nodeId: startNode.id,
-      id: nanoid(),
-      nodeContent: startNode.content,
-      user: startNode.user,
-      exitPort: startNode.ports[0],
-    },
+    activeMessage: startNode.properties?.startWaitingUser
+      ? null
+      : {
+          nodeId: startNode.id,
+          id: nanoid(),
+          nodeContent: startNode.content,
+          user: false,
+          exitPort: startNode.ports[0],
+        },
+    activeInteraction: startNode.properties?.startWaitingUser
+      ? startNode
+      : null,
   };
 };
 
