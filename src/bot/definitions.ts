@@ -312,4 +312,5 @@ export interface IDumbotProps {
   onGetExternalComponent?: (
     props: IBotNodeInteractionProps
   ) => (props: IBotNodeInteractionProps) => JSX.Element;
+  renderErrorDetails?: (error: any) => JSX.Element;
 }

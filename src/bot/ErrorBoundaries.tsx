@@ -1,7 +1,7 @@
 import React from "react";
 
 export class ErrorBoundary extends React.Component<
-  { children: any; message: any },
+  { children: any; message: any; renderError?: (error: any) => JSX.Element },
   any
 > {
   state = { hasError: false, error: null };
@@ -13,7 +13,9 @@ export class ErrorBoundary extends React.Component<
   }
   render() {
     if (this.state.hasError) {
-      return this.props.message;
+      return this.props.renderError
+        ? this.props.renderError(this.state.error)
+        : this.props.message;
     }
     return this.props.children;
   }

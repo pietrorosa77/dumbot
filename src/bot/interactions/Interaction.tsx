@@ -38,6 +38,7 @@ export const Interaction = (
     onGetExternalComponent: (
       props: IBotNodeInteractionProps
     ) => (props: IBotNodeInteractionProps) => JSX.Element;
+    renderErrorDetails?: (error: any) => JSX.Element;
   }
 ) => {
   const [forceLoading, setForceLoading] = React.useState(false);
@@ -84,6 +85,7 @@ export const Interaction = (
 
   return (
     <ErrorBoundary
+      renderError={props.renderErrorDetails}
       message={
         <Box align="center" justify="start" pad="medium">
           <Box width="medium">

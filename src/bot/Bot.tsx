@@ -238,6 +238,7 @@ function DumbotInner(props: IDumbotProps) {
                       onSendAttachments={onSendAttachments}
                       onUserAction={onUserAction}
                       onTranspileCode={onTranspileCode}
+                      renderErrorDetails={props.renderErrorDetails}
                       onGetExternalComponent={onGetExternalComponent}
                     />
                     <FinalNotes
