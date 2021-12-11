@@ -38,7 +38,7 @@ export const getInitialState = (
       nodeId: startNode.id,
       id: nanoid(),
       nodeContent: startNode.content,
-      user: false,
+      user: startNode.user,
       exitPort: startNode.ports[0],
     },
   };
