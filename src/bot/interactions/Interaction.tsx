@@ -18,9 +18,7 @@ import { MessagePartContainer } from "../Message";
 import { DumbotNotification } from "../Notification";
 import { getInteractionLabel } from "../utils";
 import { BotButtons } from "./Buttons";
-import { BotCustomNode } from "./Custom";
 import { BotQuestion } from "./Question";
-import { BotSnippet } from "./Snippet";
 
 const EmptyInteraction = () => <div>Error</div>;
 const InteractionsMap = new Map<
@@ -29,8 +27,6 @@ const InteractionsMap = new Map<
 >([
   ["question", BotQuestion],
   ["buttons", BotButtons],
-  ["snippet", BotSnippet],
-  ["custom", BotCustomNode],
 ]);
 
 export const Interaction = (
@@ -137,7 +133,6 @@ export const Interaction = (
             preview={props.preview}
             customProps={props.customProps}
             setInteractionLoading={setInteractionLoading}
-            onTranspileCode={props.onTranspileCode}
           />
         </div>
       </MessagePartContainer>

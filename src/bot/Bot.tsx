@@ -28,7 +28,7 @@ import { FloatingTrigger } from "./FloatingTrigger";
 import BotContext from "./BotContext";
 import { Interaction } from "./interactions/Interaction";
 import { useBotReducer } from "./botReducer";
-import { getNodeFromState, MissingExternalComponent } from "./utils";
+import { MissingExternalComponent } from "./utils";
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
@@ -170,17 +170,6 @@ function DumbotInner(props: IDumbotProps) {
     autoscroll();
   };
 
-  const onTranspileCode = async (nodeId: string) => {
-    if (props.onTranspileCode) {
-      return await props.onTranspileCode(nodeId);
-    } else {
-      const node = getNodeFromState(botState, nodeId);
-      return node.type === "snippet"
-        ? `return ${node.properties.code}`
-        : node.properties.code;
-    }
-  };
-
   const onGetExternalComponent = (data: IBotNodeInteractionProps) => {
     if (props.onGetExternalComponent) {
       return props.onGetExternalComponent(data);
@@ -237,7 +226,6 @@ function DumbotInner(props: IDumbotProps) {
                       onSizeChanged={() => autoscroll()}
                       onSendAttachments={onSendAttachments}
                       onUserAction={onUserAction}
-                      onTranspileCode={onTranspileCode}
                       renderErrorDetails={props.renderErrorDetails}
                       onGetExternalComponent={onGetExternalComponent}
                     />

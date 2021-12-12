@@ -1,14 +1,7 @@
 import { ThemeType } from "grommet";
 import { Colors } from "grommet/themes/base";
 import { PlaceHolderType } from "grommet/utils";
-export type BotNodeType =
-  | "question"
-  | "buttons"
-  | "start"
-  | "snippet"
-  | "custom"
-  | "message"
-  | string;
+export type BotNodeType = "question" | "buttons" | "start" | "message" | string;
 
 export type BotNodeOutputType =
   | "string"
@@ -263,7 +256,6 @@ export interface IBotNodeInteractionLoaderProps {
     id: string;
   }) => void;
   onLoaded: (ref: React.RefObject<any>) => void;
-  onTranspileCode: (nodeId: string) => Promise<any>;
 }
 
 export interface IBotNodeInteractionProps
@@ -308,7 +300,6 @@ export interface IDumbotProps {
   ) => void;
   onStateChanged?: (state: IBotState) => void;
   onBotFinished?: (state: IBotState) => void;
-  onTranspileCode?: (nodeId: string) => Promise<any>;
   onGetExternalComponent?: (
     props: IBotNodeInteractionProps
   ) => (props: IBotNodeInteractionProps) => JSX.Element;

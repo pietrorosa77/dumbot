@@ -15,8 +15,6 @@ import {
   getNodeFromState,
 } from "./utils";
 
-const SilentNodes = ["snippet", "api"];
-
 export const getInitialState = (
   state: IBotState,
   externalVariables: object
@@ -167,7 +165,7 @@ const onGetNextMessage = (
 
 const onUserAction = (state: IBotState, userAnswer: IUserAction): IBotState => {
   const activeNode = state.activeInteraction as IBotNode;
-  const silent = SilentNodes.includes(activeNode.type) || activeNode.silent;
+  const silent = activeNode.silent;
   const processedMessage: IMessage = {
     nodeId: activeNode.id,
     output: userAnswer,
