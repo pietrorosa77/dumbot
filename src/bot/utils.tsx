@@ -67,12 +67,6 @@ const navigateObjectPropertiesAndSubastitute = (path: string, bag: any) => {
 };
 
 export const substituteVarsInObject = (data: any, metadata: any): any => {
-  metadata = {
-    test: [1, 2, 3, 4, 5, 6],
-    test1: {
-      name: "pietro",
-    },
-  };
   if (isEmpty(metadata)) {
     return data;
   }
