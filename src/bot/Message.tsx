@@ -1,4 +1,4 @@
-import { Box, Avatar, Clock } from "grommet";
+import { Box, Avatar, Clock, ResponsiveContext } from "grommet";
 import * as React from "react";
 import styled, { css, keyframes, ThemeContext } from "styled-components";
 import BotContext from "./BotContext";
@@ -110,50 +110,64 @@ export const MessagePartContainer = React.forwardRef(
     const avatar = user ? botProps.userAvatar : botProps.botAvatar;
     const hasClock = botProps.avatarClock;
     return (
-      <Box
-        direction={user ? "row-reverse" : "row"}
-        align="end"
-        pad="xsmall"
-        alignSelf="end"
-        alignContent="end"
-        gap="medium"
-        ref={refEl}
-        style={{ justifyContent: user ? "end" : "start", outline: "none" }}
-        className={`message-part ${
-          user ? "message-part-user" : "message-part-bot"
-        }`}
-      >
-        {showavatar && (
-          <AvatarContainer>
-            <BotAvatar
-              user={user}
-              active={active}
-              src={avatar}
-              size={botProps.avatarSize}
-              stay={hasAvatar}
-            />
-            {hasAvatar && hasClock && (
-              <Clock
-                type="digital"
-                run={false}
-                style={{ color: theme.global.colors.botAvatarClockFontColor }}
-                width={botProps.avatarSize}
-                size="xsmall"
-                margin={{ top: "xsmall" }}
-              />
-            )}
-          </AvatarContainer>
-        )}
-        <Bubble
-          user={user}
-          active={active}
-          hasAvatar={hasAvatar && showavatar}
-          width={props.width}
-          maxWidth={props.maxWidth}
-        >
-          {props.children}
-        </Bubble>
-      </Box>
+      <ResponsiveContext.Consumer>
+        {(size) => {
+          const forceHideAvatars = size === "onlyMessages";
+          console.log("SIZE IS", size);
+          return (
+            <Box
+              direction={user ? "row-reverse" : "row"}
+              align="end"
+              pad="xsmall"
+              alignSelf="end"
+              alignContent="end"
+              gap="medium"
+              ref={refEl}
+              style={{
+                justifyContent: user ? "end" : "start",
+                outline: "none",
+              }}
+              className={`message-part ${
+                user ? "message-part-user" : "message-part-bot"
+              }`}
+            >
+              {showavatar && !forceHideAvatars && (
+                <AvatarContainer>
+                  <BotAvatar
+                    user={user}
+                    active={active}
+                    src={avatar}
+                    size={botProps.avatarSize}
+                    stay={hasAvatar}
+                  />
+                  {hasAvatar && hasClock && (
+                    <Clock
+                      type="digital"
+                      run={false}
+                      style={{
+                        color: theme.global.colors.botAvatarClockFontColor,
+                      }}
+                      width={botProps.avatarSize}
+                      size="xsmall"
+                      margin={{ top: "xsmall" }}
+                    />
+                  )}
+                </AvatarContainer>
+              )}
+              <Bubble
+                user={user}
+                className="dmbt-bubble"
+                active={active}
+                hasAvatar={hasAvatar && showavatar}
+                width={forceHideAvatars ? "100%" : props.width}
+                maxWidth={forceHideAvatars ? "100%" : props.maxWidth}
+              >
+                {props.children}
+              </Bubble>
+            </Box>
+          );
+        }}
+      </ResponsiveContext.Consumer>
     );
   }
 );

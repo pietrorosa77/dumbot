@@ -45,7 +45,7 @@ const BotProps: IBotThemableProps = {
   allowRestartOnEnd: true,
   bubbleAnimationDuration: "0.5s",
   maxBotColumnSize: "800px",
-  minBotColumnSize: "300px",
+  minBotColumnSize: "200px",
   avatarClock: true,
   jsonViewerTheme: "rjv-default",
   prefillOldAnswers: true,
@@ -105,6 +105,11 @@ export const DefaultBotFont = {
 
 export const BotTheme: IBotTheme = deepMerge(base, {
   global: {
+    breakpoints: {
+      onlyMessages: {
+        value: 350,
+      },
+    },
     colors: {
       focus: "cornflowerblue",
       hide: "transparent",
