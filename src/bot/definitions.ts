@@ -304,4 +304,5 @@ export interface IDumbotProps {
     props: IBotNodeInteractionProps
   ) => (props: IBotNodeInteractionProps) => JSX.Element;
   renderErrorDetails?: (error: any) => JSX.Element;
+  disableAutofocus?: boolean;
 }

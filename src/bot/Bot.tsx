@@ -164,7 +164,7 @@ function DumbotInner(props: IDumbotProps) {
   };
 
   const onLoaded = () => {
-    if (opened && botBodyRef.current) {
+    if (opened && botBodyRef.current && !props.disableAutofocus) {
       botBodyRef.current.focus();
     }
     autoscroll();

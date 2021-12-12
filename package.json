@@ -1,6 +1,6 @@
 {
   "name": "@pietrorosa77/dumbot",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
