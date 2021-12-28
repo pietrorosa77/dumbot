@@ -224,20 +224,23 @@ function DumbotInner(props: IDumbotProps) {
                         onBotEvent("onGetNextMessage", message)
                       }
                     />
-                    <Interaction
-                      node={botState.activeInteraction}
-                      key={botState.activeInteraction?.id}
-                      onAddProcessedMessage={onAddProcessedMessage}
-                      onLoaded={onLoaded}
-                      onCallHost={onCallHost}
-                      variables={botState.variables}
-                      onSetVariable={onSetVariable}
-                      onSizeChanged={() => autoscroll()}
-                      onSendAttachments={onSendAttachments}
-                      onUserAction={onUserAction}
-                      renderErrorDetails={props.renderErrorDetails}
-                      onGetExternalComponent={onGetExternalComponent}
-                    />
+                    {botState.activeInteraction &&
+                      !botState.activeInteraction.properties.asFooter && (
+                        <Interaction
+                          node={botState.activeInteraction}
+                          key={botState.activeInteraction?.id}
+                          onAddProcessedMessage={onAddProcessedMessage}
+                          onLoaded={onLoaded}
+                          onCallHost={onCallHost}
+                          variables={botState.variables}
+                          onSetVariable={onSetVariable}
+                          onSizeChanged={() => autoscroll()}
+                          onSendAttachments={onSendAttachments}
+                          onUserAction={onUserAction}
+                          renderErrorDetails={props.renderErrorDetails}
+                          onGetExternalComponent={onGetExternalComponent}
+                        />
+                      )}
                     <FinalNotes
                       onLoaded={onLoaded}
                       finished={botState.finished}
@@ -247,16 +250,34 @@ function DumbotInner(props: IDumbotProps) {
                   </BotLayout>
                 </div>
               </ChatbotContent>
-              <BotFooter
-                isEnd={botState.finished || false}
-                waitingForUser={botState.activeInteraction ? true : false}
-                onBack={() =>
-                  onBotEvent(
-                    botState.finished ? "onBotRestart" : "onBack",
-                    botState.activeInteraction as IBotNode
-                  )
-                }
-              />
+              {botState.activeInteraction &&
+              botState.activeInteraction.properties.asFooter ? (
+                <Interaction
+                  node={botState.activeInteraction}
+                  key={botState.activeInteraction?.id}
+                  onAddProcessedMessage={onAddProcessedMessage}
+                  onLoaded={onLoaded}
+                  onCallHost={onCallHost}
+                  variables={botState.variables}
+                  onSetVariable={onSetVariable}
+                  onSizeChanged={() => autoscroll()}
+                  onSendAttachments={onSendAttachments}
+                  onUserAction={onUserAction}
+                  renderErrorDetails={props.renderErrorDetails}
+                  onGetExternalComponent={onGetExternalComponent}
+                />
+              ) : (
+                <BotFooter
+                  isEnd={botState.finished || false}
+                  waitingForUser={botState.activeInteraction ? true : false}
+                  onBack={() =>
+                    onBotEvent(
+                      botState.finished ? "onBotRestart" : "onBack",
+                      botState.activeInteraction as IBotNode
+                    )
+                  }
+                />
+              )}
             </Box>
           </Box>
         </ChatBotContainer>
