@@ -12,6 +12,7 @@ import {
   IBotState,
   IBotThemableProps,
   IBotTheme,
+  IChatMessage,
   IDumbotProps,
   IMessage,
 } from "./definitions";
@@ -178,6 +179,10 @@ function DumbotInner(props: IDumbotProps) {
     }
   };
 
+  const onAddProcessedMessage = (message: IChatMessage) => {
+    onBotEvent("onChatMessage", message);
+  };
+
   return (
     <BotContext.Provider value={botState}>
       <Box width="100%" height="100%" className={props.className}>
@@ -201,7 +206,10 @@ function DumbotInner(props: IDumbotProps) {
                 onClose={() => setOpened(false)}
               />
               <ChatbotContent opened={opened} ref={botBodyRef as any}>
-                <div ref={ref}>
+                <div
+                  ref={ref}
+                  style={{ height: "calc(100% - 40px)", padding: "15px" }}
+                >
                   <BotLayout>
                     <ProcessedMessages
                       processedMessages={botState.processedMessages}
@@ -219,6 +227,7 @@ function DumbotInner(props: IDumbotProps) {
                     <Interaction
                       node={botState.activeInteraction}
                       key={botState.activeInteraction?.id}
+                      onAddProcessedMessage={onAddProcessedMessage}
                       onLoaded={onLoaded}
                       onCallHost={onCallHost}
                       variables={botState.variables}

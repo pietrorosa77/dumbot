@@ -22,6 +22,7 @@ export type Actions =
   | "onGetNextMessage"
   | "onUserAction"
   | "onSetVariable"
+  | "onChatMessage"
   | "onBotRestart";
 
 export const BUBBLE_DELIMITER = "<dumbot-boubble/>";
@@ -40,7 +41,18 @@ export interface ISetVariable {
   value: any;
 }
 
-export type BotActionPayload = IUserAction | IMessage | IBotNode | ISetVariable;
+export interface IChatMessage {
+  content: string;
+  avatarSrc?: string;
+  user: boolean;
+}
+
+export type BotActionPayload =
+  | IUserAction
+  | IMessage
+  | IBotNode
+  | ISetVariable
+  | IChatMessage;
 
 export interface IBotNode {
   id: string;
@@ -80,6 +92,7 @@ export interface IMessage {
   };
   exitPort: string;
   nodeContent: string;
+  customAvatarSrc?: string;
 }
 
 export interface IStartNode extends IBotNode {

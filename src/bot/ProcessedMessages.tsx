@@ -18,6 +18,7 @@ export const ProcessedMessages = (props: {
             viewSilentNodes={props.viewSilentNodes}
             key={m.id}
             onLoaded={() => null}
+            customAvatarSrc={m.customAvatarSrc}
           />
         );
       })}

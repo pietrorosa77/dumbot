@@ -6,10 +6,12 @@ import useResizeObserver from "use-resize-observer";
 import BotContext from "../BotContext";
 import {
   BotNodeType,
+  IBotNode,
   IBotNodeInteractionLoaderProps,
   IBotNodeInteractionProps,
   IBotState,
   IBotTheme,
+  IChatMessage,
 } from "../definitions";
 import { ErrorBoundary } from "../ErrorBoundaries";
 import { LoadingMessage } from "../LoadingMessage";
@@ -23,7 +25,11 @@ import { BotQuestion } from "./Question";
 const EmptyInteraction = () => <div>Error</div>;
 const InteractionsMap = new Map<
   BotNodeType,
-  (props: IBotNodeInteractionProps) => JSX.Element
+  (
+    props: IBotNodeInteractionProps & {
+      onAddProcessedMessage: (message: IChatMessage) => void;
+    }
+  ) => JSX.Element
 >([
   ["question", BotQuestion],
   ["buttons", BotButtons],
@@ -35,6 +41,7 @@ export const Interaction = (
       props: IBotNodeInteractionProps
     ) => (props: IBotNodeInteractionProps) => JSX.Element;
     renderErrorDetails?: (error: any) => JSX.Element;
+    onAddProcessedMessage: (message: IChatMessage) => void;
   }
 ) => {
   const [forceLoading, setForceLoading] = React.useState(false);
@@ -79,6 +86,82 @@ export const Interaction = (
     return null;
   }
 
+  const BubbleInteractionContainer = (props: {
+    node: IBotNode;
+    children: any;
+  }) => (
+    <MessagePartContainer
+      hasAvatar={true}
+      active={true}
+      ref={usrInputRef}
+      user={false}
+      width={
+        props.node.properties.width || theme.bot?.bubbleControlWidth || "100%"
+      }
+      maxWidth={
+        props.node.properties.maxWidth ||
+        theme.bot?.bubbleControlMaxWidth ||
+        "600px"
+      }
+    >
+      {forceLoading ? (
+        <LoadingMessage />
+      ) : (
+        <MarkdownView
+          variables={botContext.variables}
+          text={getInteractionLabel(props.node.content)}
+        ></MarkdownView>
+      )}
+      {props.children}
+    </MessagePartContainer>
+  );
+
+  const PlainInteractionContainer = (props: {
+    node: IBotNode;
+    children: any;
+  }) => (
+    <Box
+      pad="small"
+      background={
+        props.node.properties.background || theme.global?.colors?.botBubbleColor
+      }
+      width="100%"
+      round="10px"
+    >
+      {props.node.content && (
+        <Box pad="xsmall">
+          <MarkdownView
+            variables={botContext.variables}
+            text={getInteractionLabel(props.node.content)}
+          ></MarkdownView>
+        </Box>
+      )}
+      <Box fill>{props.children}</Box>
+    </Box>
+  );
+
+  const ControlInteraction = (
+    <div ref={ref} style={{ marginTop: "20px" }}>
+      <InteractionControl
+        key={`botInteraction-${props.node?.id}`}
+        onUserAction={props.onUserAction}
+        node={props.node}
+        theme={theme}
+        onLoaded={props.onLoaded}
+        onSetVariable={props.onSetVariable}
+        onCallHost={props.onCallHost}
+        onSizeChanged={props.onSizeChanged}
+        variables={props.variables}
+        onSendAttachments={props.onSendAttachments}
+        onComponentError={props.onComponentError}
+        preview={props.preview}
+        customProps={props.customProps}
+        setInteractionLoading={setInteractionLoading}
+        onAddProcessedMessage={props.onAddProcessedMessage}
+      />
+    </div>
+  );
+
   return (
     <ErrorBoundary
       renderError={props.renderErrorDetails}
@@ -95,47 +178,15 @@ export const Interaction = (
         </Box>
       }
     >
-      <MessagePartContainer
-        hasAvatar={true}
-        active={true}
-        ref={usrInputRef}
-        user={false}
-        width={
-          props.node.properties.width || theme.bot?.bubbleControlWidth || "100%"
-        }
-        maxWidth={
-          props.node.properties.maxWidth ||
-          theme.bot?.bubbleControlMaxWidth ||
-          "600px"
-        }
-      >
-        {forceLoading ? (
-          <LoadingMessage />
-        ) : (
-          <MarkdownView
-            variables={botContext.variables}
-            text={getInteractionLabel(props.node.content)}
-          ></MarkdownView>
-        )}
-        <div ref={ref} style={{ marginTop: "20px" }}>
-          <InteractionControl
-            key={`botInteraction-${props.node?.id}`}
-            onUserAction={props.onUserAction}
-            node={props.node}
-            theme={theme}
-            onLoaded={props.onLoaded}
-            onSetVariable={props.onSetVariable}
-            onCallHost={props.onCallHost}
-            onSizeChanged={props.onSizeChanged}
-            variables={props.variables}
-            onSendAttachments={props.onSendAttachments}
-            onComponentError={props.onComponentError}
-            preview={props.preview}
-            customProps={props.customProps}
-            setInteractionLoading={setInteractionLoading}
-          />
-        </div>
-      </MessagePartContainer>
+      {props.node.properties.disableBubble ? (
+        <PlainInteractionContainer node={props.node}>
+          {ControlInteraction}
+        </PlainInteractionContainer>
+      ) : (
+        <BubbleInteractionContainer node={props.node}>
+          {ControlInteraction}
+        </BubbleInteractionContainer>
+      )}
     </ErrorBoundary>
   );
 };

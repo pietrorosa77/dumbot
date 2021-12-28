@@ -6,6 +6,7 @@ import { DEFAULTPORT, BUBBLE_DELIMITER } from "./definitions";
 import * as MessageControls from "./Message";
 import * as utils from "./utils";
 import { MarkdownView } from "./MarkdownView";
+import { RealtimeChatInputnput } from "./interactions/inputs/RealtimeChatInput";
 
 export {
   Dumbot,
@@ -18,4 +19,5 @@ export {
   utils,
   MarkdownView,
   DefaultBotFont,
+  RealtimeChatInputnput,
 };

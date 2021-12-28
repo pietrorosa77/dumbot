@@ -100,6 +100,7 @@ export const MessagePartContainer = React.forwardRef(
       foceLoading?: boolean;
       width?: string;
       maxWidth?: string;
+      customAvatarSrc?: string;
     },
     refEl: any
   ) => {
@@ -107,7 +108,8 @@ export const MessagePartContainer = React.forwardRef(
     const botProps: IBotThemableProps = theme.bot;
     const showavatar = botProps.disableAvatars ? false : true;
     const { user, active, hasAvatar } = props;
-    const avatar = user ? botProps.userAvatar : botProps.botAvatar;
+    const avatar =
+      props.customAvatarSrc || user ? botProps.userAvatar : botProps.botAvatar;
     const hasClock = botProps.avatarClock;
     return (
       <ResponsiveContext.Consumer>
@@ -195,6 +197,7 @@ const MessagePart = (
     onLoaded: (ref: React.RefObject<any>) => void;
     forceLoading?: boolean;
     content: string;
+    customAvatarSrc?: string;
   }
 ) => {
   const theme: IBotThemableProps = React.useContext(ThemeContext)
@@ -252,6 +255,7 @@ const MessagePart = (
       hasAvatar={hasAvatar && showavatar}
       ref={refEl}
       user={user}
+      customAvatarSrc={props.customAvatarSrc}
     >
       {Loading}
       {MessageDisplay}
@@ -263,6 +267,7 @@ export const Message = (
   props: IMessageProps & {
     onLoaded?: (ref: React.RefObject<any>) => void;
     viewSilentNodes: boolean;
+    customAvatarSrc?: string;
   }
 ) => {
   const { message, onProcessed, active } = props;
@@ -313,6 +318,7 @@ export const Message = (
           active={false}
           onLoaded={props.onLoaded || (() => null)}
           hasAvatar={hasAvatar(part, i)}
+          customAvatarSrc={props.customAvatarSrc}
         />
       ))}
       {current && (
@@ -324,6 +330,7 @@ export const Message = (
           active={true}
           content={(current as any).content}
           hasAvatar={hasAvatar(current)}
+          customAvatarSrc={props.customAvatarSrc}
         />
       )}
     </div>

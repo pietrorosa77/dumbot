@@ -73,7 +73,8 @@ ChatbotContent.displayName = "ChatbotContent";
 
 const BotGrid = styled.div`
   display: grid;
-  margin: 20px;
+  margin: 0 10px;
+  height: 100%;
   grid-template-columns:
     1fr minmax(
       ${(props) =>
@@ -85,8 +86,8 @@ const BotGrid = styled.div`
 `;
 export const BotLayout = (props: any) => (
   <BotGrid>
-    <div style={{ height: "200px", gridColumn: 1 }}></div>
-    <div style={{ gridColumn: 2 }}>{props.children}</div>
+    <div style={{ gridColumn: 1 }}></div>
+    <div style={{ gridColumn: 2, position: "relative" }}>{props.children}</div>
     <div style={{ gridColumn: 3 }}></div>
   </BotGrid>
 );

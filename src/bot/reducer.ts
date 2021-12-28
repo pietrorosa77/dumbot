@@ -4,6 +4,7 @@ import {
   BotActionPayload,
   IBotNode,
   IBotState,
+  IChatMessage,
   IMessage,
   ISetVariable,
   IUserAction,
@@ -52,6 +53,9 @@ export const reducer = (
 ) => {
   let ret: IBotState;
   switch (action.type) {
+    case "onChatMessage":
+      ret = onChatMessage(state, action.payload as IChatMessage);
+      break;
     case "onUserAction":
       ret = onUserAction(state, action.payload as IUserAction);
       break;
@@ -203,6 +207,25 @@ const onUserAction = (state: IBotState, userAnswer: IUserAction): IBotState => {
     variables,
     activeMessage,
     activeInteraction: null,
+    processedMessages: state.processedMessages.concat([processedMessage]),
+  };
+};
+
+const onChatMessage = (state: IBotState, message: IChatMessage): IBotState => {
+  const activeNode = state.activeInteraction as IBotNode;
+  const processedMessage: IMessage = {
+    nodeId: activeNode ? activeNode.id : nanoid(),
+    wasInteractive: true,
+    id: nanoid(),
+    user: message.user,
+    silent: false,
+    nodeContent: message.content,
+    customAvatarSrc: message.avatarSrc,
+    exitPort: "chat",
+  };
+
+  return {
+    ...state,
     processedMessages: state.processedMessages.concat([processedMessage]),
   };
 };
