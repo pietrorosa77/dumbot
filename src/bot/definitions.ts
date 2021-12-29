@@ -44,6 +44,7 @@ export interface ISetVariable {
 export interface IChatMessage {
   content: string;
   avatarSrc?: string;
+  id?: string;
   user: boolean;
 }
 

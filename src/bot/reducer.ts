@@ -213,11 +213,18 @@ const onUserAction = (state: IBotState, userAnswer: IUserAction): IBotState => {
 
 const onChatMessage = (state: IBotState, message: IChatMessage): IBotState => {
   const activeNode = state.activeInteraction as IBotNode;
+  const messageId = message.id || nanoid();
+  const exists = state.processedMessages.find((m) => m.id === messageId);
+  if (exists) {
+    return {
+      ...state,
+    };
+  }
 
   const processedMessage: IMessage = {
     nodeId: activeNode ? activeNode.id : nanoid(),
     wasInteractive: true,
-    id: nanoid(),
+    id: messageId,
     user: message.user,
     silent: false,
     nodeContent: message.content,
