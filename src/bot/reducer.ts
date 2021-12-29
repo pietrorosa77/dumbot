@@ -2,6 +2,7 @@ import { nanoid } from "nanoid";
 import {
   Actions,
   BotActionPayload,
+  BUBBLE_DELIMITER,
   IBotNode,
   IBotState,
   IChatMessage,
@@ -95,6 +96,31 @@ const onSetVariable = (state: IBotState, payload: ISetVariable): IBotState => {
   };
 };
 
+const getProcessedMessages = (
+  processed: IMessage[] | undefined,
+  nextProcessed: IMessage
+) => {
+  if (!processed) {
+    return [nextProcessed];
+  }
+
+  const lastProcessedIndex = processed.length - 1;
+  const isSameTypeAsLastProcessed =
+    lastProcessedIndex >= 0
+      ? processed[lastProcessedIndex].user === nextProcessed.user
+      : false;
+
+  if (!isSameTypeAsLastProcessed) {
+    return processed.concat(nextProcessed);
+  }
+
+  processed[
+    lastProcessedIndex
+  ].nodeContent = `${processed[lastProcessedIndex].nodeContent}${BUBBLE_DELIMITER}${nextProcessed.nodeContent}`;
+
+  return processed;
+};
+
 const onGetPrevMessage = (
   state: IBotState,
   activeInteraction: IBotNode
@@ -163,7 +189,10 @@ const onGetNextMessage = (
     activeMessage,
     activeInteraction,
     finished,
-    processedMessages: state.processedMessages.concat(processedMessage),
+    processedMessages: getProcessedMessages(
+      state.processedMessages,
+      processedMessage
+    ), //state.processedMessages.concat(processedMessage),
   };
 };
 
@@ -207,7 +236,10 @@ const onUserAction = (state: IBotState, userAnswer: IUserAction): IBotState => {
     variables,
     activeMessage,
     activeInteraction: null,
-    processedMessages: state.processedMessages.concat([processedMessage]),
+    processedMessages: getProcessedMessages(
+      state.processedMessages,
+      processedMessage
+    ), //state.processedMessages.concat([processedMessage]),
   };
 };
 
@@ -226,6 +258,9 @@ const onChatMessage = (state: IBotState, message: IChatMessage): IBotState => {
 
   return {
     ...state,
-    processedMessages: state.processedMessages.concat([processedMessage]),
+    processedMessages: getProcessedMessages(
+      state.processedMessages,
+      processedMessage
+    ), //state.processedMessages.concat([processedMessage]),
   };
 };
