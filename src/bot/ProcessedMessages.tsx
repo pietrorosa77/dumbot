@@ -11,7 +11,8 @@ export const ProcessedMessages = (props: {
 
   const orderedGroup = props.processedMessages.reduce(
     (acc, curr, index) => {
-      const startNew = !acc.group || acc.last !== curr.user || curr.output;
+      const startNew =
+        !acc.last || acc.last.user !== curr.user ;
 
       if (startNew) {
         if (acc.group.length) {
@@ -21,14 +22,14 @@ export const ProcessedMessages = (props: {
       } else {
         acc.group = acc.group.concat(curr as any) as any;
       }
-      acc.last = curr.user as any;
+      acc.last = curr.output || curr.silent? undefined : curr as any;
       if (index === processed.length - 1) {
         acc.messages.push(acc.group);
       }
       return acc;
     },
     {
-      last: undefined,
+      last: undefined as any,
       messages: [] as any,
       group: [],
     }
