@@ -119,29 +119,40 @@ export const Interaction = (
   const PlainInteractionContainer = (props: {
     node: IBotNode;
     children: any;
-  }) => (
-    <Box
-      pad="small"
-      background={
-        props.node.properties.background || theme.global?.colors?.botBubbleColor
-      }
-      width="100%"
-      round="10px"
-    >
-      {props.node.content && (
-        <Box pad="xsmall">
-          <MarkdownView
-            variables={botContext.variables}
-            text={getInteractionLabel(props.node.content)}
-          ></MarkdownView>
-        </Box>
-      )}
-      <Box fill>{props.children}</Box>
-    </Box>
-  );
+  }) =>
+    props.node.properties.asFooter ? (
+      <>{props.children}</>
+    ) : (
+      <Box
+        pad="small"
+        background={
+          props.node.properties.background ||
+          theme.global?.colors?.botBubbleColor
+        }
+        width="100%"
+        round="10px"
+      >
+        {props.node.content && (
+          <Box pad="xsmall">
+            <MarkdownView
+              variables={botContext.variables}
+              text={getInteractionLabel(props.node.content)}
+            ></MarkdownView>
+          </Box>
+        )}
+        <Box fill>{props.children}</Box>
+      </Box>
+    );
 
   const ControlInteraction = (
-    <div ref={ref} style={{ marginTop: "20px" }}>
+    <div
+      ref={ref}
+      style={
+        props.node.properties.interactionContainerStyle || {
+          marginTop: props.node.properties.asFooter ? "0px" : "20px",
+        }
+      }
+    >
       <InteractionControl
         key={`botInteraction-${props.node?.id}`}
         onUserAction={props.onUserAction}
@@ -178,7 +189,7 @@ export const Interaction = (
         </Box>
       }
     >
-      {props.node.properties.disableBubble ? (
+      {props.node.properties.disableBubble || props.node.properties.asFooter ? (
         <PlainInteractionContainer node={props.node}>
           {ControlInteraction}
         </PlainInteractionContainer>
