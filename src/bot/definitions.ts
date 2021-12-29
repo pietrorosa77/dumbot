@@ -275,7 +275,6 @@ export interface IBotNodeInteractionProps
   extends IBotNodeInteractionLoaderProps {
   node: IBotNode;
   theme: IBotTheme;
-  setInteractionLoading: (loading: boolean) => void;
 }
 
 export interface IDumbotProps {
