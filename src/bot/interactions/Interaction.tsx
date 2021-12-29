@@ -145,6 +145,8 @@ export const Interaction = (
     </div>
   );
 
+  const displayAs = props.node.properties.displayAs || "message";
+
   return (
     <ErrorBoundary
       renderError={props.renderErrorDetails}
@@ -161,10 +163,9 @@ export const Interaction = (
         </Box>
       }
     >
-      {props.node.properties.plainInteraction ||
-      props.node.properties.asFooter ? (
+      {displayAs === "footer" || displayAs === "plain" ? (
         <>
-          {props.node.properties.plainInteraction && (
+          {displayAs === "plain" && (
             <BubbleInteractionContainer node={props.node}>
               {null}
             </BubbleInteractionContainer>

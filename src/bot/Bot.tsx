@@ -185,7 +185,9 @@ function DumbotInner(props: IDumbotProps) {
 
   const interactionOnFooter =
     botState.activeInteraction &&
-    botState.activeInteraction.properties.asFooter;
+    botState.activeInteraction.properties.displayAs === "footer"
+      ? true
+      : false;
 
   return (
     <BotContext.Provider value={botState}>
