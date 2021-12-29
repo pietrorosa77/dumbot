@@ -48,7 +48,6 @@ const BotProps: IBotThemableProps = {
   minBotColumnSize: "200px",
   avatarClock: true,
   jsonViewerTheme: "rjv-default",
-  prefillOldAnswers: true,
   botCodeHighLightTheme: "nord",
 };
 
