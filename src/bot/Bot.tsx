@@ -183,6 +183,10 @@ function DumbotInner(props: IDumbotProps) {
     onBotEvent("onChatMessage", message);
   };
 
+  const interactionOnFooter =
+    botState.activeInteraction &&
+    botState.activeInteraction.properties.asFooter;
+
   return (
     <BotContext.Provider value={botState}>
       <Box width="100%" height="100%" className={props.className}>
@@ -202,8 +206,17 @@ function DumbotInner(props: IDumbotProps) {
               height="100%"
             >
               <BotHeader
+                footerBusy={interactionOnFooter}
                 allowClose={props.allowClose}
                 onClose={() => setOpened(false)}
+                isEnd={botState.finished || false}
+                waitingForUser={botState.activeInteraction ? true : false}
+                onBack={() =>
+                  onBotEvent(
+                    botState.finished ? "onBotRestart" : "onBack",
+                    botState.activeInteraction as IBotNode
+                  )
+                }
               />
               <ChatbotContent opened={opened} ref={botBodyRef as any}>
                 <div
@@ -224,23 +237,22 @@ function DumbotInner(props: IDumbotProps) {
                         onBotEvent("onGetNextMessage", message)
                       }
                     />
-                    {botState.activeInteraction &&
-                      !botState.activeInteraction.properties.asFooter && (
-                        <Interaction
-                          node={botState.activeInteraction}
-                          key={botState.activeInteraction?.id}
-                          onAddProcessedMessage={onAddProcessedMessage}
-                          onLoaded={onLoaded}
-                          onCallHost={onCallHost}
-                          variables={botState.variables}
-                          onSetVariable={onSetVariable}
-                          onSizeChanged={() => autoscroll()}
-                          onSendAttachments={onSendAttachments}
-                          onUserAction={onUserAction}
-                          renderErrorDetails={props.renderErrorDetails}
-                          onGetExternalComponent={onGetExternalComponent}
-                        />
-                      )}
+                    {!interactionOnFooter && (
+                      <Interaction
+                        node={botState.activeInteraction}
+                        key={botState.activeInteraction?.id}
+                        onAddProcessedMessage={onAddProcessedMessage}
+                        onLoaded={onLoaded}
+                        onCallHost={onCallHost}
+                        variables={botState.variables}
+                        onSetVariable={onSetVariable}
+                        onSizeChanged={() => autoscroll()}
+                        onSendAttachments={onSendAttachments}
+                        onUserAction={onUserAction}
+                        renderErrorDetails={props.renderErrorDetails}
+                        onGetExternalComponent={onGetExternalComponent}
+                      />
+                    )}
                     <FinalNotes
                       onLoaded={onLoaded}
                       finished={botState.finished}
@@ -250,8 +262,7 @@ function DumbotInner(props: IDumbotProps) {
                   </BotLayout>
                 </div>
               </ChatbotContent>
-              {botState.activeInteraction &&
-              botState.activeInteraction.properties.asFooter ? (
+              {interactionOnFooter ? (
                 <Interaction
                   node={botState.activeInteraction}
                   key={botState.activeInteraction?.id}

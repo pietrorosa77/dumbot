@@ -2,10 +2,14 @@ import * as React from "react";
 import styled, { ThemeContext } from "styled-components";
 import { Avatar, Box } from "grommet";
 import { ActionButtonBot } from "./ActionButtonBot";
-import { FormClose } from "grommet-icons";
+import { FormClose, LinkPrevious, Rewind } from "grommet-icons";
 export interface IBotHeaderProps {
   allowClose?: boolean;
   onClose: () => void;
+  isEnd: boolean;
+  waitingForUser: boolean;
+  onBack: () => void;
+  footerBusy: boolean;
 }
 
 const Header = styled.div`
@@ -25,7 +29,7 @@ const HeaderTitle = styled.h2`
 
 export const BotHeader = (props: IBotHeaderProps) => {
   const theme = React.useContext(ThemeContext);
-
+  const Icon = props.isEnd ? Rewind : LinkPrevious;
   return (
     <Header className="rsc-header">
       <Avatar
@@ -41,6 +45,17 @@ export const BotHeader = (props: IBotHeaderProps) => {
           {theme.bot.headerText}
         </Box>
       </HeaderTitle>
+      {props.footerBusy && (((props.isEnd && theme.bot.allowRestartOnEnd) ||
+        props.waitingForUser)) && (
+        <ActionButtonBot
+          icon={<Icon size="small" />}
+          onClick={props.onBack}
+          size="small"
+          bgColor="botBackButtonBgColor"
+          fontColor="botBackButtonFontColor"
+          tip="Go back!"
+        />
+      )}
       {props.allowClose && (
         <ActionButtonBot
           onClick={props.onClose}
@@ -48,6 +63,7 @@ export const BotHeader = (props: IBotHeaderProps) => {
           bgColor="botCloseButtonBgColor"
           icon={<FormClose size="small" />}
           size="small"
+          style={{ marginLeft: "5px" }}
         />
       )}
     </Header>
