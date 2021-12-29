@@ -27,7 +27,7 @@ import { ActiveMessage } from "./ActiveMessage";
 import { FinalNotes } from "./FinalNotes";
 import { FloatingTrigger } from "./FloatingTrigger";
 import BotContext from "./BotContext";
-import { Interaction } from "./interactions/Interaction";
+import { BodyInteraction, FooterInteraction } from "./interactions/Interaction";
 import { useBotReducer } from "./botReducer";
 import { MissingExternalComponent } from "./utils";
 import { createGlobalStyle } from "styled-components";
@@ -239,22 +239,20 @@ function DumbotInner(props: IDumbotProps) {
                         onBotEvent("onGetNextMessage", message)
                       }
                     />
-                    {!interactionOnFooter && (
-                      <Interaction
-                        node={botState.activeInteraction}
-                        key={botState.activeInteraction?.id}
-                        onAddProcessedMessage={onAddProcessedMessage}
-                        onLoaded={onLoaded}
-                        onCallHost={onCallHost}
-                        variables={botState.variables}
-                        onSetVariable={onSetVariable}
-                        onSizeChanged={() => autoscroll()}
-                        onSendAttachments={onSendAttachments}
-                        onUserAction={onUserAction}
-                        renderErrorDetails={props.renderErrorDetails}
-                        onGetExternalComponent={onGetExternalComponent}
-                      />
-                    )}
+                    <BodyInteraction
+                      node={botState.activeInteraction}
+                      key={`bodyinteractionwr-${botState.activeInteraction?.id}`}
+                      onAddProcessedMessage={onAddProcessedMessage}
+                      onLoaded={onLoaded}
+                      onCallHost={onCallHost}
+                      variables={botState.variables}
+                      onSetVariable={onSetVariable}
+                      onSizeChanged={() => autoscroll()}
+                      onSendAttachments={onSendAttachments}
+                      onUserAction={onUserAction}
+                      renderErrorDetails={props.renderErrorDetails}
+                      onGetExternalComponent={onGetExternalComponent}
+                    />
                     <FinalNotes
                       onLoaded={onLoaded}
                       finished={botState.finished}
@@ -264,22 +262,21 @@ function DumbotInner(props: IDumbotProps) {
                   </BotLayout>
                 </div>
               </ChatbotContent>
-              {interactionOnFooter ? (
-                <Interaction
-                  node={botState.activeInteraction}
-                  key={botState.activeInteraction?.id}
-                  onAddProcessedMessage={onAddProcessedMessage}
-                  onLoaded={onLoaded}
-                  onCallHost={onCallHost}
-                  variables={botState.variables}
-                  onSetVariable={onSetVariable}
-                  onSizeChanged={() => autoscroll()}
-                  onSendAttachments={onSendAttachments}
-                  onUserAction={onUserAction}
-                  renderErrorDetails={props.renderErrorDetails}
-                  onGetExternalComponent={onGetExternalComponent}
-                />
-              ) : (
+              <FooterInteraction
+                node={botState.activeInteraction}
+                key={`footerinteractionwr-${botState.activeInteraction?.id}`}
+                onAddProcessedMessage={onAddProcessedMessage}
+                onLoaded={onLoaded}
+                onCallHost={onCallHost}
+                variables={botState.variables}
+                onSetVariable={onSetVariable}
+                onSizeChanged={() => autoscroll()}
+                onSendAttachments={onSendAttachments}
+                onUserAction={onUserAction}
+                renderErrorDetails={props.renderErrorDetails}
+                onGetExternalComponent={onGetExternalComponent}
+              />
+              {!interactionOnFooter && (
                 <BotFooter
                   isEnd={botState.finished || false}
                   waitingForUser={botState.activeInteraction ? true : false}

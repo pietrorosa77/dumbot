@@ -180,3 +180,37 @@ export const Interaction = (
     </ErrorBoundary>
   );
 };
+
+
+export const FooterInteraction = (
+  props: IBotNodeInteractionLoaderProps & {
+    onGetExternalComponent: (
+      props: IBotNodeInteractionProps
+    ) => (props: IBotNodeInteractionProps) => JSX.Element;
+    renderErrorDetails?: (error: any) => JSX.Element;
+    onAddProcessedMessage: (message: IChatMessage) => void;
+  }
+) => {
+  if(!props.node || props.node.properties.displayAs !== "footer") {
+    return null;
+  }
+
+  return <Interaction key={`interactionfooter-${props.node.id}`} {...props} />;
+}
+
+
+export const BodyInteraction = (
+  props: IBotNodeInteractionLoaderProps & {
+    onGetExternalComponent: (
+      props: IBotNodeInteractionProps
+    ) => (props: IBotNodeInteractionProps) => JSX.Element;
+    renderErrorDetails?: (error: any) => JSX.Element;
+    onAddProcessedMessage: (message: IChatMessage) => void;
+  }
+) => {
+  if (!props.node || props.node.properties.displayAs === "footer") {
+    return null;
+  }
+
+  return <Interaction key={`interaction-${props.node.id}`} {...props} />;
+};
