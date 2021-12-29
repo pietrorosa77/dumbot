@@ -268,7 +268,6 @@ export const Message = (
     onLoaded?: (ref: React.RefObject<any>) => void;
     viewSilentNodes: boolean;
     customAvatarSrc?: string;
-    hideAvatar?: boolean;
   }
 ) => {
   const { message, onProcessed, active } = props;
@@ -284,8 +283,10 @@ export const Message = (
   const [activeIndex, setActiveIndex] = React.useState(
     active ? 0 : messageParts.length
   );
-  const processed = messageParts.filter((c, i) => i < activeIndex);
-  const current = messageParts[activeIndex];
+  const processed = active
+    ? messageParts.filter((c, i) => i < activeIndex)
+    : messageParts;
+  const current = active ? messageParts[activeIndex] : null;
 
   const onPartProcessed = () => {
     setActiveIndex(activeIndex + 1);
@@ -298,10 +299,7 @@ export const Message = (
   }, [current, onProcessed]);
 
   const hasAvatar = (part: IMessage, index?: number) => {
-    return (
-      // part.user ||
-      messageParts.length === 1 || index === messageParts.length - 1
-    );
+    return messageParts.length === 1 || index === messageParts.length - 1;
   };
 
   const style = message.user
