@@ -268,6 +268,7 @@ export const Message = (
     onLoaded?: (ref: React.RefObject<any>) => void;
     viewSilentNodes: boolean;
     customAvatarSrc?: string;
+    hideAvatar?: boolean;
   }
 ) => {
   const { message, onProcessed, active } = props;
@@ -298,9 +299,8 @@ export const Message = (
 
   const hasAvatar = (part: IMessage, index?: number) => {
     return (
-      part.user ||
-      messageParts.length === 1 ||
-      (part.user && index === messageParts.length - 1)
+      // part.user ||
+      messageParts.length === 1 || index === messageParts.length - 1
     );
   };
 
