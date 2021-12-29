@@ -83,6 +83,7 @@ const Interaction = (
   return (
     <>
       {props.displayBubble && (
+        <>
         <MessagePartContainer
           hasAvatar={true}
           active={true}
@@ -104,6 +105,8 @@ const Interaction = (
             text={getInteractionLabel(props.node.content)}
           ></MarkdownView>
         </MessagePartContainer>
+        <div style={{height:"20px", width:"100%"}}></div>
+        </>
       )}
       <div
         key={`botInteractionContainer-${props.node?.id}`}
