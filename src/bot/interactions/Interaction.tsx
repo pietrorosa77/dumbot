@@ -201,7 +201,10 @@ export const BodyInteraction = (
       <Interaction
         key={`interaction-${props.node.id}`}
         {...props}
-        displayBubble={props.node.properties.displayAs === "message"}
+        displayBubble={
+          !props.node.properties.displayAs ||
+          props.node.properties.displayAs === "message"
+        }
       />
     </ErrorBoundary>
   );
