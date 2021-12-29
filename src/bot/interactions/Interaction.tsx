@@ -83,32 +83,33 @@ const Interaction = (
 
   return (
     <>
-      {props.displayAs === "message" && (
-        <>
-          <MessagePartContainer
-            hasAvatar={true}
-            active={true}
-            ref={usrInputRef}
-            user={false}
-            width={
-              props.node.properties.width ||
-              theme.bot?.bubbleControlWidth ||
-              "100%"
-            }
-            maxWidth={
-              props.node.properties.maxWidth ||
-              theme.bot?.bubbleControlMaxWidth ||
-              "600px"
-            }
-          >
-            <MarkdownView
-              variables={botContext.variables}
-              text={getInteractionLabel(props.node.content)}
-            ></MarkdownView>
-          </MessagePartContainer>
-          <div style={{ height: "20px", width: "100%" }}></div>
-        </>
-      )}
+      {props.displayAs === "message" &&
+        !props.node.properties.hideInteractionLabel && (
+          <>
+            <MessagePartContainer
+              hasAvatar={true}
+              active={true}
+              ref={usrInputRef}
+              user={false}
+              width={
+                props.node.properties.width ||
+                theme.bot?.bubbleControlWidth ||
+                "100%"
+              }
+              maxWidth={
+                props.node.properties.maxWidth ||
+                theme.bot?.bubbleControlMaxWidth ||
+                "600px"
+              }
+            >
+              <MarkdownView
+                variables={botContext.variables}
+                text={getInteractionLabel(props.node.content)}
+              ></MarkdownView>
+            </MessagePartContainer>
+            <div style={{ height: "20px", width: "100%" }}></div>
+          </>
+        )}
       {!props.hideInteraction && (
         <div
           key={`botInteractionContainer-${props.node?.id}`}
