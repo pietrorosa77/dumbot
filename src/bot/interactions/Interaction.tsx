@@ -40,7 +40,7 @@ const Interaction = (
     ) => (props: IBotNodeInteractionProps) => JSX.Element;
     renderErrorDetails?: (error: any) => JSX.Element;
     onAddProcessedMessage: (message: IChatMessage) => void;
-    displayBubble: boolean;
+    displayAs: "message" | "footer" | "plain";
   }
 ) => {
   const botContext: IBotState = React.useContext(BotContext);
@@ -82,7 +82,7 @@ const Interaction = (
 
   return (
     <>
-      {props.displayBubble && (
+      {props.displayAs === "message" && (
         <>
           <MessagePartContainer
             hasAvatar={true}
@@ -166,7 +166,7 @@ export const FooterInteraction = (
       <Interaction
         key={`interactionfooter-${props.node.id}`}
         {...props}
-        displayBubble={false}
+        displayAs="footer"
       />
     </ErrorBoundary>
   );
@@ -204,9 +204,8 @@ export const BodyInteraction = (
       <Interaction
         key={`interaction-${props.node.id}`}
         {...props}
-        displayBubble={
-          !props.node.properties.displayAs ||
-          props.node.properties.displayAs === "message"
+        displayAs={
+          props.node.properties.displayAs === "plain" ? "plain" : "message"
         }
       />
     </ErrorBoundary>
