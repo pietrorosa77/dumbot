@@ -262,20 +262,27 @@ function DumbotInner(props: IDumbotProps) {
                   </BotLayout>
                 </div>
               </ChatbotContent>
-              <FooterInteraction
-                node={botState.activeInteraction}
-                key={`footerinteractionwr-${botState.activeInteraction?.id}`}
-                onAddProcessedMessage={onAddProcessedMessage}
-                onLoaded={onLoaded}
-                onCallHost={onCallHost}
-                variables={botState.variables}
-                onSetVariable={onSetVariable}
-                onSizeChanged={() => autoscroll()}
-                onSendAttachments={onSendAttachments}
-                onUserAction={onUserAction}
-                renderErrorDetails={props.renderErrorDetails}
-                onGetExternalComponent={onGetExternalComponent}
-              />
+              <div
+                style={{
+                  backgroundColor: bottheme?.global?.colors
+                    ?.botFooterBgColor as any,
+                }}
+              >
+                <FooterInteraction
+                  node={botState.activeInteraction}
+                  key={`footerinteractionwr-${botState.activeInteraction?.id}`}
+                  onAddProcessedMessage={onAddProcessedMessage}
+                  onLoaded={onLoaded}
+                  onCallHost={onCallHost}
+                  variables={botState.variables}
+                  onSetVariable={onSetVariable}
+                  onSizeChanged={() => autoscroll()}
+                  onSendAttachments={onSendAttachments}
+                  onUserAction={onUserAction}
+                  renderErrorDetails={props.renderErrorDetails}
+                  onGetExternalComponent={onGetExternalComponent}
+                />
+              </div>
               {!interactionOnFooter && (
                 <BotFooter
                   isEnd={botState.finished || false}

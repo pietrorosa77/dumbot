@@ -41,6 +41,7 @@ const Interaction = (
     renderErrorDetails?: (error: any) => JSX.Element;
     onAddProcessedMessage: (message: IChatMessage) => void;
     displayAs: "message" | "footer" | "plain";
+    hideInteraction: boolean;
   }
 ) => {
   const botContext: IBotState = React.useContext(BotContext);
@@ -108,28 +109,30 @@ const Interaction = (
           <div style={{ height: "20px", width: "100%" }}></div>
         </>
       )}
-      <div
-        key={`botInteractionContainer-${props.node?.id}`}
-        ref={ref}
-        style={props.node.properties.interactionContainerStyle}
-      >
-        <InteractionControl
-          key={`botInteraction-${props.node?.id}`}
-          onUserAction={props.onUserAction}
-          node={props.node}
-          theme={theme}
-          onLoaded={props.onLoaded}
-          onSetVariable={props.onSetVariable}
-          onCallHost={props.onCallHost}
-          onSizeChanged={props.onSizeChanged}
-          variables={props.variables}
-          onSendAttachments={props.onSendAttachments}
-          onComponentError={props.onComponentError}
-          preview={props.preview}
-          customProps={props.customProps}
-          onAddProcessedMessage={props.onAddProcessedMessage}
-        />
-      </div>
+      {!props.hideInteraction && (
+        <div
+          key={`botInteractionContainer-${props.node?.id}`}
+          ref={ref}
+          style={props.node.properties.interactionContainerStyle}
+        >
+          <InteractionControl
+            key={`botInteraction-${props.node?.id}`}
+            onUserAction={props.onUserAction}
+            node={props.node}
+            theme={theme}
+            onLoaded={props.onLoaded}
+            onSetVariable={props.onSetVariable}
+            onCallHost={props.onCallHost}
+            onSizeChanged={props.onSizeChanged}
+            variables={props.variables}
+            onSendAttachments={props.onSendAttachments}
+            onComponentError={props.onComponentError}
+            preview={props.preview}
+            customProps={props.customProps}
+            onAddProcessedMessage={props.onAddProcessedMessage}
+          />
+        </div>
+      )}
     </>
   );
 };
@@ -167,6 +170,7 @@ export const FooterInteraction = (
         key={`interactionfooter-${props.node.id}`}
         {...props}
         displayAs="footer"
+        hideInteraction={false}
       />
     </ErrorBoundary>
   );
@@ -181,8 +185,19 @@ export const BodyInteraction = (
     onAddProcessedMessage: (message: IChatMessage) => void;
   }
 ) => {
-  if (!props.node || props.node.properties.displayAs === "footer") {
+  if (!props.node) {
     return null;
+  }
+
+  if (props.node.properties.displayAs === "footer") {
+    return (
+      <Interaction
+        key={`interactionfooter-${props.node.id}`}
+        {...props}
+        displayAs="message"
+        hideInteraction
+      />
+    );
   }
 
   return (
@@ -204,9 +219,8 @@ export const BodyInteraction = (
       <Interaction
         key={`interaction-${props.node.id}`}
         {...props}
-        displayAs={
-          props.node.properties.displayAs === "plain" ? "plain" : "message"
-        }
+        displayAs="message"
+        hideInteraction={false}
       />
     </ErrorBoundary>
   );
