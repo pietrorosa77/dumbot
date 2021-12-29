@@ -52,11 +52,9 @@ export const BotQuestion = (props: IBotNodeInteractionProps) => {
   const validationErrorMessage = properties.validationErrorMessage;
   const port = props.node.ports[0];
   const outputType = props.node.output.type;
-  const prevValue = props.theme.bot?.prefillOldAnswers
-    ? props.node.prevOutput?.value || ""
-    : "";
+
   const [valid, setValid] = React.useState(true);
-  const [value, setValue] = React.useState(prevValue);
+  const [value, setValue] = React.useState("");
   const [focus, setFocus] = React.useState(false);
   const botFocusColor = botColors.botFocusColor;
   const simpleColor = botColors.botBubbleColor as string;

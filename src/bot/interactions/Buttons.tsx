@@ -5,7 +5,6 @@ import { PlayFill } from "grommet-icons";
 import { IBotNodeInteractionProps, IButtonsProps } from "../definitions";
 import { GetIcon, substituteVars } from "../utils";
 import { ActionButtonBot } from "../ActionButtonBot";
-import { isArray } from "lodash";
 
 const ButtonOption = styled(Button)<{ onlyIcon: boolean; selected: boolean }>`
   background-color: ${(props) =>
@@ -53,15 +52,7 @@ const ButtonOption = styled(Button)<{ onlyIcon: boolean; selected: boolean }>`
 export const BotButtons = (props: IBotNodeInteractionProps) => {
   const controlProperties = props.node.properties as IButtonsProps;
   const portsPropertiesBag = controlProperties.ports;
-  const prevValue = props.theme.bot?.prefillOldAnswers
-    ? isArray(props.node.prevOutput?.value)
-      ? (props.node.prevOutput?.value as any[])
-      : props.node.prevOutput?.value
-      ? [props.node.prevOutput.value]
-      : []
-    : [];
-
-  const [selected, setSelected] = React.useState<string[]>(prevValue);
+  const [selected, setSelected] = React.useState<string[]>([]);
   const [valid, setValid] = React.useState(false);
 
   const type = props.node.output.type;

@@ -142,7 +142,6 @@ export interface IBotThemableProps {
   minBotColumnSize?: string;
   allowRestartOnEnd?: boolean;
   jsonViewerTheme?: string;
-  prefillOldAnswers?: boolean;
   buttonsRadius?: string;
   onlyIconButtonsRadius?: string;
   botCodeHighLightTheme?: string;
