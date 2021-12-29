@@ -116,34 +116,6 @@ export const Interaction = (
     </MessagePartContainer>
   );
 
-  // const PlainInteractionContainer = (props: {
-  //   node: IBotNode;
-  //   children: any;
-  // }) =>
-  //   props.node.properties.asFooter ? (
-  //     <>{props.children}</>
-  //   ) : (
-  //     <Box
-  //       pad="small"
-  //       background={
-  //         props.node.properties.background ||
-  //         theme.global?.colors?.botBubbleColor
-  //       }
-  //       width="100%"
-  //       round="10px"
-  //     >
-  //       {props.node.content && (
-  //         <Box pad="xsmall">
-  //           <MarkdownView
-  //             variables={botContext.variables}
-  //             text={getInteractionLabel(props.node.content)}
-  //           ></MarkdownView>
-  //         </Box>
-  //       )}
-  //       <Box fill>{props.children}</Box>
-  //     </Box>
-  //   );
-
   const ControlInteraction = (
     <div
       ref={ref}
@@ -189,8 +161,16 @@ export const Interaction = (
         </Box>
       }
     >
-      {props.node.properties.disableBubble || props.node.properties.asFooter ? (
-        <>{ControlInteraction}</>
+      {props.node.properties.plainInteraction ||
+      props.node.properties.asFooter ? (
+        <>
+          {props.node.properties.plainInteraction && (
+            <BubbleInteractionContainer node={props.node}>
+              {null}
+            </BubbleInteractionContainer>
+          )}
+          {ControlInteraction}
+        </>
       ) : (
         <BubbleInteractionContainer node={props.node}>
           {ControlInteraction}
