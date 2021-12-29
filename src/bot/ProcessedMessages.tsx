@@ -11,7 +11,7 @@ export const ProcessedMessages = (props: {
 
   const orderedGroup = props.processedMessages.reduce(
     (acc, curr, index) => {
-      const startNew = !acc.group || acc.last !== curr.user;
+      const startNew = !acc.group || acc.last !== curr.user || curr.output;
 
       if (startNew) {
         if (acc.group.length) {
