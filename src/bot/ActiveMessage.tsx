@@ -1,6 +1,6 @@
 import * as React from "react";
 import { IMessage } from "./definitions";
-import { Message } from "./Message";
+import { Message } from "./message/MessagePartCollection";
 
 export const ActiveMessage = (props: {
   activeMessage?: IMessage | null;

@@ -3,20 +3,16 @@ import { debounce } from "lodash";
 import React from "react";
 
 import useResizeObserver from "use-resize-observer";
-import BotContext from "../BotContext";
 import {
   BotNodeType,
   IBotNodeInteractionLoaderProps,
   IBotNodeInteractionProps,
-  IBotState,
   IBotTheme,
   IChatMessage,
 } from "../definitions";
 import { ErrorBoundary } from "../ErrorBoundaries";
-import { MarkdownView } from "../MarkdownView";
-import { MessagePartContainer } from "../Message";
+import { Message } from "../message/MessagePartCollection";
 import { DumbotNotification } from "../Notification";
-import { getInteractionLabel } from "../utils";
 import { BotButtons } from "./Buttons";
 import { BotQuestion } from "./Question";
 
@@ -44,7 +40,6 @@ const Interaction = (
     hideInteraction: boolean;
   }
 ) => {
-  const botContext: IBotState = React.useContext(BotContext);
   const theme: IBotTheme = React.useContext(ThemeContext) as IBotTheme;
   const usrInputRef = React.useRef<HTMLInputElement>(null);
   const InteractionControl = props.node
@@ -86,27 +81,18 @@ const Interaction = (
       {props.displayAs === "message" &&
         !props.node.properties.hideInteractionLabel && (
           <>
-            <MessagePartContainer
-              hasAvatar={true}
+            <Message
+              message={{
+                user: false,
+                exitPort: "interactionLabel",
+                id: `int-label-${props.node.id}`,
+                nodeContent: props.node.content,
+                nodeId: props.node.id,
+              }}
               active={true}
-              ref={usrInputRef}
-              user={false}
-              width={
-                props.node.properties.width ||
-                theme.bot?.bubbleControlWidth ||
-                "100%"
-              }
-              maxWidth={
-                props.node.properties.maxWidth ||
-                theme.bot?.bubbleControlMaxWidth ||
-                "600px"
-              }
-            >
-              <MarkdownView
-                variables={botContext.variables}
-                text={getInteractionLabel(props.node.content)}
-              ></MarkdownView>
-            </MessagePartContainer>
+              viewSilentNodes={false}
+              onLoaded={() => null}
+            />
             <div style={{ height: "20px", width: "100%" }}></div>
           </>
         )}

@@ -16,20 +16,6 @@ export const UserAnswer = (props: {
 }) => {
   const { type, value } = props.answer;
   const theme = React.useContext(ThemeContext).bot as IBotThemableProps;
-  if (type === "password") {
-    return <Box>{"***********"}</Box>;
-  }
-
-  if (type === "color") {
-    return <Box background={value} width="50px" height="50px" round="medium" />;
-  }
-
-  if (type === "date") {
-    const date = new Date(value);
-    return (
-      <Box>{`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`}</Box>
-    );
-  }
 
   if (type === "object") {
     return (
@@ -41,15 +27,25 @@ export const UserAnswer = (props: {
     );
   }
 
-  if (Array.isArray(value)) {
-    return (
-      <Box>
-        {value.map((el, i) => (
-          <Box key={i}>{el}</Box>
-        ))}
-      </Box>
-    );
+  if (type === "color") {
+    return <Box background={value} width="50px" height="50px" round="medium" />;
   }
 
-  return <MarkdownView text={value} variables={props.variables} />;
+  let text = value;
+  if (type === "password") {
+    text = "***********";
+  }
+
+  if (type === "date") {
+    const date = new Date(value);
+    text = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+  }
+
+  if (Array.isArray(value)) {
+    text = value.reduce((acc, c) => {
+      return `${acc}\n- ${c}`;
+    }, "");
+  }
+
+  return <MarkdownView text={text} variables={props.variables} />;
 };

@@ -228,7 +228,7 @@ const onChatMessage = (state: IBotState, message: IChatMessage): IBotState => {
     user: message.user,
     silent: false,
     nodeContent: message.content,
-    customAvatarSrc: message.avatarSrc,
+    chatMetadata: message.metadata,
     exitPort: "chat",
   };
 

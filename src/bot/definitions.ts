@@ -46,6 +46,7 @@ export interface IChatMessage {
   avatarSrc?: string;
   id?: string;
   user: boolean;
+  metadata: IChatMessageMetadata;
 }
 
 export type BotActionPayload =
@@ -81,6 +82,15 @@ export interface IBotNode {
   };
 }
 
+export interface IChatMessageMetadata {
+  nickname: string;
+  label: string;
+  bgColor?: string;
+  color?: string;
+  avatarSrc?: string;
+  nicknameColor?: string;
+}
+
 export interface IMessage {
   user: boolean;
   silent?: boolean;
@@ -93,7 +103,7 @@ export interface IMessage {
   };
   exitPort: string;
   nodeContent: string;
-  customAvatarSrc?: string;
+  chatMetadata?: IChatMessageMetadata;
 }
 
 export interface IStartNode extends IBotNode {
@@ -118,8 +128,6 @@ export interface IBotThemableProps {
   bubbleMaxWidth?: string;
   bubbleBoxShadow?: string;
   bubblePadding?: string;
-  bubbleControlWidth?: string;
-  bubbleControlMaxWidth?: string;
   avatarClock?: boolean;
   headerHeight?: string;
   headerLogoSize?: string;
@@ -146,6 +154,8 @@ export interface IBotThemableProps {
   buttonsRadius?: string;
   onlyIconButtonsRadius?: string;
   botCodeHighLightTheme?: string;
+  userNick?: string;
+  dumbotNick?: string;
 }
 
 export interface IBotThemableColors extends Colors {
@@ -318,3 +328,5 @@ export interface IDumbotProps {
   renderErrorDetails?: (error: any) => JSX.Element;
   disableAutofocus?: boolean;
 }
+
+export const USERANSWER = "<USERANSWER/>";

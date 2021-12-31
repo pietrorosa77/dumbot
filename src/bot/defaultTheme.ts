@@ -23,9 +23,7 @@ const BotProps: IBotThemableProps = {
   bubbleMaxWidth: "500px",
   bubbleBoxShadow: "0 3px 5px 0 rgba(0, 0, 0, 0.90)",
   bubblePxRadius: "18px",
-  bubblePadding: "12px",
-  bubbleControlWidth: "100%",
-  bubbleControlMaxWidth: "500px",
+  bubblePadding: "10px",
   headerHeight: "100px",
   headerLogoSize: "40px",
   headerFontSize: "20px",
@@ -49,6 +47,8 @@ const BotProps: IBotThemableProps = {
   avatarClock: true,
   jsonViewerTheme: "rjv-default",
   botCodeHighLightTheme: "nord",
+  userNick: "You",
+  dumbotNick: "Dumbot",
 };
 
 const BotColors: IBotThemableColors = {

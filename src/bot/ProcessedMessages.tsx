@@ -1,7 +1,7 @@
 import * as React from "react";
 import { BUBBLE_DELIMITER } from ".";
 import { IMessage } from "./definitions";
-import { Message } from "./Message";
+import { Message } from "./message/MessagePartCollection";
 
 export const ProcessedMessages = (props: {
   processedMessages: IMessage[];
@@ -12,7 +12,9 @@ export const ProcessedMessages = (props: {
   const orderedGroup = props.processedMessages.reduce(
     (acc, curr, index) => {
       const startNew =
-        !acc.last || acc.last.user !== curr.user ;
+        !acc.last ||
+        acc.last.user !== curr.user ||
+        acc.last.chatMetadata?.label !== curr.chatMetadata?.label;
 
       if (startNew) {
         if (acc.group.length) {
@@ -22,7 +24,7 @@ export const ProcessedMessages = (props: {
       } else {
         acc.group = acc.group.concat(curr as any) as any;
       }
-      acc.last = curr.output || curr.silent? undefined : curr as any;
+      acc.last = curr.output || curr.silent ? undefined : (curr as any);
       if (index === processed.length - 1) {
         acc.messages.push(acc.group);
       }
@@ -56,7 +58,6 @@ export const ProcessedMessages = (props: {
             viewSilentNodes={props.viewSilentNodes}
             key={m.id}
             onLoaded={() => null}
-            customAvatarSrc={m.customAvatarSrc}
           />
         );
       })}
