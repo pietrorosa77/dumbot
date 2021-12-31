@@ -19,7 +19,7 @@ import {
   MessageBoubbleContent,
 } from "./MessageBoubble";
 
-interface IMessagePartProps {
+export interface IMessagePartProps {
   message: IMessage;
   content: string;
   onProcessed?: () => void;

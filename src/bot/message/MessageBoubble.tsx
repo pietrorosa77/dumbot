@@ -1,7 +1,7 @@
 import { Avatar, Box, Clock } from "grommet";
 import styled, { css, keyframes } from "styled-components";
 
-const scale = keyframes`
+export const scale = keyframes`
   100% { transform: scale(1); }
 `;
 

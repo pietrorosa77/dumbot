@@ -17,7 +17,7 @@ export const getContentForMessage = (
   return message.nodeContent;
 };
 
-interface IMessagePartCollectionProps {
+export interface IMessagePartCollectionProps {
   message: IMessage;
   onProcessed?: () => void;
   active: boolean;
