@@ -5,13 +5,12 @@ export const scale = keyframes`
   100% { transform: scale(1); }
 `;
 
-export const Bubble = styled.div<{
+export const Bubble = styled(Box)<{
   user: boolean;
   hasAvatar: boolean;
   active: boolean;
   width?: string;
   maxWidth?: string;
-  bgColor?: string;
   color?: string;
 }>`
   display: inline-block;
@@ -23,11 +22,7 @@ export const Bubble = styled.div<{
   max-width: ${(props) => props.maxWidth || props.theme.bot.bubbleMaxWidth};
   width: ${(props) =>
     props.width ? props.width : props.theme.bot.bubbleWidth || "unset"};
-  background: ${(props) =>
-    props.bgColor ||
-    (props.user
-      ? props.theme.global.colors.botUserBubbleColor
-      : props.theme.global.colors.botBubbleColor)};
+
   border-radius: ${(props) => {
     const rd = props.theme.bot.bubblePxRadius;
     if (props.hasAvatar) {

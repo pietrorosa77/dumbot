@@ -45,7 +45,9 @@ export const MessagePart = (props: IMessagePartProps) => {
   // message cosmetics
   const avatar =
     chatMetadata?.avatarSrc || (user ? theme.userAvatar : theme.botAvatar);
-  const boubbleBgColor = chatMetadata?.bgColor;
+  const boubbleBgColor =
+    chatMetadata?.bgColor ||
+    (user ? themeColors.botUserBubbleColor : themeColors.botBubbleColor);
   const boubbleColor = chatMetadata?.color;
   const nickName =
     chatMetadata?.nickname || (user ? theme.userNick : theme.dumbotNick);
@@ -125,7 +127,7 @@ export const MessagePart = (props: IMessagePartProps) => {
             <Bubble
               user={user}
               color={boubbleColor}
-              bgColor={boubbleBgColor}
+              background={boubbleBgColor}
               className="dmbt-bubble"
               active={active}
               hasAvatar={hasAvatar && showavatar}
