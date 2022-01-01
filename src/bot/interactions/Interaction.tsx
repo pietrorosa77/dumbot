@@ -89,7 +89,7 @@ const Interaction = (
                 nodeContent: props.node.content,
                 nodeId: props.node.id,
               }}
-              active={true}
+              active={false}
               viewSilentNodes={false}
               onLoaded={() => null}
             />
