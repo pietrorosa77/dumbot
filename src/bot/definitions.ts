@@ -89,6 +89,7 @@ export interface IChatMessageMetadata {
   color?: string;
   avatarSrc?: string;
   nicknameColor?: string;
+  width?: string;
 }
 
 export interface IMessage {

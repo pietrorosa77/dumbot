@@ -26,8 +26,6 @@ export interface IMessagePartProps {
   active: boolean;
   hasAvatar: boolean;
   onLoaded: (ref: React.RefObject<any>) => void;
-  width?: string;
-  maxWidth?: string;
 }
 export const MessagePart = (props: IMessagePartProps) => {
   const themeContext = React.useContext(ThemeContext);
@@ -54,6 +52,7 @@ export const MessagePart = (props: IMessagePartProps) => {
   const nicknameColor =
     chatMetadata?.nicknameColor ||
     (user ? themeColors.botBubbleColor : themeColors.botFocusColor);
+  const messageWidth = chatMetadata?.width;
 
   React.useEffect(() => {
     let timer: any = 0;
@@ -130,8 +129,8 @@ export const MessagePart = (props: IMessagePartProps) => {
               className="dmbt-bubble"
               active={active}
               hasAvatar={hasAvatar && showavatar}
-              width={forceHideAvatars ? "100%" : props.width}
-              maxWidth={forceHideAvatars ? "100%" : props.maxWidth}
+              width={forceHideAvatars ? "100%" : messageWidth}
+              maxWidth={forceHideAvatars ? "100%" : messageWidth}
             >
               <MessageBoubbleContent
                 nickname={nickName}
