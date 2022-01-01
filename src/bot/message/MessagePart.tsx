@@ -95,7 +95,6 @@ export const MessagePart = (props: IMessagePartProps) => {
     <ResponsiveContext.Consumer>
       {(size) => {
         const forceHideAvatars = size === "onlyMessages";
-        console.log("SIZE IS", size);
         return (
           <Box
             direction={user ? "row-reverse" : "row"}
