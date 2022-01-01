@@ -258,7 +258,7 @@ function DumbotInner(props: IDumbotProps) {
                       finished={botState.finished}
                       finalMessageContent={theme.finalMessageContent}
                     />
-                    <div ref={scrollRef} style={{ height: "10px" }} />
+                    <div ref={scrollRef} style={{ height: "20px" }} />
                   </BotLayout>
                 </div>
               </ChatbotContent>
