@@ -104,7 +104,9 @@ const onGetPrevMessage = (
   }
 
   const prevMessages = state.processedMessages.filter(
-    (el) => el.wasInteractive && el.nodeId !== activeInteraction.id
+    (el) =>
+      ["chat", "label"].includes(el.desc || "") &&
+      el.nodeId !== activeInteraction.id
   );
 
   let prevMessage = null;
@@ -173,9 +175,9 @@ const onUserAction = (state: IBotState, userAnswer: IUserAction): IBotState => {
 
   const processedMessage: IMessage = {
     nodeId: activeNode.id,
-    output: userAnswer,
-    wasInteractive: !silent,
+    //output: userAnswer,
     id: nanoid(),
+    desc: !silent ? "label" : "",
     user: false,
     silent,
     nodeContent: silent
@@ -202,7 +204,7 @@ const onUserAction = (state: IBotState, userAnswer: IUserAction): IBotState => {
     },
     id: nanoid(),
     user: true,
-    nodeContent:activeNode.content,
+    nodeContent: "", // note useful here since the render will take the output
     silent,
     exitPort: userAnswer.port,
   };
@@ -228,10 +230,10 @@ const onChatMessage = (state: IBotState, message: IChatMessage): IBotState => {
 
   const processedMessage: IMessage = {
     nodeId: activeNode ? activeNode.id : nanoid(),
-    wasInteractive: true,
     id: messageId,
     user: message.user,
     silent: false,
+    desc: message.desc || "chat",
     nodeContent: message.content,
     chatMetadata: message.metadata,
     exitPort: "chat",

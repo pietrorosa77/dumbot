@@ -47,6 +47,7 @@ export interface IChatMessage {
   avatarSrc?: string;
   id?: string;
   user: boolean;
+  desc?: string;
   metadata: IChatMessageMetadata;
 }
 
@@ -96,7 +97,6 @@ export interface IChatMessageMetadata {
 export interface IMessage {
   user: boolean;
   silent?: boolean;
-  wasInteractive?: boolean;
   id: string;
   nodeId: string;
   output?: {
@@ -107,6 +107,7 @@ export interface IMessage {
   exitPort: string;
   nodeContent: string;
   chatMetadata?: IChatMessageMetadata;
+  desc?: string;
 }
 
 export interface IStartNode extends IBotNode {
