@@ -170,6 +170,7 @@ const onGetNextMessage = (
 const onUserAction = (state: IBotState, userAnswer: IUserAction): IBotState => {
   const activeNode = state.activeInteraction as IBotNode;
   const silent = activeNode.silent;
+
   const processedMessage: IMessage = {
     nodeId: activeNode.id,
     output: userAnswer,
@@ -182,6 +183,7 @@ const onUserAction = (state: IBotState, userAnswer: IUserAction): IBotState => {
       : activeNode.content,
     exitPort: userAnswer.port,
   };
+
   const outputVarId = activeNode.output?.id || activeNode.id;
   const converted = convertToType({
     value: userAnswer.value,
@@ -194,10 +196,13 @@ const onUserAction = (state: IBotState, userAnswer: IUserAction): IBotState => {
 
   const activeMessage: IMessage = {
     nodeId: activeNode.id,
-    output: userAnswer,
+    output: {
+      ...userAnswer,
+      id: outputVarId,
+    },
     id: nanoid(),
     user: true,
-    nodeContent: activeNode.content,
+    nodeContent:activeNode.content,
     silent,
     exitPort: userAnswer.port,
   };

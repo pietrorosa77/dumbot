@@ -86,7 +86,12 @@ export const BotQuestion = (props: IBotNodeInteractionProps) => {
     if (!value) {
       return;
     }
-    props.onUserAction({ value, port, type: outputType, id: props.node.id });
+    props.onUserAction({
+      value,
+      port,
+      type: outputType,
+      id: props.node.output.id,
+    });
   };
 
   return (

@@ -34,6 +34,7 @@ export interface IUserAction {
   type: BotNodeOutputType;
   value: any;
   port: string;
+  id?: string;
 }
 
 export interface ISetVariable {
@@ -101,6 +102,7 @@ export interface IMessage {
   output?: {
     value: any;
     type: BotNodeOutputType;
+    id?: string;
   };
   exitPort: string;
   nodeContent: string;
