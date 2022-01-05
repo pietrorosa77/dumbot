@@ -6,7 +6,6 @@ import { BotTheme } from "./defaultTheme";
 import {
   Actions,
   BotActionPayload,
-  BotNodeOutputType,
   IBotNode,
   IBotNodeInteractionProps,
   IBotState,
@@ -15,6 +14,7 @@ import {
   IChatMessage,
   IDumbotProps,
   IMessage,
+  IUserAction,
 } from "./definitions";
 
 import { deepMerge } from "grommet/utils";
@@ -152,12 +152,7 @@ function DumbotInner(props: IDumbotProps) {
     }
   };
 
-  const onUserAction = (answer: {
-    value: any;
-    port: string;
-    type: BotNodeOutputType;
-    id: string;
-  }) => {
+  const onUserAction = (answer: IUserAction) => {
     onBotEvent("onUserAction", answer);
     if (props.onUserAction) {
       props.onUserAction(answer);

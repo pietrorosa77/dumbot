@@ -278,12 +278,7 @@ export interface IBotNodeInteractionLoaderProps {
   onSetVariable: (name: string, value: any) => void;
   onSizeChanged: (w: number, h: number) => void;
   onComponentError?: (error: any) => void;
-  onUserAction: (answer: {
-    value: any;
-    port: string;
-    type: BotNodeOutputType;
-    id: string;
-  }) => void;
+  onUserAction: (answer: IUserAction) => void;
   onLoaded: (ref: React.RefObject<any>) => void;
 }
 
@@ -311,12 +306,7 @@ export interface IDumbotProps {
   height?: string;
   width?: string;
   onToggle?: (opened: boolean) => void;
-  onUserAction?: (answer: {
-    value: any;
-    port: string;
-    type: BotNodeOutputType;
-    id: string;
-  }) => void;
+  onUserAction?: (answer: IUserAction) => void;
   onCallHost?: (label: string, variables: any) => Promise<any>;
   onSetVariable?: (name: string, value: any) => void;
   onSizeChanged?: (width: number, height: number) => void;
