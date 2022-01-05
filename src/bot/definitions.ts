@@ -15,7 +15,8 @@ export type BotNodeOutputType =
   | "file"
   | "color"
   | "error"
-  | "text";
+  | "text"
+  | `Custom-${string}`;
 
 export type Actions =
   | "onBack"
@@ -35,6 +36,7 @@ export interface IUserAction {
   value: any;
   port: string;
   id?: string;
+  stateTransformer?: (state: IBotState) => IBotState;
 }
 
 export interface ISetVariable {
@@ -331,6 +333,13 @@ export interface IDumbotProps {
   ) => (props: IBotNodeInteractionProps) => JSX.Element;
   renderErrorDetails?: (error: any) => JSX.Element;
   disableAutofocus?: boolean;
+  getCustomUserAnswer: (props: ICustomUserComponentAnswerProps) => JSX.Element;
+}
+
+export interface ICustomUserComponentAnswerProps {
+  type: string;
+  value: any;
+  variables: any;
 }
 
 export const USERANSWER = "<USERANSWER/>";

@@ -1,13 +1,13 @@
-import * as React from "react";
-import { IMessage } from "./definitions";
+import { ICustomUserComponentAnswerProps, IMessage } from "./definitions";
 import { Message } from "./message/MessagePartCollection";
 
-export const ActiveMessage = (props: {
+export function ActiveMessage(props: {
   activeMessage?: IMessage | null;
   viewSilentNodes: boolean;
   onLoaded: () => void;
   onProcessed: (message: IMessage) => void;
-}) => {
+  getCustomUserAnswer: (props: ICustomUserComponentAnswerProps) => JSX.Element;
+}) {
   const activeMessage = props.activeMessage;
   if (!activeMessage) {
     return null;
@@ -20,7 +20,7 @@ export const ActiveMessage = (props: {
       key={activeMessage.id}
       viewSilentNodes={props.viewSilentNodes}
       onLoaded={props.onLoaded}
-      onProcessed={() => props.onProcessed(activeMessage)}
-    />
+      getCustomUserAnswer={props.getCustomUserAnswer}
+      onProcessed={() => props.onProcessed(activeMessage)} />
   );
-};
+}

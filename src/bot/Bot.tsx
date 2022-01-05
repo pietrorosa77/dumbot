@@ -228,6 +228,7 @@ function DumbotInner(props: IDumbotProps) {
                   <BotLayout>
                     <ProcessedMessages
                       processedMessages={botState.processedMessages}
+                      getCustomUserAnswer={props.getCustomUserAnswer}
                       viewSilentNodes={props.viewSilentNodes || false}
                     />
                     <ActiveMessage
@@ -235,6 +236,7 @@ function DumbotInner(props: IDumbotProps) {
                       activeMessage={botState.activeMessage}
                       viewSilentNodes={props.viewSilentNodes || false}
                       onLoaded={onLoaded}
+                      getCustomUserAnswer={props.getCustomUserAnswer}
                       onProcessed={(message: IMessage) =>
                         onBotEvent("onGetNextMessage", message)
                       }

@@ -1,11 +1,12 @@
 import * as React from "react";
 import { BUBBLE_DELIMITER } from ".";
-import { IMessage } from "./definitions";
+import { ICustomUserComponentAnswerProps, IMessage } from "./definitions";
 import { Message } from "./message/MessagePartCollection";
 
 export const ProcessedMessages = (props: {
   processedMessages: IMessage[];
   viewSilentNodes: boolean;
+  getCustomUserAnswer: (props: ICustomUserComponentAnswerProps) => JSX.Element;
 }) => {
   const processed = props.processedMessages || [];
 
@@ -14,7 +15,8 @@ export const ProcessedMessages = (props: {
       const startNew =
         !acc.last ||
         acc.last.user !== curr.user ||
-        acc.last.chatMetadata?.label !== curr.chatMetadata?.label;
+        acc.last.chatMetadata?.label !== curr.chatMetadata?.label ||
+        acc.last.chatMetadata?.nickname !== curr.chatMetadata?.nickname;
 
       if (startNew) {
         if (acc.group.length) {
@@ -57,6 +59,7 @@ export const ProcessedMessages = (props: {
             active={false}
             viewSilentNodes={props.viewSilentNodes}
             key={m.id}
+            getCustomUserAnswer={props.getCustomUserAnswer}
             onLoaded={() => null}
           />
         );

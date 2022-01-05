@@ -173,6 +173,16 @@ const onUserAction = (state: IBotState, userAnswer: IUserAction): IBotState => {
   const activeNode = state.activeInteraction as IBotNode;
   const silent = activeNode.silent;
 
+  const outputVarId = activeNode.output?.id || activeNode.id;
+  const converted = convertToType({
+    value: userAnswer.value,
+    type: userAnswer.type,
+  });
+  const variables = {
+    ...state.variables,
+    [`${outputVarId}`]: converted,
+  };
+
   const processedMessage: IMessage = {
     nodeId: activeNode.id,
     //output: userAnswer,
@@ -184,16 +194,6 @@ const onUserAction = (state: IBotState, userAnswer: IUserAction): IBotState => {
       ? `silent ${activeNode.type} - ${activeNode.title}`
       : activeNode.content,
     exitPort: userAnswer.port,
-  };
-
-  const outputVarId = activeNode.output?.id || activeNode.id;
-  const converted = convertToType({
-    value: userAnswer.value,
-    type: userAnswer.type,
-  });
-  const variables = {
-    ...state.variables,
-    [`${outputVarId}`]: converted,
   };
 
   const activeMessage: IMessage = {
@@ -209,13 +209,19 @@ const onUserAction = (state: IBotState, userAnswer: IUserAction): IBotState => {
     exitPort: userAnswer.port,
   };
 
-  return {
+  const newState = {
     ...state,
     variables,
     activeMessage,
     activeInteraction: null,
     processedMessages: state.processedMessages.concat([processedMessage]),
   };
+
+  if (userAnswer.stateTransformer) {
+    return userAnswer.stateTransformer(newState);
+  }
+
+  return newState;
 };
 
 const onChatMessage = (state: IBotState, message: IChatMessage): IBotState => {
