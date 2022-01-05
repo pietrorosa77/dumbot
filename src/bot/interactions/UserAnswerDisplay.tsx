@@ -17,7 +17,7 @@ export const UserAnswer = (props: {
     value: string;
   };
   variables?: any;
-  getCustomUserAnswer: (props: ICustomUserComponentAnswerProps) => JSX.Element;
+  getCustomUserAnswer?: (props: ICustomUserComponentAnswerProps) => JSX.Element;
 }) => {
   const { type, value } = props.answer;
   const theme = React.useContext(ThemeContext).bot as IBotThemableProps;
@@ -52,7 +52,7 @@ export const UserAnswer = (props: {
     }, "");
   }
 
-  if (type && type.startsWith("Custom-")) {
+  if (type && type.startsWith("Custom-") && props.getCustomUserAnswer) {
     return props.getCustomUserAnswer({
       type: type.replace("Custom-", ""),
       variables: props.variables,

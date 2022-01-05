@@ -28,7 +28,7 @@ export interface IMessagePartCollectionProps {
   active: boolean;
   onLoaded?: (ref: React.RefObject<any>) => void;
   viewSilentNodes: boolean;
-  getCustomUserAnswer: (props: ICustomUserComponentAnswerProps) => JSX.Element;
+  getCustomUserAnswer?: (props: ICustomUserComponentAnswerProps) => JSX.Element;
 }
 
 export const Message = (props: IMessagePartCollectionProps) => {
