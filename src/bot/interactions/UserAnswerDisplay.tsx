@@ -15,7 +15,7 @@ import { FileSummary } from "./FileSummary";
 export const UserAnswer = (props: {
   answer: {
     type: BotNodeOutputType;
-    value: string;
+    value: any;
   };
   variables?: any;
   getCustomUserAnswer?: (props: ICustomUserComponentAnswerProps) => JSX.Element;
