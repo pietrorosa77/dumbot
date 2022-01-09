@@ -10,6 +10,7 @@ import {
 // eslint-disable-next-line
 import * as themes from "react-json-prettify/dist/themes";
 import { MarkdownView } from "../MarkdownView";
+import { FileSummary } from "./FileSummary";
 
 export const UserAnswer = (props: {
   answer: {
@@ -34,6 +35,10 @@ export const UserAnswer = (props: {
 
   if (type === "color") {
     return <Box background={value} width="50px" height="50px" round="medium" />;
+  }
+
+  if (type === "file") {
+    return <FileSummary files={value} />;
   }
 
   let text = value;
