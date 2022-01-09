@@ -62,7 +62,9 @@ function DumbotInner(props: IDumbotProps) {
 
   const autoscroll = (element: HTMLDivElement | null) => {
     if (element) {
-      element.scroll({ top: element.scrollHeight, behavior: "smooth" });
+      window.requestAnimationFrame(() =>
+        element.scroll({ top: element.scrollHeight, behavior: "smooth" })
+      );
     }
   };
 
