@@ -23,7 +23,7 @@ export type Actions =
   | "onGetNextMessage"
   | "onUserAction"
   | "onSetVariable"
-  | "onChatMessage"
+  | "onCustomMessage"
   | "onBotRestart";
 
 export const BUBBLE_DELIMITER = "<dumbot-boubble/>";
@@ -44,21 +44,7 @@ export interface ISetVariable {
   value: any;
 }
 
-export interface IChatMessage {
-  content: string;
-  avatarSrc?: string;
-  id?: string;
-  user: boolean;
-  desc?: string;
-  metadata: IChatMessageMetadata;
-}
-
-export type BotActionPayload =
-  | IUserAction
-  | IMessage
-  | IBotNode
-  | ISetVariable
-  | IChatMessage;
+export type BotActionPayload = IUserAction | IMessage | IBotNode | ISetVariable;
 
 export interface IBotNode {
   id: string;
@@ -86,7 +72,7 @@ export interface IBotNode {
   };
 }
 
-export interface IChatMessageMetadata {
+export interface IMessageMetadata {
   nickname: string;
   label: string;
   bgColor?: string;
@@ -94,6 +80,7 @@ export interface IChatMessageMetadata {
   avatarSrc?: string;
   nicknameColor?: string;
   width?: string;
+  [key: string]: any;
 }
 
 export interface IMessage {
@@ -108,7 +95,7 @@ export interface IMessage {
   };
   exitPort: string;
   nodeContent: string;
-  chatMetadata?: IChatMessageMetadata;
+  metadata?: IMessageMetadata;
   desc?: string;
 }
 

@@ -41,22 +41,22 @@ export const MessagePart = (props: IMessagePartProps) => {
   const [loading, setLoading] = React.useState(active);
   // 0 means the node will be processed, 2 it's been already processed, 1 processed should notify parent
   const [processed, setProcessed] = React.useState<0 | 1 | 2>(active ? 0 : 2);
-  const { user, output, chatMetadata } = props.message;
+  const { user, output, metadata } = props.message;
   const propsOnLoaded = props.onLoaded;
 
   // message cosmetics
   const avatar =
-    chatMetadata?.avatarSrc || (user ? theme.userAvatar : theme.botAvatar);
+    metadata?.avatarSrc || (user ? theme.userAvatar : theme.botAvatar);
   const boubbleBgColor =
-    chatMetadata?.bgColor ||
+    metadata?.bgColor ||
     (user ? themeColors.botUserBubbleColor : themeColors.botBubbleColor);
-  const boubbleColor = chatMetadata?.color;
+  const boubbleColor = metadata?.color;
   const nickName =
-    chatMetadata?.nickname || (user ? theme.userNick : theme.dumbotNick);
+    metadata?.nickname || (user ? theme.userNick : theme.dumbotNick);
   const nicknameColor =
-    chatMetadata?.nicknameColor ||
+    metadata?.nicknameColor ||
     (user ? themeColors.botBubbleColor : themeColors.botFocusColor);
-  const messageWidth = chatMetadata?.width;
+  const messageWidth = metadata?.width;
 
   React.useEffect(() => {
     let timer: any = 0;

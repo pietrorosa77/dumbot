@@ -4,7 +4,6 @@ import {
   BotActionPayload,
   IBotNode,
   IBotState,
-  IChatMessage,
   IMessage,
   ISetVariable,
   IUserAction,
@@ -53,8 +52,8 @@ export const reducer = (
 ) => {
   let ret: IBotState;
   switch (action.type) {
-    case "onChatMessage":
-      ret = onChatMessage(state, action.payload as IChatMessage);
+    case "onCustomMessage":
+      ret = onCustomMessage(state, action.payload as IMessage);
       break;
     case "onUserAction":
       ret = onUserAction(state, action.payload as IUserAction);
@@ -105,7 +104,7 @@ const onGetPrevMessage = (
 
   const prevMessages = state.processedMessages.filter(
     (el) =>
-      ["chat", "label"].includes(el.desc || "") &&
+      ["chat", "label", "skip"].includes(el.desc || "") &&
       el.nodeId !== activeInteraction.id
   );
 
@@ -224,7 +223,7 @@ const onUserAction = (state: IBotState, userAnswer: IUserAction): IBotState => {
   return newState;
 };
 
-const onChatMessage = (state: IBotState, message: IChatMessage): IBotState => {
+const onCustomMessage = (state: IBotState, message: IMessage): IBotState => {
   const activeNode = state.activeInteraction as IBotNode;
   const messageId = message.id || nanoid();
   const exists = state.processedMessages.find((m) => m.id === messageId);
@@ -239,10 +238,10 @@ const onChatMessage = (state: IBotState, message: IChatMessage): IBotState => {
     id: messageId,
     user: message.user,
     silent: false,
-    desc: message.desc || "chat",
-    nodeContent: message.content,
-    chatMetadata: message.metadata,
-    exitPort: "chat",
+    desc: message.desc,
+    nodeContent: message.nodeContent,
+    metadata: message.metadata,
+    exitPort: message.exitPort,
   };
 
   return {

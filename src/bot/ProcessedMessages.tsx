@@ -15,8 +15,8 @@ export const ProcessedMessages = (props: {
       const startNew =
         !acc.last ||
         acc.last.user !== curr.user ||
-        acc.last.chatMetadata?.label !== curr.chatMetadata?.label ||
-        acc.last.chatMetadata?.nickname !== curr.chatMetadata?.nickname;
+        acc.last.metadata?.label !== curr.metadata?.label ||
+        acc.last.metadata?.nickname !== curr.metadata?.nickname;
 
       if (startNew) {
         if (acc.group.length) {

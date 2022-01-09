@@ -11,7 +11,6 @@ import {
   IBotState,
   IBotThemableProps,
   IBotTheme,
-  IChatMessage,
   IDumbotProps,
   IMessage,
   IUserAction,
@@ -174,8 +173,8 @@ function DumbotInner(props: IDumbotProps) {
     }
   };
 
-  const onAddProcessedMessage = (message: IChatMessage) => {
-    onBotEvent("onChatMessage", message);
+  const onAddProcessedMessage = (message: IMessage) => {
+    onBotEvent("onCustomMessage", message);
   };
 
   const interactionOnFooter =

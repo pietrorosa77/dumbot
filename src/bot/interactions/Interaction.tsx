@@ -8,7 +8,7 @@ import {
   IBotNodeInteractionLoaderProps,
   IBotNodeInteractionProps,
   IBotTheme,
-  IChatMessage,
+  IMessage,
 } from "../definitions";
 import { ErrorBoundary } from "../ErrorBoundaries";
 import { Message } from "../message/MessagePartCollection";
@@ -21,7 +21,7 @@ const InteractionsMap = new Map<
   BotNodeType,
   (
     props: IBotNodeInteractionProps & {
-      onAddProcessedMessage: (message: IChatMessage) => void;
+      onAddProcessedMessage: (message: IMessage) => void;
     }
   ) => JSX.Element
 >([
@@ -35,7 +35,7 @@ const Interaction = (
       props: IBotNodeInteractionProps
     ) => (props: IBotNodeInteractionProps) => JSX.Element;
     renderErrorDetails?: (error: any) => JSX.Element;
-    onAddProcessedMessage: (message: IChatMessage) => void;
+    onAddProcessedMessage: (message: IMessage) => void;
     displayAs: "message" | "footer" | "plain";
     hideInteraction: boolean;
   }
@@ -130,7 +130,7 @@ export const FooterInteraction = (
       props: IBotNodeInteractionProps
     ) => (props: IBotNodeInteractionProps) => JSX.Element;
     renderErrorDetails?: (error: any) => JSX.Element;
-    onAddProcessedMessage: (message: IChatMessage) => void;
+    onAddProcessedMessage: (message: IMessage) => void;
   }
 ) => {
   if (!props.node || props.node.properties.displayAs !== "footer") {
@@ -169,7 +169,7 @@ export const BodyInteraction = (
       props: IBotNodeInteractionProps
     ) => (props: IBotNodeInteractionProps) => JSX.Element;
     renderErrorDetails?: (error: any) => JSX.Element;
-    onAddProcessedMessage: (message: IChatMessage) => void;
+    onAddProcessedMessage: (message: IMessage) => void;
   }
 ) => {
   if (!props.node) {
