@@ -239,7 +239,7 @@ function DumbotInner(props: IDumbotProps) {
                     finished={botState.finished}
                     finalMessageContent={theme.finalMessageContent}
                   />
-                  <div style={{ height: "30px" }} />
+                  <div style={{ height: "50px" }} />
                 </BotLayout>
               </ChatbotContent>
               <div
