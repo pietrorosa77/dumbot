@@ -1,8 +1,5 @@
 import { Box, ThemeContext } from "grommet";
-import { debounce } from "lodash";
 import React from "react";
-
-import useResizeObserver from "use-resize-observer";
 import {
   BotNodeType,
   IBotNodeInteractionLoaderProps,
@@ -46,21 +43,7 @@ const Interaction = (
     ? InteractionsMap.get(props.node.type) ||
       props.onGetExternalComponent(props as any)
     : EmptyInteraction;
-  const propsOnSizeChanged = props.onSizeChanged;
   const propsOnLoaded = props.onLoaded;
-
-  const onResize = React.useMemo(
-    () =>
-      debounce(
-        (size: { width: any; height: any }) => {
-          propsOnSizeChanged(size.width, size.height);
-        },
-        1000,
-        { leading: true }
-      ),
-    [propsOnSizeChanged]
-  );
-  const { ref } = useResizeObserver({ onResize });
 
   React.useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -99,7 +82,7 @@ const Interaction = (
       {!props.hideInteraction && (
         <div
           key={`botInteractionContainer-${props.node?.id}`}
-          ref={ref}
+          // ref={ref}
           style={props.node.properties.interactionContainerStyle}
         >
           <InteractionControl
@@ -110,7 +93,7 @@ const Interaction = (
             onLoaded={props.onLoaded}
             onSetVariable={props.onSetVariable}
             onCallHost={props.onCallHost}
-            onSizeChanged={props.onSizeChanged}
+            // onSizeChanged={props.onSizeChanged}
             variables={props.variables}
             onSendAttachments={props.onSendAttachments}
             onComponentError={props.onComponentError}

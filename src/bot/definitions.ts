@@ -263,7 +263,6 @@ export interface IBotNodeInteractionLoaderProps {
     variables: { [key: string]: any }
   ) => Promise<any>;
   onSetVariable: (name: string, value: any) => void;
-  onSizeChanged: (w: number, h: number) => void;
   onComponentError?: (error: any) => void;
   onUserAction: (answer: IUserAction) => void;
   onLoaded: (ref: React.RefObject<any>) => void;
@@ -296,7 +295,6 @@ export interface IDumbotProps {
   onUserAction?: (answer: IUserAction) => void;
   onCallHost?: (label: string, variables: any) => Promise<any>;
   onSetVariable?: (name: string, value: any) => void;
-  onSizeChanged?: (width: number, height: number) => void;
   onSendAttachments?: (files: any[]) => Promise<void>;
   onStateChanging?: (
     state: IBotState,

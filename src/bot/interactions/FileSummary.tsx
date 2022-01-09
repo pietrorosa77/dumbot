@@ -1,9 +1,23 @@
-import { Box } from "grommet";
+import { Anchor, Box } from "grommet";
+import { Attachment } from "grommet-icons";
 
-export const FileSummary = (props: { files: any }) => {
+export const FileSummary = (props: {
+  files: {
+    url: string;
+    name: string;
+    mime: string;
+  }[];
+}) => {
   return (
-    <Box align="center" justify="start" pad="none" fill>
-      sho files here {props.files}
+    <Box pad="small" gap="small" fill>
+      {props.files.map((f, i) => {
+        <Anchor
+          key={`${f.url}-${i}`}
+          icon={<Attachment />}
+          label={f.name}
+          href={f.url}
+        />;
+      })}
     </Box>
   );
 };
