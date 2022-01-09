@@ -18,7 +18,6 @@ import {
 
 import { deepMerge } from "grommet/utils";
 import { BotLayout, ChatBotContainer, ChatbotContent } from "./Container";
-import useResizeObserver from "use-resize-observer";
 import { BotHeader } from "./Header";
 import { BotFooter } from "./Footer";
 import { ProcessedMessages } from "./ProcessedMessages";
@@ -55,25 +54,17 @@ function DumbotInner(props: IDumbotProps) {
   const bottheme: IBotTheme = React.useContext(ThemeContext);
   const theme = bottheme.bot as IBotThemableProps;
   const botBodyRef = React.createRef<HTMLDivElement>();
-  const scrollRef = React.createRef<HTMLDivElement>();
   const onToggleProp = props.onToggle;
-  const debouncedResize = () =>
-    window.requestAnimationFrame(() => {
-      if (scrollRef.current) {
-        scrollRef.current.scrollIntoView({
-          behavior: "smooth",
-          block: "end",
-          inline: "end",
-        });
-      }
-    });
-  const { ref } = useResizeObserver({
-    onResize: debouncedResize,
-  });
 
   const [opened, setOpened] = React.useState(
     props.initiallyClosed && props.allowClose ? false : true
   );
+
+  const autoscroll = (element: HTMLDivElement | null) => {
+    if (element) {
+      element.scroll({ top: element.scrollHeight, behavior: "smooth" });
+    }
+  };
 
   const [botState, dispatch] = useBotReducer(
     reducer,
@@ -103,10 +94,6 @@ function DumbotInner(props: IDumbotProps) {
     },
     [onToggleProp]
   );
-
-  React.useEffect(() => {
-    onToggle(opened);
-  }, [opened, onToggle]);
 
   const onBotEvent = (type: Actions, payload: BotActionPayload) => {
     dispatch({ type, payload });
@@ -145,6 +132,7 @@ function DumbotInner(props: IDumbotProps) {
   };
 
   const onLoaded = () => {
+    autoscroll(botBodyRef.current);
     if (opened && botBodyRef.current && !props.disableAutofocus) {
       botBodyRef.current.focus();
     }
@@ -161,6 +149,23 @@ function DumbotInner(props: IDumbotProps) {
   const onAddProcessedMessage = (message: IMessage) => {
     onBotEvent("onCustomMessage", message);
   };
+
+  React.useEffect(() => {
+    const resizeListener = () =>
+      window.requestAnimationFrame(() => autoscroll(botBodyRef.current));
+    window.addEventListener("resize", resizeListener);
+    return () => {
+      window.removeEventListener("resize", resizeListener);
+    };
+  }, [botBodyRef]);
+
+  React.useEffect(() => {
+    onToggle(opened);
+  }, [opened, onToggle]);
+
+  React.useEffect(() => {
+    autoscroll(botBodyRef.current);
+  }, [botBodyRef]);
 
   const interactionOnFooter =
     botState.activeInteraction &&
@@ -200,46 +205,42 @@ function DumbotInner(props: IDumbotProps) {
                 }
               />
               <ChatbotContent opened={opened} ref={botBodyRef as any}>
-                <div style={{ height: "calc(100% - 40px)", padding: "15px" }}>
-                  <BotLayout>
-                    <div ref={ref}>
-                      <ProcessedMessages
-                        processedMessages={botState.processedMessages}
-                        getCustomUserAnswer={props.getCustomUserAnswer}
-                        viewSilentNodes={props.viewSilentNodes || false}
-                      />
-                      <ActiveMessage
-                        key={botState.activeMessage?.id}
-                        activeMessage={botState.activeMessage}
-                        viewSilentNodes={props.viewSilentNodes || false}
-                        onLoaded={onLoaded}
-                        getCustomUserAnswer={props.getCustomUserAnswer}
-                        onProcessed={(message: IMessage) =>
-                          onBotEvent("onGetNextMessage", message)
-                        }
-                      />
-                      <BodyInteraction
-                        node={botState.activeInteraction}
-                        key={`bodyinteractionwr-${botState.activeInteraction?.id}`}
-                        onAddProcessedMessage={onAddProcessedMessage}
-                        onLoaded={onLoaded}
-                        onCallHost={onCallHost}
-                        variables={botState.variables}
-                        onSetVariable={onSetVariable}
-                        onSendAttachments={onSendAttachments}
-                        onUserAction={onUserAction}
-                        renderErrorDetails={props.renderErrorDetails}
-                        onGetExternalComponent={onGetExternalComponent}
-                      />
-                      <FinalNotes
-                        onLoaded={onLoaded}
-                        finished={botState.finished}
-                        finalMessageContent={theme.finalMessageContent}
-                      />
-                      <div ref={scrollRef} style={{ height: "20px" }} />
-                    </div>
-                  </BotLayout>
-                </div>
+                <BotLayout>
+                  <ProcessedMessages
+                    processedMessages={botState.processedMessages}
+                    getCustomUserAnswer={props.getCustomUserAnswer}
+                    viewSilentNodes={props.viewSilentNodes || false}
+                  />
+                  <ActiveMessage
+                    key={botState.activeMessage?.id}
+                    activeMessage={botState.activeMessage}
+                    viewSilentNodes={props.viewSilentNodes || false}
+                    onLoaded={onLoaded}
+                    getCustomUserAnswer={props.getCustomUserAnswer}
+                    onProcessed={(message: IMessage) =>
+                      onBotEvent("onGetNextMessage", message)
+                    }
+                  />
+                  <BodyInteraction
+                    node={botState.activeInteraction}
+                    key={`bodyinteractionwr-${botState.activeInteraction?.id}`}
+                    onAddProcessedMessage={onAddProcessedMessage}
+                    onLoaded={onLoaded}
+                    onCallHost={onCallHost}
+                    variables={botState.variables}
+                    onSetVariable={onSetVariable}
+                    onSendAttachments={onSendAttachments}
+                    onUserAction={onUserAction}
+                    renderErrorDetails={props.renderErrorDetails}
+                    onGetExternalComponent={onGetExternalComponent}
+                  />
+                  <FinalNotes
+                    onLoaded={onLoaded}
+                    finished={botState.finished}
+                    finalMessageContent={theme.finalMessageContent}
+                  />
+                  <div style={{ height: "30px" }} />
+                </BotLayout>
               </ChatbotContent>
               <div
                 style={{

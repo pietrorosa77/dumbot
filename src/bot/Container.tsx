@@ -27,6 +27,10 @@ const ChatBotContentWrpper = styled.div`
   padding-top: 2px;
   padding-bottom: 2px;
   .dumbot-scrollable-container {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    scroll-behaviour: smooth;
     &:focus {
       outline: none;
     }
@@ -48,20 +52,12 @@ export const ChatbotContent = React.forwardRef(
     props: { children: any; opened: boolean },
     contentRef: LegacyRef<HTMLDivElement>
   ) => {
-    const style: React.CSSProperties = {
-      width: "100%",
-      height: "100%",
-      overflowY: "auto",
-      scrollBehavior: "smooth",
-    };
-
     return (
       <ChatBotContentWrpper>
         <div
-          className="dumbot-scrollable-container"
-          tabIndex={0}
-          style={style}
           ref={contentRef}
+          tabIndex={0}
+          className="dumbot-scrollable-container"
         >
           {props.opened ? props.children : null}
         </div>
