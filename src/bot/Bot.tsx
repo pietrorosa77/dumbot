@@ -93,6 +93,7 @@ function DumbotInner(props: IDumbotProps) {
       if (onToggleProp) {
         onToggleProp(opened);
       }
+      setOpened(opened);
     },
     [onToggleProp]
   );
@@ -162,10 +163,6 @@ function DumbotInner(props: IDumbotProps) {
   }, [botBodyRef]);
 
   React.useEffect(() => {
-    onToggle(opened);
-  }, [opened, onToggle]);
-
-  React.useEffect(() => {
     autoscroll(botBodyRef.current);
   }, [botBodyRef]);
 
@@ -183,7 +180,7 @@ function DumbotInner(props: IDumbotProps) {
           opened={opened}
           icon={props.trigger?.icon}
           size={props.trigger?.size}
-          onToggleBot={(toggled) => setOpened(toggled)}
+          onToggleBot={onToggle}
         />
         <ChatBotContainer opened={opened}>
           <Box direction="row" overflow="hidden" width="100%" height="100%">
@@ -196,7 +193,7 @@ function DumbotInner(props: IDumbotProps) {
               <BotHeader
                 footerBusy={interactionOnFooter}
                 allowClose={props.allowClose}
-                onClose={() => setOpened(false)}
+                onClose={() => onToggle(false)}
                 isEnd={botState.finished || false}
                 waitingForUser={botState.activeInteraction ? true : false}
                 onBack={() =>
