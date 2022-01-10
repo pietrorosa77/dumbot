@@ -16,6 +16,7 @@ export type BotNodeOutputType =
   | "color"
   | "error"
   | "text"
+  | "dateRange"
   | `Custom-${string}`;
 
 export type Actions =
@@ -204,6 +205,7 @@ export interface IInputControlProperties
   }>;
   validationErrorMessage?: string;
   controlType: BotInputType;
+  format?:string;
 }
 
 export interface IInputComponentProps {

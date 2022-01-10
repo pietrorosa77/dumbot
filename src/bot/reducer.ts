@@ -9,7 +9,6 @@ import {
   IUserAction,
 } from "./definitions";
 import {
-  convertToType,
   getBotStartingNode,
   getNextBotNodeId,
   getNodeFromState,
@@ -171,20 +170,14 @@ const onGetNextMessage = (
 const onUserAction = (state: IBotState, userAnswer: IUserAction): IBotState => {
   const activeNode = state.activeInteraction as IBotNode;
   const silent = activeNode.silent;
-
   const outputVarId = activeNode.output?.id || activeNode.id;
-  const converted = convertToType({
-    value: userAnswer.value,
-    type: userAnswer.type,
-  });
   const variables = {
     ...state.variables,
-    [`${outputVarId}`]: converted,
+    [`${outputVarId}`]: userAnswer.value,
   };
 
   const processedMessage: IMessage = {
     nodeId: activeNode.id,
-    //output: userAnswer,
     id: nanoid(),
     desc: !silent ? "label" : "",
     user: false,

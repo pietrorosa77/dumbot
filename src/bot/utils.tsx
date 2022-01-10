@@ -1,7 +1,6 @@
 import { get, isEmpty } from "lodash";
 import { DEFAULT_PORT_ID as DefaultPort } from ".";
 import {
-  BotNodeOutputType,
   BUBBLE_DELIMITER,
   DEFAULT_PORT_ID,
   IBotNode,
@@ -11,30 +10,6 @@ import {
 import { DumbotNotification } from "./Notification";
 import * as AllIcons from "grommet-icons";
 import { Avatar } from "grommet";
-
-export const convertToType = ({
-  value,
-  type,
-}: {
-  value: any;
-  type: BotNodeOutputType;
-}) => {
-  const varType = typeof value;
-  if (varType === type) {
-    return value;
-  }
-
-  switch (type) {
-    case "string":
-      return value.toString();
-    case "number":
-      return Number(value);
-    case "date":
-      return new Date(value);
-    default:
-      return value;
-  }
-};
 
 export const getNodeFromState = (state: IBotState, id: string) => {
   return state.nodes.find((el) => el.id === id) as IBotNode;

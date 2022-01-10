@@ -48,13 +48,20 @@ export const UserAnswer = (props: {
 
   if (type === "date") {
     const date = new Date(value);
-    text = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+    text = `${date.toLocaleDateString()}`;
   }
 
   if (Array.isArray(value)) {
     text = value.reduce((acc, c) => {
       return `${acc}\n- ${c}`;
     }, "");
+  }
+
+  if (type === "dateRange") {
+    const [from, to] = value;
+    text = `${new Date(from).toLocaleDateString()} - ${new Date(
+      to
+    ).toLocaleDateString()}`;
   }
 
   if (type && type.startsWith("Custom-") && props.getCustomUserAnswer) {

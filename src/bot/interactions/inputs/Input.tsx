@@ -1,9 +1,11 @@
-import { Keyboard, TextInput } from "grommet";
+import { DateInput, Keyboard, TextInput } from "grommet";
 import React, { ChangeEvent } from "react";
 import { IInputComponentProps } from "../../definitions";
 
 export const BotTextInput = (props: IInputComponentProps) => {
   const suggestionsProps = props.inputProps.suggestions;
+  const renderCalendar =
+    props.inputProps.type === "dateRange" || props.inputProps.type === "date";
   const allSuggestions = React.useMemo(
     () => suggestionsProps || [],
     [suggestionsProps]
@@ -28,6 +30,10 @@ export const BotTextInput = (props: IInputComponentProps) => {
     props.onChange(nextValue);
   };
 
+  const onChangeCal = (event: { value: any }) => {
+    props.onChange(event.value);
+  };
+
   const onSelect = (event: any) => {
     event.fromSuggestion = true;
     props.onChange(event.suggestion);
@@ -43,24 +49,38 @@ export const BotTextInput = (props: IInputComponentProps) => {
 
   return (
     <Keyboard target="component" onEnter={onSubmit}>
-      <TextInput
-        {...props.inputProps}
-        focusIndicator={false}
-        plain
-        tabIndex={0}
-        onFocus={() => props.onFocus(true)}
-        onBlur={() => props.onFocus(false)}
-        value={newValue}
-        onChange={onChange}
-        onSelect={onSelect}
-        suggestions={suggestions}
-        style={{
-          fontWeight: "normal",
-          color: props.fontColor,
-        }}
-        icon={props.Icon}
-        width="100%"
-      />
+      <>
+        {!renderCalendar && (
+          <TextInput
+            {...{ ...props.inputProps, format: undefined }}
+            focusIndicator={false}
+            plain
+            tabIndex={0}
+            onFocus={() => props.onFocus(true)}
+            onBlur={() => props.onFocus(false)}
+            value={newValue}
+            onChange={onChange}
+            onSelect={onSelect}
+            suggestions={suggestions}
+            style={{
+              fontWeight: "normal",
+              color: props.fontColor,
+            }}
+            icon={props.Icon}
+            width="100%"
+          />
+        )}
+        {renderCalendar && (
+          <DateInput
+            dropProps={{
+              stretch: false,
+            }}
+            format={props.inputProps.format}
+            value={newValue}
+            onChange={onChangeCal}
+          />
+        )}
+      </>
     </Keyboard>
   );
 };
