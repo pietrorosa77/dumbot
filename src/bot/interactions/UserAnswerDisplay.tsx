@@ -41,27 +41,22 @@ export const UserAnswer = (props: {
     return <FileSummary files={value} />;
   }
 
-  let text = value;
   if (type === "password") {
-    text = "***********";
+    return <MarkdownView text="***********" variables={props.variables} />;
   }
 
   if (type === "date") {
-    const date = new Date(value);
-    text = `${date.toLocaleDateString()}`;
-  }
-
-  if (Array.isArray(value)) {
-    text = value.reduce((acc, c) => {
-      return `${acc}\n- ${c}`;
-    }, "");
-  }
-
-  if (type === "dateRange") {
-    const [from, to] = value;
-    text = `${new Date(from).toLocaleDateString()} - ${new Date(
-      to
-    ).toLocaleDateString()}`;
+    let dateStr;
+    if (Array.isArray(value)) {
+      const [from, to] = value;
+      dateStr = `${new Date(from).toLocaleDateString()} - ${new Date(
+        to
+      ).toLocaleDateString()}`;
+    } else {
+      const date = new Date(value);
+      dateStr = `${date.toLocaleDateString()}`;
+    }
+    return <MarkdownView text={dateStr} variables={props.variables} />;
   }
 
   if (type && type.startsWith("Custom-") && props.getCustomUserAnswer) {
@@ -72,5 +67,12 @@ export const UserAnswer = (props: {
     });
   }
 
-  return <MarkdownView text={text} variables={props.variables} />;
+  if (Array.isArray(value)) {
+    const text = value.reduce((acc, c) => {
+      return `${acc}\n- ${c}`;
+    }, "");
+    return <MarkdownView text={text} variables={props.variables} />;
+  }
+
+  return <MarkdownView text={value} variables={props.variables} />;
 };

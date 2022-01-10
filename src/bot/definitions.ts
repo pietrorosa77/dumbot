@@ -16,7 +16,6 @@ export type BotNodeOutputType =
   | "color"
   | "error"
   | "text"
-  | "dateRange"
   | `Custom-${string}`;
 
 export type Actions =

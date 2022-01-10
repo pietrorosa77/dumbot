@@ -4,8 +4,7 @@ import { IInputComponentProps } from "../../definitions";
 
 export const BotTextInput = (props: IInputComponentProps) => {
   const suggestionsProps = props.inputProps.suggestions;
-  const renderCalendar =
-    props.inputProps.type === "dateRange" || props.inputProps.type === "date";
+  const renderCalendar = props.inputProps.type === "date";
   const allSuggestions = React.useMemo(
     () => suggestionsProps || [],
     [suggestionsProps]
