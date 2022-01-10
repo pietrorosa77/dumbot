@@ -74,6 +74,12 @@ export const BotTextInput = (props: IInputComponentProps) => {
             dropProps={{
               stretch: false,
             }}
+            inputProps={{
+              focusIndicator: false,
+              onFocus: () => props.onFocus(true),
+              onBlur: () => props.onFocus(false),
+            }}
+            size={props.inputProps.size as any}
             format={props.inputProps.format}
             value={newValue}
             onChange={onChangeCal}
