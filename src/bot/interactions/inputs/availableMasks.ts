@@ -170,7 +170,7 @@ export const dateTimeMask = (value: any) => [
       /^[1-2]$|^19$|^20$|^19[0-9]$|^20[0-9]$|^19[0-9][0-9]$|^20[0-9][0-9]$/,
     placeholder: "yyyy",
   },
-  { fixed: "/" },
+  { fixed: "," },
   {
     length: [1, 2],
     options: Array.from({ length: 12 }, (v, k) => k + 1),
