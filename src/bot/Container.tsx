@@ -40,15 +40,20 @@ export const ChatBotContainer = styled.div<IBotContainer>`
   width: 100%;
   height: 100%;
   z-index: 999;
-  transform: ${({ opened }) => (opened ? "scale(1)" : "scale(0)")};
-  transition: transform 0.3s ease;
-  transform-origin: center;
-  .dumbot-innerContainer {
-    animation: ${({ opened }) => (opened ? showElement : hideElement)} 1s
-      ease-in;
-    animation-fill-mode: forwards;
-  }
+  display: ${({ opened }) => (opened ? "flex" : "none")};
+  animation: ${({ opened }) => (opened ? showElement : hideElement)} 0.5s
+    ease-in;
+  animation-fill-mode: forwards;
 `;
+
+// transform: ${({ opened }) => (opened ? "scale(1)" : "scale(0)")};
+// transition: transform 0.5s ease;
+// transform-origin: center;
+// .dumbot-innerContainer {
+//   animation: ${({ opened }) => (opened ? showElement : hideElement)} 0.3s
+//     ease-in;
+//   animation-fill-mode: forwards;
+// }
 
 const ChatBotContentWrpper = styled.div`
   background: ${({ theme }) => theme.global.colors.botBackground};

@@ -64,14 +64,14 @@ const StyledTriggerButton = styled(TriggerButton)<{
   padding: string;
 }>`
   position: relative;
-
-  transform: ${(props) => (props.opened ? "scale(0)" : "scale(1)")};
-  transition: transform 0.3s ease;
   padding: ${(props) => props.padding};
   z-index: 999;
   display: flex;
   align-self: center;
 `;
+
+// transform: ${(props) => (props.opened ? "scale(0)" : "scale(1)")};
+// transition: transform 0.3s ease;
 
 const paddingMap = {
   medium: "20px",
@@ -91,7 +91,7 @@ export const FloatingTrigger = (props: {
   const theme: IBotThemableProps = React.useContext(ThemeContext)
     .bot as IBotThemableProps;
 
-  if (!props.allowClose) {
+  if (!props.allowClose || props.opened) {
     return null;
   }
 
