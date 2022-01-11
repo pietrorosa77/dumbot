@@ -59,6 +59,13 @@ function DumbotInner(props: IDumbotProps) {
     props.initiallyClosed && props.allowClose ? false : true
   );
 
+  React.useEffect(() => {
+    if (props.onToggle) {
+      props.onToggle(opened);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [opened]);
+
   const autoscroll = (element: HTMLDivElement | null) => {
     if (element) {
       window.requestAnimationFrame(() =>
@@ -89,9 +96,6 @@ function DumbotInner(props: IDumbotProps) {
 
   const onToggle = (opened: boolean) => {
     setOpened(opened);
-    if (props.onToggle) {
-      props.onToggle(opened);
-    }
   };
 
   const onBotEvent = (type: Actions, payload: BotActionPayload) => {
