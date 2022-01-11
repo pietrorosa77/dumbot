@@ -1,21 +1,9 @@
 import React, { LegacyRef } from "react";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 export interface IBotContainer {
   opened: boolean;
 }
-
-const hideElement = keyframes`
-    from {
-      opacity: 1;
-    }
-    3% {
-      opacity: 0;
-    }
-    to {
-      opacity: 0;
-    }
-`;
 
 const showElement = keyframes`
     from {
@@ -41,8 +29,13 @@ export const ChatBotContainer = styled.div<IBotContainer>`
   height: 100%;
   z-index: 999;
   display: ${({ opened }) => (opened ? "flex" : "none")};
-  animation: ${({ opened }) => (opened ? showElement : hideElement)} 0.5s
-    ease-in;
+  ${({ opened }) =>
+    opened
+      ? css`
+          animation: ${showElement} 0.5s ease-in;
+        `
+      : ""}
+
   animation-fill-mode: forwards;
 `;
 

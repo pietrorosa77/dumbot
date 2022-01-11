@@ -45,7 +45,7 @@ export const BotTextInput = (props: IInputComponentProps) => {
 
     props.onSubmit();
   };
-
+  const plainProp = { plain: true } as any;
   return (
     <Keyboard target="component" onEnter={onSubmit}>
       <>
@@ -71,18 +71,23 @@ export const BotTextInput = (props: IInputComponentProps) => {
         )}
         {renderCalendar && (
           <DateInput
+            className="dateinput"
             dropProps={{
               stretch: false,
+              overflow: "scroll",
+              responsive: true,
             }}
             inputProps={{
+              readOnly: true,
               focusIndicator: false,
               onFocus: () => props.onFocus(true),
               onBlur: () => props.onFocus(false),
             }}
-            size={props.inputProps.size as any}
+            size={"small"}
             format={props.inputProps.format}
             value={newValue}
             onChange={onChangeCal}
+            {...plainProp}
           />
         )}
       </>

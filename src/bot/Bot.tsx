@@ -90,10 +90,11 @@ function DumbotInner(props: IDumbotProps) {
 
   const onToggle = React.useCallback(
     (opened: boolean) => {
+      setOpened(opened);
       if (onToggleProp) {
         onToggleProp(opened);
       }
-      window.requestAnimationFrame(() => setOpened(opened));
+      // window.requestAnimationFrame(() => setOpened(opened));
     },
     [onToggleProp]
   );
