@@ -93,7 +93,7 @@ function DumbotInner(props: IDumbotProps) {
       if (onToggleProp) {
         onToggleProp(opened);
       }
-      setOpened(opened);
+      window.requestAnimationFrame(() => setOpened(opened));
     },
     [onToggleProp]
   );
@@ -183,7 +183,13 @@ function DumbotInner(props: IDumbotProps) {
           onToggleBot={onToggle}
         />
         <ChatBotContainer opened={opened}>
-          <Box direction="row" overflow="hidden" width="100%" height="100%">
+          <Box
+            className="dumbot-innerContainer"
+            direction="row"
+            overflow="hidden"
+            width="100%"
+            height="100%"
+          >
             <Box
               direction="column"
               overflow="hidden"

@@ -1,9 +1,33 @@
 import React, { LegacyRef } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export interface IBotContainer {
   opened: boolean;
 }
+
+const hideElement = keyframes`
+    from {
+      opacity: 1;
+    }
+    3% {
+      opacity: 0;
+    }
+    to {
+      opacity: 0;
+    }
+`;
+
+const showElement = keyframes`
+    from {
+      opacity: 0;
+    }
+    75% {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+`;
 
 export const ChatBotContainer = styled.div<IBotContainer>`
   background: transparent;
@@ -18,6 +42,12 @@ export const ChatBotContainer = styled.div<IBotContainer>`
   z-index: 999;
   transform: ${({ opened }) => (opened ? "scale(1)" : "scale(0)")};
   transition: transform 0.3s ease;
+  transform-origin: center;
+  .dumbot-innerContainer {
+    animation: ${({ opened }) => (opened ? showElement : hideElement)} 1s
+      ease-in;
+    animation-fill-mode: forwards;
+  }
 `;
 
 const ChatBotContentWrpper = styled.div`

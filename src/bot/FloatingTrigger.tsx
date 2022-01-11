@@ -66,7 +66,7 @@ const StyledTriggerButton = styled(TriggerButton)<{
   position: relative;
 
   transform: ${(props) => (props.opened ? "scale(0)" : "scale(1)")};
-  transition: transform 0.5s ease;
+  transition: transform 0.3s ease;
   padding: ${(props) => props.padding};
   z-index: 999;
   display: flex;
