@@ -70,9 +70,6 @@ const StyledTriggerButton = styled(TriggerButton)<{
   align-self: center;
 `;
 
-// transform: ${(props) => (props.opened ? "scale(0)" : "scale(1)")};
-// transition: transform 0.3s ease;
-
 const paddingMap = {
   medium: "20px",
   small: "30px",
@@ -83,7 +80,6 @@ export const FloatingTrigger = (props: {
   icon?: string;
   opened: boolean;
   size?: "large" | "medium" | "small";
-  allowClose?: boolean;
   onToggleBot: (toggled: boolean) => void;
 }) => {
   const size = props.size || "medium";
@@ -91,7 +87,7 @@ export const FloatingTrigger = (props: {
   const theme: IBotThemableProps = React.useContext(ThemeContext)
     .bot as IBotThemableProps;
 
-  if (!props.allowClose || props.opened) {
+  if (props.opened) {
     return null;
   }
 

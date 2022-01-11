@@ -172,7 +172,6 @@ function DumbotInner(props: IDumbotProps) {
     <BotContext.Provider value={botState}>
       <Box width="100%" height="100%" className={props.className}>
         <FloatingTrigger
-          allowClose={props.allowClose}
           opened={opened}
           icon={props.trigger?.icon}
           size={props.trigger?.size}
@@ -205,7 +204,7 @@ function DumbotInner(props: IDumbotProps) {
                   )
                 }
               />
-              <ChatbotContent opened={opened} ref={botBodyRef as any}>
+              <ChatbotContent ref={botBodyRef as any}>
                 <BotLayout>
                   <ProcessedMessages
                     processedMessages={botState.processedMessages}
