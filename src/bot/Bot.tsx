@@ -54,7 +54,6 @@ function DumbotInner(props: IDumbotProps) {
   const bottheme: IBotTheme = React.useContext(ThemeContext);
   const theme = bottheme.bot as IBotThemableProps;
   const botBodyRef = React.createRef<HTMLDivElement>();
-  const onToggleProp = props.onToggle;
 
   const [opened, setOpened] = React.useState(
     props.initiallyClosed && props.allowClose ? false : true
@@ -88,16 +87,12 @@ function DumbotInner(props: IDumbotProps) {
     }
   );
 
-  const onToggle = React.useCallback(
-    (opened: boolean) => {
-      setOpened(opened);
-      if (onToggleProp) {
-        onToggleProp(opened);
-      }
-      // window.requestAnimationFrame(() => setOpened(opened));
-    },
-    [onToggleProp]
-  );
+  const onToggle = (opened: boolean) => {
+    setOpened(opened);
+    if (props.onToggle) {
+      props.onToggle(opened);
+    }
+  };
 
   const onBotEvent = (type: Actions, payload: BotActionPayload) => {
     dispatch({ type, payload });
