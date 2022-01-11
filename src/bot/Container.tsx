@@ -48,7 +48,7 @@ const ChatBotContentWrpper = styled.div`
 
 export const ChatbotContent = React.forwardRef(
   (
-    props: { children: any; },
+    props: { children: any; opened: boolean },
     contentRef: LegacyRef<HTMLDivElement>
   ) => {
     return (
@@ -58,7 +58,7 @@ export const ChatbotContent = React.forwardRef(
           tabIndex={0}
           className="dumbot-scrollable-container"
         >
-          {props.children}
+          {props.opened ? props.children : null}
         </div>
       </ChatBotContentWrpper>
     );

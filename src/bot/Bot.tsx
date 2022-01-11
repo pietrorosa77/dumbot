@@ -204,7 +204,7 @@ function DumbotInner(props: IDumbotProps) {
                   )
                 }
               />
-              <ChatbotContent ref={botBodyRef as any}>
+              <ChatbotContent opened={opened} ref={botBodyRef as any}>
                 <BotLayout>
                   <ProcessedMessages
                     processedMessages={botState.processedMessages}
