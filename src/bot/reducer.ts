@@ -235,6 +235,7 @@ const onCustomMessage = (state: IBotState, message: IMessage): IBotState => {
     nodeContent: message.nodeContent,
     metadata: message.metadata,
     exitPort: message.exitPort,
+    output: message.output
   };
 
   return {
