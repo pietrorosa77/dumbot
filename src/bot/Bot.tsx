@@ -55,9 +55,7 @@ function DumbotInner(props: IDumbotProps) {
   const theme = bottheme.bot as IBotThemableProps;
   const botBodyRef = React.createRef<HTMLDivElement>();
 
-  const [opened, setOpened] = React.useState(
-    props.initiallyClosed && props.allowClose ? false : true
-  );
+  const [opened, setOpened] = React.useState(props.initiallyClosed ? false : true);
 
   React.useEffect(() => {
     if (props.onToggle) {
