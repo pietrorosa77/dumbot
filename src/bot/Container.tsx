@@ -1,9 +1,18 @@
 import React, { LegacyRef } from "react";
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 export interface IBotContainer {
   opened: boolean;
 }
+
+const showElement = keyframes`
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+`;
 
 export const ChatBotContainer = styled.div<IBotContainer>`
   background: transparent;
@@ -16,8 +25,26 @@ export const ChatBotContainer = styled.div<IBotContainer>`
   width: 100%;
   height: 100%;
   z-index: 999;
+  opacity: 0;
   display: ${({ opened }) => (opened ? "flex" : "none")};
+  ${({ opened }) =>
+    opened
+      ? css`
+          animation: ${showElement} 0.3s ease-in;
+        `
+      : ""}
+  animation-delay:0.5s;
+  animation-fill-mode: forwards;
 `;
+
+// transform: ${({ opened }) => (opened ? "scale(1)" : "scale(0)")};
+// transition: transform 0.5s ease;
+// transform-origin: center;
+// .dumbot-innerContainer {
+//   animation: ${({ opened }) => (opened ? showElement : hideElement)} 0.3s
+//     ease-in;
+//   animation-fill-mode: forwards;
+// }
 
 const ChatBotContentWrpper = styled.div`
   background: ${({ theme }) => theme.global.colors.botBackground};
