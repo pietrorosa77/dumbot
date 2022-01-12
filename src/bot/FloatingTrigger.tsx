@@ -1,6 +1,6 @@
 import { Button, Box, Avatar } from "grommet";
 import * as React from "react";
-import styled, { ThemeContext } from "styled-components";
+import styled, { css, keyframes, ThemeContext } from "styled-components";
 import { IBotThemableProps } from "./definitions";
 
 const TriggerButton = styled(Button)<{
@@ -59,6 +59,15 @@ const TriggerButton = styled(Button)<{
   `};
 `;
 
+const showElement = keyframes`
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+`;
+
 const StyledTriggerButton = styled(TriggerButton)<{
   opened: boolean;
   padding: string;
@@ -68,6 +77,15 @@ const StyledTriggerButton = styled(TriggerButton)<{
   z-index: 999;
   display: flex;
   align-self: center;
+  opacity: 0;
+  ${({ opened }) =>
+    !opened
+      ? css`
+          animation: ${showElement} 0.3s ease-in;
+        `
+      : ""}
+  animation-delay:0.6s;
+  animation-fill-mode: forwards;
 `;
 
 const paddingMap = {

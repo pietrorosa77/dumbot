@@ -33,18 +33,9 @@ export const ChatBotContainer = styled.div<IBotContainer>`
           animation: ${showElement} 0.3s ease-in;
         `
       : ""}
-  animation-delay:0.5s;
+  animation-delay:0.6s;
   animation-fill-mode: forwards;
 `;
-
-// transform: ${({ opened }) => (opened ? "scale(1)" : "scale(0)")};
-// transition: transform 0.5s ease;
-// transform-origin: center;
-// .dumbot-innerContainer {
-//   animation: ${({ opened }) => (opened ? showElement : hideElement)} 0.3s
-//     ease-in;
-//   animation-fill-mode: forwards;
-// }
 
 const ChatBotContentWrpper = styled.div`
   background: ${({ theme }) => theme.global.colors.botBackground};
