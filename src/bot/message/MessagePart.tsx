@@ -1,4 +1,4 @@
-import { Box, ResponsiveContext } from "grommet";
+import { Box } from "grommet";
 import React from "react";
 import { ThemeContext } from "styled-components";
 import { MarkdownView } from "..";
@@ -95,61 +95,56 @@ export const MessagePart = (props: IMessagePartProps) => {
     <MarkdownView text={props.content} variables={botContext.variables} />
   );
 
+  const forceHideAvatars = false;
+
   return (
-    <ResponsiveContext.Consumer>
-      {(size) => {
-        const forceHideAvatars = size === "onlyMessages";
-        return (
-          <Box
-            direction={user ? "row-reverse" : "row"}
-            align="end"
-            pad="xsmall"
-            alignSelf="end"
-            alignContent="end"
-            gap="medium"
-            ref={refEl}
-            style={{
-              justifyContent: user ? "end" : "start",
-              outline: "none",
-            }}
-            className={`message-part ${
-              user ? "message-part-user" : "message-part-bot"
-            }`}
-          >
-            {showavatar && !forceHideAvatars && (
-              <AvatarContainer>
-                <BotAvatar
-                  user={user}
-                  active={active}
-                  src={avatar}
-                  size={theme.avatarSize}
-                  stay={hasAvatar}
-                />
-              </AvatarContainer>
-            )}
-            <Bubble
-              user={user}
-              color={boubbleColor}
-              background={boubbleBgColor}
-              className="dmbt-bubble"
-              active={active}
-              hasAvatar={hasAvatar && showavatar}
-              width={forceHideAvatars ? "100%" : messageWidth}
-              maxWidth={forceHideAvatars ? "100%" : messageWidth}
-            >
-              <MessageBoubbleContent
-                nickname={nickName}
-                nicknameColor={nicknameColor}
-                showClock={theme.avatarClock}
-                loading={loading}
-              >
-                {loading && <LoadingMessage />}
-                {MessageDisplay}
-              </MessageBoubbleContent>
-            </Bubble>
-          </Box>
-        );
+    <Box
+      direction={user ? "row-reverse" : "row"}
+      align="end"
+      pad="xsmall"
+      alignSelf="end"
+      alignContent="end"
+      gap="medium"
+      ref={refEl}
+      style={{
+        justifyContent: user ? "end" : "start",
+        outline: "none",
       }}
-    </ResponsiveContext.Consumer>
+      className={`message-part ${
+        user ? "message-part-user" : "message-part-bot"
+      }`}
+    >
+      {showavatar && !forceHideAvatars && (
+        <AvatarContainer>
+          <BotAvatar
+            user={user}
+            active={active}
+            src={avatar}
+            size={theme.avatarSize}
+            stay={hasAvatar}
+          />
+        </AvatarContainer>
+      )}
+      <Bubble
+        user={user}
+        color={boubbleColor}
+        background={boubbleBgColor}
+        className="dmbt-bubble"
+        active={active}
+        hasAvatar={hasAvatar && showavatar}
+        width={forceHideAvatars ? "100%" : messageWidth}
+        maxWidth={forceHideAvatars ? "100%" : messageWidth}
+      >
+        <MessageBoubbleContent
+          nickname={nickName}
+          nicknameColor={nicknameColor}
+          showClock={theme.avatarClock}
+          loading={loading}
+        >
+          {loading && <LoadingMessage />}
+          {MessageDisplay}
+        </MessageBoubbleContent>
+      </Bubble>
+    </Box>
   );
 };
