@@ -38,6 +38,7 @@ export const MessagePart = (props: IMessagePartProps) => {
   const { onProcessed, active, hasAvatar } = props;
   const refEl = React.useRef<HTMLDivElement>(null);
   const [loading, setLoading] = React.useState(active);
+  const [forceHideAvatars, setForceHideAvatars] = React.useState(false);
   // 0 means the node will be processed, 2 it's been already processed, 1 processed should notify parent
   const [processed, setProcessed] = React.useState<0 | 1 | 2>(active ? 0 : 2);
   const { user, output, metadata } = props.message;
@@ -56,6 +57,28 @@ export const MessagePart = (props: IMessagePartProps) => {
     metadata?.nicknameColor ||
     (user ? themeColors.botBubbleColor : themeColors.botFocusColor);
   const messageWidth = metadata?.width;
+
+  React.useEffect(() => {
+    const mq = window.matchMedia(
+      `(max-width: ${themeContext.global.breakpoints.onlyMessages.value}px)`
+    );
+    function checkSmallScreen(e: MediaQueryListEvent) {
+      if (e.matches) {
+        /* the viewport is onlyMessages pixels wide or less */
+        setForceHideAvatars(true);
+      } else {
+        /* the viewport is more than onlyMessages pixels wide */
+        setForceHideAvatars(false);
+      }
+    }
+
+    mq.addEventListener("change", checkSmallScreen);
+
+    return () => {
+      mq.removeEventListener("change", checkSmallScreen);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [true]);
 
   React.useEffect(() => {
     let timer: any = 0;
@@ -94,8 +117,6 @@ export const MessagePart = (props: IMessagePartProps) => {
   ) : (
     <MarkdownView text={props.content} variables={botContext.variables} />
   );
-
-  const forceHideAvatars = false;
 
   return (
     <Box
