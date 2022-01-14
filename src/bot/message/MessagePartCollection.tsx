@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BUBBLE_DELIMITER,
-  ICustomUserComponentAnswerProps,
-  IMessage,
-  USERANSWER,
-} from "../definitions";
+import { BUBBLE_DELIMITER, IMessage, USERANSWER } from "../definitions";
 import { MessagePart } from "./MessagePart";
 
 export const getContentForMessage = (
@@ -28,7 +23,7 @@ export interface IMessagePartCollectionProps {
   active: boolean;
   onLoaded?: (ref: React.RefObject<any>) => void;
   viewSilentNodes: boolean;
-  getCustomUserAnswer?: (props: ICustomUserComponentAnswerProps) => JSX.Element;
+  CustomAnswer?: React.FC<IMessage>;
 }
 
 export const Message = (props: IMessagePartCollectionProps) => {
@@ -76,7 +71,7 @@ export const Message = (props: IMessagePartCollectionProps) => {
           message={part}
           content={part.content}
           active={false}
-          getCustomUserAnswer={props.getCustomUserAnswer}
+          CustomAnswer={props.CustomAnswer}
           onLoaded={props.onLoaded || (() => null)}
           hasAvatar={hasAvatar(part, i)}
         />
@@ -89,7 +84,7 @@ export const Message = (props: IMessagePartCollectionProps) => {
           key={`${current.id}-${activeIndex}`}
           onProcessed={onPartProcessed}
           active={true}
-          getCustomUserAnswer={props.getCustomUserAnswer}
+          CustomAnswer={props.CustomAnswer}
           hasAvatar={hasAvatar(current)}
         />
       )}

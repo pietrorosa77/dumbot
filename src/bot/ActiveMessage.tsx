@@ -1,4 +1,4 @@
-import { ICustomUserComponentAnswerProps, IMessage } from "./definitions";
+import { IMessage } from "./definitions";
 import { Message } from "./message/MessagePartCollection";
 
 export function ActiveMessage(props: {
@@ -6,7 +6,7 @@ export function ActiveMessage(props: {
   viewSilentNodes: boolean;
   onLoaded: () => void;
   onProcessed: (message: IMessage) => void;
-  getCustomUserAnswer: (props: ICustomUserComponentAnswerProps) => JSX.Element;
+  CustomAnswer?: React.FC<IMessage>;
 }) {
   const activeMessage = props.activeMessage;
   if (!activeMessage) {
@@ -20,7 +20,8 @@ export function ActiveMessage(props: {
       key={activeMessage.id}
       viewSilentNodes={props.viewSilentNodes}
       onLoaded={props.onLoaded}
-      getCustomUserAnswer={props.getCustomUserAnswer}
-      onProcessed={() => props.onProcessed(activeMessage)} />
+      CustomAnswer={props.CustomAnswer}
+      onProcessed={() => props.onProcessed(activeMessage)}
+    />
   );
 }

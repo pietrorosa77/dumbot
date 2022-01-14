@@ -1,12 +1,12 @@
 import * as React from "react";
 import { BUBBLE_DELIMITER } from ".";
-import { ICustomUserComponentAnswerProps, IMessage } from "./definitions";
+import { IMessage } from "./definitions";
 import { Message } from "./message/MessagePartCollection";
 
 export const ProcessedMessages = (props: {
   processedMessages: IMessage[];
   viewSilentNodes: boolean;
-  getCustomUserAnswer: (props: ICustomUserComponentAnswerProps) => JSX.Element;
+  CustomAnswer?: React.FC<IMessage>;
 }) => {
   const processed = props.processedMessages || [];
 
@@ -59,7 +59,7 @@ export const ProcessedMessages = (props: {
             active={false}
             viewSilentNodes={props.viewSilentNodes}
             key={m.id}
-            getCustomUserAnswer={props.getCustomUserAnswer}
+            CustomAnswer={props.CustomAnswer}
             onLoaded={() => null}
           />
         );

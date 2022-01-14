@@ -7,7 +7,6 @@ import {
   IBotState,
   IBotThemableColors,
   IBotThemableProps,
-  ICustomUserComponentAnswerProps,
   IMessage,
   USERANSWER,
 } from "../definitions";
@@ -27,7 +26,7 @@ export interface IMessagePartProps {
   active: boolean;
   hasAvatar: boolean;
   onLoaded: (ref: React.RefObject<any>) => void;
-  getCustomUserAnswer?: (props: ICustomUserComponentAnswerProps) => JSX.Element;
+  CustomAnswer?: React.FC<IMessage>;
 }
 export const MessagePart = (props: IMessagePartProps) => {
   const themeContext = React.useContext(ThemeContext);
@@ -87,9 +86,10 @@ export const MessagePart = (props: IMessagePartProps) => {
   const MessageDisplay = loading ? null : props.content === USERANSWER ? (
     <UserAnswer
       key={props.message.id}
+      message={props.message}
       answer={output || { value: "", type: "string" }}
       variables={botContext.variables}
-      getCustomUserAnswer={props.getCustomUserAnswer}
+      CustomAnswer={props.CustomAnswer}
     />
   ) : (
     <MarkdownView text={props.content} variables={botContext.variables} />

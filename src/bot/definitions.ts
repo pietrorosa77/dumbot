@@ -204,7 +204,7 @@ export interface IInputControlProperties
   }>;
   validationErrorMessage?: string;
   controlType: BotInputType;
-  format?:string;
+  format?: string;
 }
 
 export interface IInputComponentProps {
@@ -309,13 +309,7 @@ export interface IDumbotProps {
   ) => (props: IBotNodeInteractionProps) => JSX.Element;
   renderErrorDetails?: (error: any) => JSX.Element;
   disableAutofocus?: boolean;
-  getCustomUserAnswer: (props: ICustomUserComponentAnswerProps) => JSX.Element;
-}
-
-export interface ICustomUserComponentAnswerProps {
-  type: string;
-  value: any;
-  variables: any;
+  CustomAnswer: React.FC<IMessage>;
 }
 
 export const USERANSWER = "<USERANSWER/>";
