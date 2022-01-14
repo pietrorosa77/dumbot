@@ -2,9 +2,7 @@ import { Box } from "grommet";
 import React from "react";
 import { ThemeContext } from "styled-components";
 import { MarkdownView } from "..";
-import BotContext from "../BotContext";
 import {
-  IBotState,
   IBotThemableColors,
   IBotThemableProps,
   IMessage,
@@ -32,7 +30,6 @@ export const MessagePart = (props: IMessagePartProps) => {
   const themeContext = React.useContext(ThemeContext);
   const theme: IBotThemableProps = themeContext.bot as IBotThemableProps;
   const themeColors = themeContext.global.colors as IBotThemableColors;
-  const botContext: IBotState = React.useContext(BotContext);
   const showavatar = theme.disableAvatars ? false : true;
   const messageDelay = theme.messageDelay || 1000;
   const { onProcessed, active, hasAvatar } = props;
@@ -41,7 +38,7 @@ export const MessagePart = (props: IMessagePartProps) => {
   const [forceHideAvatars, setForceHideAvatars] = React.useState(false);
   // 0 means the node will be processed, 2 it's been already processed, 1 processed should notify parent
   const [processed, setProcessed] = React.useState<0 | 1 | 2>(active ? 0 : 2);
-  const { user, output, metadata } = props.message;
+  const { user, metadata } = props.message;
   const propsOnLoaded = props.onLoaded;
 
   // message cosmetics
@@ -62,6 +59,7 @@ export const MessagePart = (props: IMessagePartProps) => {
     const mq = window.matchMedia(
       `(max-width: ${themeContext.global.breakpoints.onlyMessages.value}px)`
     );
+    setForceHideAvatars(mq.matches);
     function checkSmallScreen(e: MediaQueryListEvent) {
       if (e.matches) {
         /* the viewport is onlyMessages pixels wide or less */
@@ -91,6 +89,7 @@ export const MessagePart = (props: IMessagePartProps) => {
     }
 
     return () => {
+      console.log("UNMOUNTIIIIIINGGG");
       clearTimeout(timer);
     };
   }, [loading, messageDelay]);
@@ -110,12 +109,10 @@ export const MessagePart = (props: IMessagePartProps) => {
     <UserAnswer
       key={props.message.id}
       message={props.message}
-      answer={output || { value: "", type: "string" }}
-      variables={botContext.variables}
       CustomAnswer={props.CustomAnswer}
     />
   ) : (
-    <MarkdownView text={props.content} variables={botContext.variables} />
+    <MarkdownView text={props.content} />
   );
 
   return (

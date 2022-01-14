@@ -1,6 +1,5 @@
 import { substituteVars } from "./utils";
 import React from "react";
-import { isEqual } from "lodash";
 import styled, { ThemeContext } from "styled-components";
 import ReactMarkdown from "react-markdown";
 import remarkemoji from "remark-emoji";
@@ -10,7 +9,7 @@ import rehypeVideo from "rehype-video";
 import remarkMath from "remark-math";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import * as HGT from "react-syntax-highlighter/dist/esm/styles/prism";
-import { IBotTheme } from "./definitions";
+import { IBotState, IBotTheme } from "./definitions";
 import {
   Anchor,
   Box,
@@ -24,10 +23,10 @@ import {
   TableRow,
   Text,
 } from "grommet";
+import BotContext from "./BotContext";
 
 interface IMarkdownViewProps {
   text: any;
-  variables: { [key: string]: any };
 }
 const TableContainer = styled(Box)`
   overflow-x: auto;
@@ -83,13 +82,14 @@ const StyledMarkdow = styled(ReactMarkdown)`
 export const MarkdownView = React.memo(
   function MarkdownView(props: IMarkdownViewProps) {
     const bottheme: IBotTheme = React.useContext(ThemeContext);
+    const botContext: IBotState = React.useContext(BotContext);
     const isText = props.text.trim ? true : false;
 
     const text = isText ? (props.text as string).trim() : props.text;
 
     const markdown =
-      text && isText && props.variables
-        ? substituteVars(text as string, props.variables)
+      text && isText && botContext.variables
+        ? substituteVars(text as string, botContext.variables)
         : text;
 
     return isText ? (
@@ -190,7 +190,6 @@ export const MarkdownView = React.memo(
     nextProps: IMarkdownViewProps
   ) {
     const equalContent = prevProps.text === nextProps.text;
-    const equalVars = isEqual(prevProps.variables, nextProps.variables);
-    return equalContent && equalVars;
+    return equalContent;
   }
 );

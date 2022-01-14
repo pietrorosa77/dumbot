@@ -2,46 +2,19 @@ import { Box } from "grommet";
 import React from "react";
 import { ThemeContext } from "styled-components";
 import JSONPretty from "react-json-prettify";
-import { BotNodeOutputType, IBotThemableProps, IMessage } from "../definitions";
+import { IBotThemableProps, IMessage } from "../definitions";
 // eslint-disable-next-line
 import * as themes from "react-json-prettify/dist/themes";
 import { MarkdownView } from "../MarkdownView";
 import { FileSummary } from "./FileSummary";
+import { isEqual } from "lodash";
 
-export const UserAnswer = (props: {
-  answer: {
-    type: BotNodeOutputType;
-    value: any;
-  };
+interface IDisplayAnswerProps {
   message: IMessage;
-  variables?: any;
   CustomAnswer?: React.FC<IMessage>;
-}) => {
-  const { type, value } = props.answer;
-  const theme = React.useContext(ThemeContext).bot as IBotThemableProps;
+}
 
-  if (type === "object") {
-    return (
-      <JSONPretty
-        json={value}
-        padding={2}
-        themes={(themes as any)[theme.jsonViewerTheme || "github"]}
-      />
-    );
-  }
-
-  if (type === "color") {
-    return <Box background={value} width="50px" height="50px" round="medium" />;
-  }
-
-  if (type === "file") {
-    return <FileSummary files={value} />;
-  }
-
-  if (type === "password") {
-    return <MarkdownView text="***********" variables={props.variables} />;
-  }
-
+const getDisplayString = (value: any, type: string) => {
   if (type === "date") {
     let dateStr;
     if (Array.isArray(value)) {
@@ -53,19 +26,64 @@ export const UserAnswer = (props: {
       const date = new Date(value);
       dateStr = `${date.toLocaleDateString()}`;
     }
-    return <MarkdownView text={dateStr} variables={props.variables} />;
+    return dateStr;
   }
 
-  if (type && type.startsWith("Custom-") && props.CustomAnswer) {
-    return <props.CustomAnswer key={props.message.id} {...props.message} />;
+  if (type === "password") {
+    return "***********";
   }
 
   if (Array.isArray(value)) {
     const text = value.reduce((acc, c) => {
       return `${acc}\n- ${c}`;
     }, "");
-    return <MarkdownView text={text} variables={props.variables} />;
+    return text;
   }
 
-  return <MarkdownView text={value} variables={props.variables} />;
+  return value;
 };
+
+export const UserAnswer = React.memo(
+  function InnerAnswer(props: IDisplayAnswerProps) {
+    const answer = props.message.output || { value: "", type: "string" };
+    const { type, value } = answer;
+    const theme = React.useContext(ThemeContext).bot as IBotThemableProps;
+
+    if (type && type.startsWith("Custom-") && props.CustomAnswer) {
+      return (
+        <props.CustomAnswer key={props.message.id} {...props.message} />
+      ) as any;
+    }
+
+    if (type === "object") {
+      return (
+        <JSONPretty
+          json={value}
+          padding={2}
+          themes={(themes as any)[theme.jsonViewerTheme || "github"]}
+        />
+      );
+    }
+
+    if (type === "color") {
+      return (
+        <Box background={value} width="50px" height="50px" round="medium" />
+      );
+    }
+
+    if (type === "file") {
+      return <FileSummary files={value} />;
+    }
+
+    const valToPass = getDisplayString(value, type);
+    return <MarkdownView text={valToPass} />;
+  } as any,
+  function arePropsEqual(
+    prevProps: IDisplayAnswerProps,
+    nextProps: IDisplayAnswerProps
+  ) {
+    const equalMessage = isEqual(prevProps.message, nextProps.message);
+    console.log("SAME NODE ", prevProps.message.id, equalMessage);
+    return equalMessage;
+  }
+);

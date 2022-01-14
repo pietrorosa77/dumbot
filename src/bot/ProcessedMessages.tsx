@@ -60,7 +60,6 @@ export const ProcessedMessages = (props: {
             viewSilentNodes={props.viewSilentNodes}
             key={m.id}
             CustomAnswer={props.CustomAnswer}
-            onLoaded={() => null}
           />
         );
       })}
