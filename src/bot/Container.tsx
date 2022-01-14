@@ -14,7 +14,7 @@ const showElement = keyframes`
     }
 `;
 
-export const ChatBotContainer = styled.div<IBotContainer>`
+export const ChatBotContainer = styled.div`
   background: transparent;
   overflow: hidden;
   position: fixed;
@@ -26,13 +26,10 @@ export const ChatBotContainer = styled.div<IBotContainer>`
   height: 100%;
   z-index: 999;
   opacity: 0;
-  display: ${({ opened }) => (opened ? "flex" : "none")};
-  ${({ opened }) =>
-    opened
-      ? css`
-          animation: ${showElement} 0.3s ease-in;
-        `
-      : ""}
+  display: flex;
+  ${css`
+    animation: ${showElement} 0.3s ease-in;
+  `}
   animation-delay:0.6s;
   animation-fill-mode: forwards;
 `;
@@ -65,10 +62,7 @@ const ChatBotContentWrpper = styled.div`
 `;
 
 export const ChatbotContent = React.forwardRef(
-  (
-    props: { children: any; opened: boolean },
-    contentRef: LegacyRef<HTMLDivElement>
-  ) => {
+  (props: { children: any }, contentRef: LegacyRef<HTMLDivElement>) => {
     return (
       <ChatBotContentWrpper>
         <div
@@ -76,7 +70,7 @@ export const ChatbotContent = React.forwardRef(
           tabIndex={0}
           className="dumbot-scrollable-container"
         >
-          {props.opened ? props.children : null}
+          {props.children}
         </div>
       </ChatBotContentWrpper>
     );

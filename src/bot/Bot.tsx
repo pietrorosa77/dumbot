@@ -55,7 +55,9 @@ function DumbotInner(props: IDumbotProps) {
   const theme = bottheme.bot as IBotThemableProps;
   const botBodyRef = React.createRef<HTMLDivElement>();
 
-  const [opened, setOpened] = React.useState(props.initiallyClosed ? false : true);
+  const [opened, setOpened] = React.useState(
+    props.initiallyClosed ? false : true
+  );
 
   React.useEffect(() => {
     if (props.onToggle) {
@@ -179,53 +181,81 @@ function DumbotInner(props: IDumbotProps) {
           size={props.trigger?.size}
           onToggleBot={onToggle}
         />
-        <ChatBotContainer opened={opened}>
-          <Box
-            className="dumbot-innerContainer"
-            direction="row"
-            overflow="hidden"
-            width="100%"
-            height="100%"
-          >
+        {opened && (
+          <ChatBotContainer>
             <Box
-              direction="column"
+              className="dumbot-innerContainer"
+              direction="row"
               overflow="hidden"
               width="100%"
               height="100%"
             >
-              <BotHeader
-                footerBusy={interactionOnFooter}
-                allowClose={props.allowClose}
-                onClose={() => onToggle(false)}
-                isEnd={botState.finished || false}
-                waitingForUser={botState.activeInteraction ? true : false}
-                onBack={() =>
-                  onBotEvent(
-                    botState.finished ? "onBotRestart" : "onBack",
-                    botState.activeInteraction as IBotNode
-                  )
-                }
-              />
-              <ChatbotContent opened={opened} ref={botBodyRef as any}>
-                <BotLayout>
-                  <ProcessedMessages
-                    processedMessages={botState.processedMessages}
-                    getCustomUserAnswer={props.getCustomUserAnswer}
-                    viewSilentNodes={props.viewSilentNodes || false}
-                  />
-                  <ActiveMessage
-                    key={botState.activeMessage?.id}
-                    activeMessage={botState.activeMessage}
-                    viewSilentNodes={props.viewSilentNodes || false}
-                    onLoaded={onLoaded}
-                    getCustomUserAnswer={props.getCustomUserAnswer}
-                    onProcessed={(message: IMessage) =>
-                      onBotEvent("onGetNextMessage", message)
-                    }
-                  />
-                  <BodyInteraction
+              <Box
+                direction="column"
+                overflow="hidden"
+                width="100%"
+                height="100%"
+              >
+                <BotHeader
+                  footerBusy={interactionOnFooter}
+                  allowClose={props.allowClose}
+                  onClose={() => onToggle(false)}
+                  isEnd={botState.finished || false}
+                  waitingForUser={botState.activeInteraction ? true : false}
+                  onBack={() =>
+                    onBotEvent(
+                      botState.finished ? "onBotRestart" : "onBack",
+                      botState.activeInteraction as IBotNode
+                    )
+                  }
+                />
+                <ChatbotContent ref={botBodyRef as any}>
+                  <BotLayout>
+                    <ProcessedMessages
+                      processedMessages={botState.processedMessages}
+                      getCustomUserAnswer={props.getCustomUserAnswer}
+                      viewSilentNodes={props.viewSilentNodes || false}
+                    />
+                    <ActiveMessage
+                      key={botState.activeMessage?.id}
+                      activeMessage={botState.activeMessage}
+                      viewSilentNodes={props.viewSilentNodes || false}
+                      onLoaded={onLoaded}
+                      getCustomUserAnswer={props.getCustomUserAnswer}
+                      onProcessed={(message: IMessage) =>
+                        onBotEvent("onGetNextMessage", message)
+                      }
+                    />
+                    <BodyInteraction
+                      node={botState.activeInteraction}
+                      key={`bodyinteractionwr-${botState.activeInteraction?.id}`}
+                      onAddProcessedMessage={onAddProcessedMessage}
+                      onLoaded={onLoaded}
+                      onCallHost={onCallHost}
+                      variables={botState.variables}
+                      onSetVariable={onSetVariable}
+                      onSendAttachments={onSendAttachments}
+                      onUserAction={onUserAction}
+                      renderErrorDetails={props.renderErrorDetails}
+                      onGetExternalComponent={onGetExternalComponent}
+                    />
+                    <FinalNotes
+                      onLoaded={onLoaded}
+                      finished={botState.finished}
+                      finalMessageContent={theme.finalMessageContent}
+                    />
+                    <div style={{ height: "50px" }} />
+                  </BotLayout>
+                </ChatbotContent>
+                <div
+                  style={{
+                    backgroundColor: bottheme?.global?.colors
+                      ?.botFooterBgColor as any,
+                  }}
+                >
+                  <FooterInteraction
                     node={botState.activeInteraction}
-                    key={`bodyinteractionwr-${botState.activeInteraction?.id}`}
+                    key={`footerinteractionwr-${botState.activeInteraction?.id}`}
                     onAddProcessedMessage={onAddProcessedMessage}
                     onLoaded={onLoaded}
                     onCallHost={onCallHost}
@@ -236,49 +266,23 @@ function DumbotInner(props: IDumbotProps) {
                     renderErrorDetails={props.renderErrorDetails}
                     onGetExternalComponent={onGetExternalComponent}
                   />
-                  <FinalNotes
-                    onLoaded={onLoaded}
-                    finished={botState.finished}
-                    finalMessageContent={theme.finalMessageContent}
+                </div>
+                {!interactionOnFooter && (
+                  <BotFooter
+                    isEnd={botState.finished || false}
+                    waitingForUser={botState.activeInteraction ? true : false}
+                    onBack={() =>
+                      onBotEvent(
+                        botState.finished ? "onBotRestart" : "onBack",
+                        botState.activeInteraction as IBotNode
+                      )
+                    }
                   />
-                  <div style={{ height: "50px" }} />
-                </BotLayout>
-              </ChatbotContent>
-              <div
-                style={{
-                  backgroundColor: bottheme?.global?.colors
-                    ?.botFooterBgColor as any,
-                }}
-              >
-                <FooterInteraction
-                  node={botState.activeInteraction}
-                  key={`footerinteractionwr-${botState.activeInteraction?.id}`}
-                  onAddProcessedMessage={onAddProcessedMessage}
-                  onLoaded={onLoaded}
-                  onCallHost={onCallHost}
-                  variables={botState.variables}
-                  onSetVariable={onSetVariable}
-                  onSendAttachments={onSendAttachments}
-                  onUserAction={onUserAction}
-                  renderErrorDetails={props.renderErrorDetails}
-                  onGetExternalComponent={onGetExternalComponent}
-                />
-              </div>
-              {!interactionOnFooter && (
-                <BotFooter
-                  isEnd={botState.finished || false}
-                  waitingForUser={botState.activeInteraction ? true : false}
-                  onBack={() =>
-                    onBotEvent(
-                      botState.finished ? "onBotRestart" : "onBack",
-                      botState.activeInteraction as IBotNode
-                    )
-                  }
-                />
-              )}
+                )}
+              </Box>
             </Box>
-          </Box>
-        </ChatBotContainer>
+          </ChatBotContainer>
+        )}
       </Box>
     </BotContext.Provider>
   );

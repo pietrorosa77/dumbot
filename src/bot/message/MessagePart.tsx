@@ -86,6 +86,7 @@ export const MessagePart = (props: IMessagePartProps) => {
 
   const MessageDisplay = loading ? null : props.content === USERANSWER ? (
     <UserAnswer
+      key={props.message.id}
       answer={output || { value: "", type: "string" }}
       variables={botContext.variables}
       getCustomUserAnswer={props.getCustomUserAnswer}
