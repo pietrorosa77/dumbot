@@ -24,14 +24,7 @@ import { getInitialState } from "./stateHelpers";
 import { BotTheme } from "./Theme";
 import { Trigger } from "./Trigger";
 import { EventBusContext, getEventBus } from "./eventBus";
-
-const autoscroll = (element: HTMLDivElement | null) => {
-  if (element) {
-    window.requestAnimationFrame(() =>
-      element.scroll({ top: element.scrollHeight, behavior: "smooth" })
-    );
-  }
-};
+import { useMutationObservable } from "./useMutationObservable";
 
 const DumbotInner = (
   props: IDmbtProps & {
@@ -55,29 +48,63 @@ const DumbotInner = (
   } = props;
 
   const DmbtEventBus = getEventBus();
-  const botBodyRef = React.createRef<HTMLDivElement>();
+  const scrollAnchor = React.useRef<HTMLDivElement>();
+  const botRef = React.useRef<HTMLDivElement>();
   const [opened, setOpened] = React.useState(
     props.initiallyClosed ? false : true
   );
+  const scrollerID = `${props.botUUID}scroll`;
+  const scrollElement = React.useRef<HTMLElement | null>(null);
 
   const [state, dispatch] = useDmbtReducer(reducer, initialState, middlewares);
   const activeInteraction = onGetInteractionNode(state.activeInteraction);
   const interactionOnFooter =
     activeInteraction && activeInteraction.properties?.displayAs === "footer";
 
-  React.useEffect(() => {
-    if (!botBodyRef.current) {
-      return;
-    }
-    const handler = DmbtEventBus.subscribe("syncScroll", () => {
-      autoscroll(botBodyRef.current);
-      if (opened && botBodyRef.current && !props.disableAutofocus) {
-        botBodyRef.current.focus();
+  const autoscroll = () => {
+    requestAnimationFrame(() => {
+      if (!scrollElement.current || !scrollElement.current.isConnected) {
+        scrollElement.current = document.getElementById(scrollerID);
+      }
+
+      if (scrollElement.current) {
+        scrollElement.current.scrollTo({
+          top: scrollElement.current.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+
+      if (scrollAnchor.current) {
+        scrollAnchor.current.scrollIntoView({ behavior: "smooth" });
       }
     });
+  };
 
-    return () => DmbtEventBus.unSubscribe("syncScroll", handler);
-  }, [botBodyRef.current, DmbtEventBus]);
+  useMutationObservable(botRef.current as any, autoscroll);
+
+  React.useEffect(() => {
+    const resizeListener = () =>
+      window.requestAnimationFrame(() => autoscroll());
+    window.addEventListener("resize", resizeListener);
+    return () => {
+      window.removeEventListener("resize", resizeListener);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  //   React.useEffect(() => {
+  //     if (!botBodyRef.current) {
+  //       return;
+  //     }
+  //     const handler = DmbtEventBus.subscribe("syncScroll", () => {
+  //       autoscroll(botBodyRef.current);
+  //       if (opened && botBodyRef.current && !props.disableAutofocus) {
+  //         botBodyRef.current.focus();
+  //       }
+  //     });
+
+  //     return () => DmbtEventBus.unSubscribe("syncScroll", handler);
+  //   }, [botBodyRef.current, DmbtEventBus]);
 
   React.useEffect(() => {
     if (props.onToggle) {
@@ -119,7 +146,7 @@ const DumbotInner = (
 
   return (
     <EventBusContext.Provider value={DmbtEventBus}>
-      <Box width="100%" height="100%" className={className}>
+      <Box width="100%" height="100%" className={className} ref={botRef as any}>
         <Trigger
           opened={opened}
           icon={trigger?.icon || theme.bot?.botAvatar}
@@ -135,7 +162,7 @@ const DumbotInner = (
               interactive={state.activeInteraction ? true : false}
               onBack={onBack}
             />
-            <ChatbotContent ref={botBodyRef as any}>
+            <ChatbotContent id={scrollerID}>
               <Messages
                 active={state.active}
                 processed={state.processed}
@@ -144,7 +171,12 @@ const DumbotInner = (
               {activeInteraction && (
                 <button onClick={onUserAnswer}>moveon</button>
               )}
-              <div style={{ height: "50px" }} />
+              <Box
+                ref={scrollAnchor as any}
+                height="100px"
+                background="transparent"
+                id="testDivBottom"
+              />
             </ChatbotContent>
             {/* <div
               style={{

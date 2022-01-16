@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import { Box } from "grommet";
+import React from "react";
 import { ThemeContext } from "styled-components";
 import { IBotTheme, IDmbtMessage } from "./definitions";
-import { EventBusContext } from "./eventBus";
 import { Message } from "./Message";
 import { LoadingMessage } from "./TypingMesage";
 
@@ -28,7 +28,11 @@ const getAdjustedProcessedMessages = (processed: IDmbtMessage[]) => {
       } else {
         acc.group = acc.group.concat(curr as any) as any;
       }
-      acc.last = curr; //curr.output || curr.meta.silent ? undefined : (curr as any);
+      acc.last =
+        curr.output.type !== "message" || curr.meta.silent
+          ? undefined
+          : (curr as any);
+      curr;
       if (index === processed.length - 1) {
         acc.messages.push(acc.group);
       }
@@ -56,7 +60,6 @@ const getAdjustedProcessedMessages = (processed: IDmbtMessage[]) => {
 };
 
 export const Messages = (props: IMessagesProps) => {
-  const eventBus = useContext(EventBusContext);
   const processedStr = JSON.stringify(props.processed.map((m) => m.id));
   const activeStr = JSON.stringify(props.active.map((m) => m.id));
   const themeContext: IBotTheme = React.useContext(ThemeContext);
@@ -82,7 +85,6 @@ export const Messages = (props: IMessagesProps) => {
 
     if (activeQueueLength === 0) {
       props.onProcessed(processed[processed.length - 1]);
-      // eventBus.emit("syncScroll", loading);
       return;
     }
 
@@ -123,10 +125,6 @@ export const Messages = (props: IMessagesProps) => {
   //     eventBus.emit("syncScroll", loading);
   //   }
   // }, [loading]);
-
-  React.useEffect(() => {
-    eventBus.emit("syncScroll", active);
-  });
 
   const processedList = getAdjustedProcessedMessages(processed).map((m, i) => {
     return (

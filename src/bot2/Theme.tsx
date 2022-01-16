@@ -1,4 +1,3 @@
-import { Grommet, ThemeType } from "grommet";
 import { deepMerge } from "grommet/utils";
 import {
   IBotThemableColors,
@@ -38,7 +37,7 @@ const BotProps: IBotThemableProps = {
   botAvatar: defaultbotAvatar,
   userAvatar: defaultuserAvatar,
   finalMessageContent: "Powered by Dumbot!",
-  messageDelay: 1000,
+  messageDelay: 2000,
   avatarSize: "50px",
   disableAvatars: false,
   allowRestartOnEnd: true,

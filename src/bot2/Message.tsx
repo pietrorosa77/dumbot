@@ -1,12 +1,11 @@
 import { Box } from "grommet";
-import React, { useContext } from "react";
+import React from "react";
 import { ThemeContext } from "styled-components";
 import {
   IBotThemableColors,
   IBotThemableProps,
   IDmbtMessage,
 } from "./definitions";
-import { EventBusContext } from "./eventBus";
 import { MarkdownView } from "./MarkdownView";
 import {
   AvatarContainer,
@@ -21,7 +20,6 @@ export interface IMessageProps {
 }
 
 export const Message = (props: IMessageProps) => {
-  const eventBus = useContext(EventBusContext);
   const themeContext = React.useContext(ThemeContext);
   const theme: IBotThemableProps = themeContext.bot as IBotThemableProps;
   const themeColors = themeContext.global.colors as IBotThemableColors;
@@ -49,10 +47,6 @@ export const Message = (props: IMessageProps) => {
   React.useEffect(() => {
     console.log("rerendering", props.message.id);
   }, [true]);
-
-  React.useEffect(() => {
-    eventBus.emit("syncScroll", props.message);
-  });
 
   React.useEffect(() => {
     const mq = window.matchMedia(

@@ -90,25 +90,18 @@ export const ChatBotOuterContainer = (props: { children: any }) => {
   );
 };
 
-export const ChatbotContent = React.forwardRef(
-  (props: { children: any }, contentRef: LegacyRef<HTMLDivElement>) => {
-    return (
-      <ChatBotContentWrpper>
-        <div
-          ref={contentRef}
-          tabIndex={0}
-          className="dumbot-scrollable-container"
-        >
-          <BotGrid>
-            <div style={{ gridColumn: 1 }}></div>
-            <div style={{ gridColumn: 2, position: "relative" }}>
-              {props.children}
-            </div>
-            <div style={{ gridColumn: 3 }}></div>
-          </BotGrid>
-        </div>
-      </ChatBotContentWrpper>
-    );
-  }
-);
-ChatbotContent.displayName = "ChatbotContent";
+export const ChatbotContent = (props: { children: any; id: string }) => {
+  return (
+    <ChatBotContentWrpper>
+      <div className="dumbot-scrollable-container" id={props.id}>
+        <BotGrid>
+          <div style={{ gridColumn: 1 }}></div>
+          <div style={{ gridColumn: 2, position: "relative" }}>
+            {props.children}
+          </div>
+          <div style={{ gridColumn: 3 }}></div>
+        </BotGrid>
+      </div>
+    </ChatBotContentWrpper>
+  );
+};
