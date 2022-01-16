@@ -7,8 +7,11 @@ export interface IDmbtNode {
   id: string;
   type: string;
   content: string;
-  output: IDmbtMessageOutput;
-  properties: {
+  output: {
+    id: string;
+    type: string;
+  };
+  properties?: {
     [key: string]: any;
   };
   ports: {
@@ -163,7 +166,7 @@ export type SimpleAction = {
     | "@loading";
   payload: any;
 };
-export type DmbtAction = SimpleAction | Function;
+export type DmbtAction = SimpleAction | any;
 
 export type DmbtDispatch = (action: DmbtAction) => any;
 

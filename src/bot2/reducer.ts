@@ -42,6 +42,7 @@ export function useDmbtReducer(
     dispatch: (...args: any[]) => (enhancedDispatch as any)(...args),
   };
   const chain = middlewares.map((middleware) => middleware(store));
+  // eslint-disable-next-line
   const enhancedDispatch = composeMiddleware.apply(
     undefined,
     chain
@@ -133,7 +134,11 @@ const onNext = (
     };
   }
 
-  const nextNode = getNextNode(shape, lastActive.id, lastActive.output?.port);
+  const nextNode = getNextNode(
+    shape,
+    lastActive.nodeId,
+    lastActive.output?.port
+  );
   const active = getNodeMessages(nextNode, state.variables);
 
   return {
@@ -199,7 +204,7 @@ const onAnswer = (
 };
 
 const onMessage = (state: IDmbtState, message: IDmbtMessage) => {
-  const processed = state.processed.concat(state.active);
+  const processed = state.processed.concat(message);
   return {
     ...state,
     processed,
