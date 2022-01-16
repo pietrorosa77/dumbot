@@ -48,29 +48,27 @@ export const getNodeMessages = (
     return [];
   }
 
-  const messages = node.content
-    .split(BUBBLE_DELIMITER)
-    .filter((el: string) => el)
-    .map((mesagePart, i) => {
-      const msg: IDmbtMessage = {
-        id: `${node.id}-${i}`,
-        nodeId: node.id,
-        output: {
-          id: node.id,
-          value: undefined,
-          type: "message",
-          port: DEFAULT_NODE_PORT,
-        },
-        content: substituteVars(mesagePart, variables),
-        interactive: node.user,
-        meta: {
-          silent: node.silent ? true : false,
-          nickname: "Dumbot",
-          time: new Date().toLocaleTimeString(),
-        },
-      };
-      return msg;
-    });
+  const parts = node.content.split(BUBBLE_DELIMITER).filter((el: string) => el);
+
+  const messages = parts.map((mesagePart, i) => {
+    const msg: IDmbtMessage = {
+      id: `${node.id}-${i}`,
+      nodeId: node.id,
+      output: {
+        id: node.id,
+        value: undefined,
+        type: "message",
+        port: DEFAULT_NODE_PORT,
+      },
+      content: substituteVars(mesagePart, variables),
+      interactive: node.user,
+      meta: {
+        silent: node.silent ? true : false,
+        time: new Date().toISOString(),
+      },
+    };
+    return msg;
+  });
 
   return messages;
 };
@@ -87,8 +85,7 @@ export const getUserAnswer = (
     meta: {
       isUser: true,
       silent: false,
-      nickname: "You",
-      time: new Date().toLocaleTimeString(),
+      time: new Date().toISOString(),
     },
   };
 };

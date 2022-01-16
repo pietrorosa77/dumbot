@@ -33,9 +33,12 @@ const spinning = (color: string, size?: number) => (
   </svg>
 );
 
-const LoadingStep = styled.span<{ delay: string }>`
+const LoadingStep = styled.div<{ delay: string }>`
   animation: ${loading} 1.4s infinite both;
   animation-delay: ${(props) => props.delay};
+  height: 50px;
+  width: 50px;
+  background-color: red;
 `;
 
 const CenteredDiv = styled(Box)`
@@ -47,11 +50,11 @@ const CenteredDiv = styled(Box)`
 `;
 
 export const LoadingMessage = () => (
-  <span className="dumbot-loading">
+  <Box className="dumbot-loading" direction="row" gap="small">
     <LoadingStep delay="0s">.</LoadingStep>
     <LoadingStep delay=".2s">.</LoadingStep>
     <LoadingStep delay=".4s">.</LoadingStep>
-  </span>
+  </Box>
 );
 
 export const BotSpinner = (props: { themeColor: string; size?: number }) => {

@@ -19,9 +19,6 @@ import {
   getUserAnswer,
 } from "./stateHelpers";
 
-export const BotContext: React.Context<DmbtDispatch> =
-  React.createContext<any>(null);
-
 export function useDmbtReducer(
   reducer: (state: IDmbtState, action: SimpleAction) => IDmbtState,
   initialState: IDmbtState,
@@ -47,6 +44,10 @@ export function useDmbtReducer(
     undefined,
     chain
   )(dispatch) as DmbtDispatch;
+
+  (window as any)._Dumbot = {
+    enhancedDispatch,
+  };
 
   return [state, enhancedDispatch];
 }

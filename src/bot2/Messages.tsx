@@ -1,23 +1,71 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ThemeContext } from "styled-components";
 import { IBotTheme, IDmbtMessage } from "./definitions";
+import { EventBusContext } from "./eventBus";
+import { Message } from "./Message";
+import { LoadingMessage } from "./TypingMesage";
 
 interface IMessagesProps {
   processed: IDmbtMessage[];
   active: IDmbtMessage[];
   onProcessed: (last: IDmbtMessage) => void;
-  onUxStateChanged: () => void;
 }
 
+const getAdjustedProcessedMessages = (processed: IDmbtMessage[]) => {
+  const orderedGroup = processed.reduce(
+    (acc, curr, index) => {
+      const startNew =
+        !acc.last ||
+        acc.last.meta?.isUser !== curr.meta?.isUser ||
+        acc.last.meta?.label !== curr.meta?.label ||
+        acc.last.meta?.nickname !== curr.meta?.nickname;
+
+      if (startNew) {
+        if (acc.group.length) {
+          acc.messages.push(acc.group);
+        }
+        acc.group = [curr as any] as any;
+      } else {
+        acc.group = acc.group.concat(curr as any) as any;
+      }
+      acc.last = curr; //curr.output || curr.meta.silent ? undefined : (curr as any);
+      if (index === processed.length - 1) {
+        acc.messages.push(acc.group);
+      }
+      return acc;
+    },
+    {
+      last: undefined as IDmbtMessage | undefined,
+      messages: [] as any,
+      group: [] as any,
+    }
+  );
+
+  const messagesGroup = orderedGroup.messages as Array<IDmbtMessage[]>;
+
+  return messagesGroup.reduce((acc, el) => {
+    const messages = el.map((m, i) => ({
+      ...m,
+      meta: {
+        ...m.meta,
+        hasAvatar: i === el.length - 1,
+      },
+    }));
+    return acc.concat(messages);
+  }, []);
+};
+
 export const Messages = (props: IMessagesProps) => {
+  const eventBus = useContext(EventBusContext);
   const processedStr = JSON.stringify(props.processed.map((m) => m.id));
   const activeStr = JSON.stringify(props.active.map((m) => m.id));
   const themeContext: IBotTheme = React.useContext(ThemeContext);
   const messageDelay = themeContext.bot?.messageDelay || 1500;
+  const loadingColor = themeContext.global?.colors?.brand;
   const [processed, setProcessed] = React.useState<IDmbtMessage[]>([]);
   const [activeQueue, setActiveQueue] = React.useState<IDmbtMessage[]>();
   const activeQueueLength = activeQueue?.length;
-  const [loading, setLoading] = React.useState(false);
+  const [active, setActive] = React.useState<IDmbtMessage>();
 
   React.useEffect(() => {
     setProcessed(props.processed);
@@ -34,15 +82,17 @@ export const Messages = (props: IMessagesProps) => {
 
     if (activeQueueLength === 0) {
       props.onProcessed(processed[processed.length - 1]);
+      // eventBus.emit("syncScroll", loading);
       return;
     }
 
     let timer: any = 0;
-    setLoading(true);
+
+    const queueCopy = [...(activeQueue as IDmbtMessage[])];
+    const newActive = queueCopy.shift() as IDmbtMessage;
+    setActive(newActive);
     timer = setTimeout(() => {
-      const queueCopy = [...(activeQueue as IDmbtMessage[])];
-      const newActive = queueCopy.shift() as IDmbtMessage;
-      setLoading(false);
+      setActive(undefined);
       setProcessed(processed.concat(newActive));
       setActiveQueue(queueCopy);
     }, messageDelay);
@@ -51,23 +101,52 @@ export const Messages = (props: IMessagesProps) => {
     };
   }, [activeQueueLength, messageDelay]);
 
-  React.useEffect(() => {
-    props.onUxStateChanged();
-  }, [loading]);
+  // React.useEffect(() => {
+  //   let timer: any = 0;
+  //   if (active) {
+  //     //eventBus.emit("syncScroll", loading);
+  //     timer = setTimeout(() => {
+  //       setProcessed(processed.concat(active));
+  //       setActive(undefined);
+  //       const queueCopy = [...(activeQueue as IDmbtMessage[])];
+  //       queueCopy.shift() as IDmbtMessage;
+  //       setActiveQueue(queueCopy);
+  //     }, messageDelay);
+  //   }
+  //   return () => {
+  //     clearTimeout(timer);
+  //   };
+  // }, [active?.id]);
 
-  const processedList = processed.map((m, i) => {
-    const fromUser = m.meta.isUser;
+  // React.useEffect(() => {
+  //   if (loading) {
+  //     eventBus.emit("syncScroll", loading);
+  //   }
+  // }, [loading]);
+
+  React.useEffect(() => {
+    eventBus.emit("syncScroll", active);
+  });
+
+  const processedList = getAdjustedProcessedMessages(processed).map((m, i) => {
     return (
-      <div key={`${m.id}-${i}`}>
-        {fromUser ? JSON.stringify(m.output) : m.content}
-      </div>
+      <Message
+        key={`${m.id}-${i}`}
+        active={i === processed.length - 1}
+        message={m}
+      ></Message>
     );
   });
 
   return (
     <>
       <div className="processedBlock">{processedList}</div>
-      {loading && "loading....."}
+      {active && (
+        <LoadingMessage
+          bgColor={loadingColor as string}
+          justify={active.meta.isUser ? "end" : "start"}
+        />
+      )}
     </>
   );
 };

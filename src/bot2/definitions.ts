@@ -48,6 +48,10 @@ export interface IDmbtMessage {
     nickname?: string;
     time?: string;
     silent?: boolean;
+    avatarSrc?: string;
+    bgColor?: string;
+    nicknameColor?: string;
+    hasAvatar?: boolean;
     [key: string]: any;
   };
 }

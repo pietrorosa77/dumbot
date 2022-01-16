@@ -19,10 +19,19 @@ import { BotFooter } from "./Footer";
 import { BotHeader } from "./Header";
 import { Messages } from "./Messages";
 import { logMiddleware, thunkMiddleware } from "./middlewares";
-import { useDmbtReducer, BotContext, createReducer } from "./reducer";
+import { useDmbtReducer, createReducer } from "./reducer";
 import { getInitialState } from "./stateHelpers";
 import { BotTheme } from "./Theme";
 import { Trigger } from "./Trigger";
+import { EventBusContext, getEventBus } from "./eventBus";
+
+const autoscroll = (element: HTMLDivElement | null) => {
+  if (element) {
+    window.requestAnimationFrame(() =>
+      element.scroll({ top: element.scrollHeight, behavior: "smooth" })
+    );
+  }
+};
 
 const DumbotInner = (
   props: IDmbtProps & {
@@ -45,6 +54,7 @@ const DumbotInner = (
     onGetInteractionNode,
   } = props;
 
+  const DmbtEventBus = getEventBus();
   const botBodyRef = React.createRef<HTMLDivElement>();
   const [opened, setOpened] = React.useState(
     props.initiallyClosed ? false : true
@@ -55,20 +65,19 @@ const DumbotInner = (
   const interactionOnFooter =
     activeInteraction && activeInteraction.properties?.displayAs === "footer";
 
-  const autoscroll = (element: HTMLDivElement | null) => {
-    if (element) {
-      window.requestAnimationFrame(() =>
-        element.scroll({ top: element.scrollHeight, behavior: "smooth" })
-      );
+  React.useEffect(() => {
+    if (!botBodyRef.current) {
+      return;
     }
-  };
+    const handler = DmbtEventBus.subscribe("syncScroll", () => {
+      autoscroll(botBodyRef.current);
+      if (opened && botBodyRef.current && !props.disableAutofocus) {
+        botBodyRef.current.focus();
+      }
+    });
 
-  const updateScroll = () => {
-    autoscroll(botBodyRef.current);
-    if (opened && botBodyRef.current && !props.disableAutofocus) {
-      botBodyRef.current.focus();
-    }
-  };
+    return () => DmbtEventBus.unSubscribe("syncScroll", handler);
+  }, [botBodyRef.current, DmbtEventBus]);
 
   React.useEffect(() => {
     if (props.onToggle) {
@@ -109,7 +118,7 @@ const DumbotInner = (
   };
 
   return (
-    <BotContext.Provider value={dispatch}>
+    <EventBusContext.Provider value={DmbtEventBus}>
       <Box width="100%" height="100%" className={className}>
         <Trigger
           opened={opened}
@@ -131,7 +140,6 @@ const DumbotInner = (
                 active={state.active}
                 processed={state.processed}
                 onProcessed={messagesProcessed}
-                onUxStateChanged={updateScroll}
               />
               {activeInteraction && (
                 <button onClick={onUserAnswer}>moveon</button>
@@ -167,7 +175,7 @@ const DumbotInner = (
           </ChatBotOuterContainer>
         )}
       </Box>
-    </BotContext.Provider>
+    </EventBusContext.Provider>
   );
 };
 

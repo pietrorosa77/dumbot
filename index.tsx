@@ -16,9 +16,9 @@ ReactDOM.render(
       botUUID="testBot"
       shape={BotShape}
       allowClose
-      log
+      log={false}
       onToggle={(opened: boolean) => {
-        console.log(opened);
+        //console.log(opened);
       }}
       //   onUserAction={(answer) => {
       //     console.log("USERANSWER", answer);
