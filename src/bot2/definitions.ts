@@ -35,6 +35,7 @@ export interface IDmbtMessageOutput {
   value: any;
   id: string;
   port: string;
+  meta?: { [key: string]: any };
 }
 
 export interface IDmbtMessage {
@@ -52,6 +53,7 @@ export interface IDmbtMessage {
     bgColor?: string;
     nicknameColor?: string;
     hasAvatar?: boolean;
+    width?: string;
     [key: string]: any;
   };
 }
@@ -93,6 +95,9 @@ export interface IDmbtProps {
   className?: string;
   height?: string;
   width?: string;
+  viewSilentNodes?: boolean;
+  hideHeader?: boolean;
+  hideFooter?: boolean;
   onToggle?: (opened: boolean) => void;
   onUserAnswer?: (answer: IDmbtMessageOutput) => void;
   onCallHost?: (label: string, variables: any) => Promise<any>;

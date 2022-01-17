@@ -59,7 +59,7 @@ ReactDOM.render(
           names: ["pietro", "tommaso", "filippo"],
         },
       }}
-      customMessageDisplay={CustomDisplay}
+      // customMessageDisplay={CustomDisplay}
       theme={{
         bot: {
           buttonsRadius: "6px",

@@ -9,6 +9,7 @@ interface IMessagesProps {
   processed: IDmbtMessage[];
   active: IDmbtMessage[];
   onProcessed: (last: IDmbtMessage) => void;
+  viewSilentNoses?: boolean;
   customMessageDisplay?: Map<
     string,
     (props: { message: IDmbtMessage }) => JSX.Element
@@ -21,6 +22,7 @@ const getAdjustedProcessedMessages = (processed: IDmbtMessage[]) => {
       const startNew =
         !acc.last ||
         acc.last.meta?.isUser !== curr.meta?.isUser ||
+        acc.last.meta?.silent !== curr.meta?.silent ||
         acc.last.meta?.nickname !== curr.meta?.nickname;
 
       if (startNew) {
@@ -130,16 +132,18 @@ export const Messages = (props: IMessagesProps) => {
   //   }
   // }, [loading]);
 
-  const processedList = getAdjustedProcessedMessages(processed).map((m, i) => {
-    return (
-      <Message
-        key={`${m.id}-${i}`}
-        active={i === processed.length - 1}
-        message={m}
-        customMessageDisplay={props.customMessageDisplay || new Map()}
-      ></Message>
-    );
-  });
+  const processedList = getAdjustedProcessedMessages(processed)
+    .filter((m) => props.viewSilentNoses ? m : !m.meta.silent)
+    .map((m, i) => {
+      return (
+        <Message
+          key={`${m.id}-${i}`}
+          active={i === processed.length - 1}
+          message={m}
+          customMessageDisplay={props.customMessageDisplay || new Map()}
+        ></Message>
+      );
+    });
 
   return (
     <>

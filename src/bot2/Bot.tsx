@@ -24,7 +24,10 @@ import { getInitialState } from "./stateHelpers";
 import { BotTheme } from "./Theme";
 import { Trigger } from "./Trigger";
 import { EventBusContext, getEventBus } from "./eventBus";
-import { useMutationObservable } from "./useMutationObservable";
+import {
+  useMutationObservable,
+  useResizeListener,
+} from "./useMutationObservable";
 
 const DumbotInner = (
   props: IDmbtProps & {
@@ -45,6 +48,9 @@ const DumbotInner = (
     middlewares,
     reducer,
     onGetInteractionNode,
+    viewSilentNodes,
+    hideFooter,
+    hideHeader,
   } = props;
 
   const DmbtEventBus = getEventBus();
@@ -82,16 +88,7 @@ const DumbotInner = (
   };
 
   useMutationObservable(botRef.current as any, autoscroll);
-
-  React.useEffect(() => {
-    const resizeListener = () =>
-      window.requestAnimationFrame(() => autoscroll());
-    window.addEventListener("resize", resizeListener);
-    return () => {
-      window.removeEventListener("resize", resizeListener);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useResizeListener(autoscroll);
 
   //   React.useEffect(() => {
   // onSetVariable: (name: string, value: any) => void;
@@ -162,18 +159,21 @@ const DumbotInner = (
         />
         {opened && (
           <ChatBotOuterContainer>
-            <BotHeader
-              allowClose={allowClose}
-              onClose={() => onToggle(false)}
-              isEnd={state.finished || false}
-              interactive={state.activeInteraction ? true : false}
-              onBack={onBack}
-            />
+            {!hideHeader && (
+              <BotHeader
+                allowClose={allowClose}
+                onClose={() => onToggle(false)}
+                isEnd={state.finished || false}
+                interactive={state.activeInteraction ? true : false}
+                onBack={onBack}
+              />
+            )}
             <ChatbotContent id={scrollerID}>
               <Messages
                 active={state.active}
                 processed={state.processed}
                 onProcessed={messagesProcessed}
+                viewSilentNoses={viewSilentNodes}
                 customMessageDisplay={props.customMessageDisplay}
               />
               {activeInteraction && (
@@ -206,12 +206,13 @@ const DumbotInner = (
                     onGetExternalComponent={onGetExternalComponent}
                   /> */}
             {/* </div> */}
-            <BotFooter
-              display={!interactionOnFooter}
-              isEnd={state.finished || false}
-              interactive={activeInteraction ? true : false}
-              onBack={onBack}
-            />
+            {!interactionOnFooter && !hideFooter && (
+              <BotFooter
+                isEnd={state.finished || false}
+                interactive={activeInteraction ? true : false}
+                onBack={onBack}
+              />
+            )}
           </ChatBotOuterContainer>
         )}
       </Box>

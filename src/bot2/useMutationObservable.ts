@@ -29,3 +29,17 @@ export function useMutationObservable(
     };
   }, [observer, targetEl, options]);
 }
+
+export function useResizeListener(cb: () => void) {
+  useEffect(() => {
+    const resizeListener = () =>
+      window.requestAnimationFrame(() =>
+        window.requestAnimationFrame(() => cb())
+      );
+    window.addEventListener("resize", resizeListener);
+    return () => {
+      window.removeEventListener("resize", resizeListener);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+}

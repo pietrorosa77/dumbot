@@ -9,7 +9,6 @@ export interface IBotFooterProps {
   isEnd: boolean;
   interactive: boolean;
   onBack: () => void;
-  display: boolean;
 }
 
 const Footer = styled.div`
@@ -25,10 +24,6 @@ const Footer = styled.div`
 
 export const BotFooter = (props: IBotFooterProps) => {
   const theme = React.useContext(ThemeContext).bot as IBotThemableProps;
-
-  if (!props.display) {
-    return null;
-  }
 
   const Icon = props.isEnd ? Rewind : LinkPrevious;
 

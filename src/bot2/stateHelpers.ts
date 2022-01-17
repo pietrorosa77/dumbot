@@ -44,8 +44,29 @@ export const getNodeMessages = (
   node: IDmbtNode | undefined,
   variables: any
 ): IDmbtMessage[] => {
-  if (!node || !node.content) {
+  if (!node) {
     return [];
+  }
+
+  if(!node.content) {
+    return [
+      {
+        id: `${node.id}-silentpart}`,
+        nodeId: node.id,
+        output: {
+          id: node.id,
+          value: undefined,
+          type: "message",
+          port: DEFAULT_NODE_PORT,
+        },
+        content: "silent message",
+        interactive: node.user,
+        meta: {
+          silent: true,
+          time: new Date().toISOString(),
+        },
+      }
+    ]
   }
 
   const parts = node.content.split(BUBBLE_DELIMITER).filter((el: string) => el);
@@ -65,6 +86,7 @@ export const getNodeMessages = (
       meta: {
         silent: node.silent ? true : false,
         time: new Date().toISOString(),
+        width: node.properties?.width,
       },
     };
     return msg;
@@ -75,7 +97,8 @@ export const getNodeMessages = (
 
 export const getUserAnswer = (
   interactionId: string,
-  output: IDmbtMessageOutput
+  output: IDmbtMessageOutput,
+  meta?: { [key: string]: any }
 ): IDmbtMessage => {
   return {
     id: `${interactionId}-answer`,
@@ -83,6 +106,7 @@ export const getUserAnswer = (
     content: "",
     output,
     meta: {
+      ...(meta || {}),
       isUser: true,
       silent: false,
       time: new Date().toISOString(),

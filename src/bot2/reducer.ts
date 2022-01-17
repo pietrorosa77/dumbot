@@ -184,7 +184,11 @@ const onAnswer = (
   answer: IDmbtMessageOutput,
   activeId: string
 ): IDmbtState => {
-  const userAnswerMessage: IDmbtMessage = getUserAnswer(activeId, answer);
+  const userAnswerMessage: IDmbtMessage = getUserAnswer(
+    activeId,
+    answer,
+    answer.meta
+  );
   const active = [userAnswerMessage];
   const outputVarId = answer.id || activeId;
   const variables = {

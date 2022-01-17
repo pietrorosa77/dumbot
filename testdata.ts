@@ -46,7 +46,7 @@ export const testBotDefiniton = {
         id: "KfB4u17Hzo",
         type: "buttons",
         user: true,
-        content: "pick the option!",
+        content: "",
         position: { x: 46, y: 419 },
         title: "Buttons",
         output: { id: "multiOut", type: "text" },

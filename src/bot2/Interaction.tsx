@@ -13,7 +13,6 @@ const InteractionsMap = new Map<
 
 const Interaction = (props: IDmbtInteractionProps) => {
   const theme: IBotTheme = React.useContext(ThemeContext) as IBotTheme;
-  const usrInputRef = React.useRef<HTMLInputElement>(null);
   const InteractionControl =
     InteractionsMap.get(props.node.type) ||
     props.customInteractions.get(props.node.type) ||
