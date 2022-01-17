@@ -2,13 +2,28 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Dumbot } from "./src/bot2/Bot";
-import { IDmbtShape } from "./src/bot2/definitions";
+import { IDmbtMessage, IDmbtShape } from "./src/bot2/definitions";
 import { testBotDefiniton } from "./testdata";
 
 const BotShape: IDmbtShape = {
   nodes: testBotDefiniton.chart.nodes,
   paths: testBotDefiniton.chart.paths,
 };
+
+const CustomDisplay = new Map([
+  [
+    "message",
+    (props: { message: IDmbtMessage }) => (
+      <pre>{JSON.stringify(props.message, null, 4)}</pre>
+    ),
+  ],
+  [
+    "text",
+    (props: { message: IDmbtMessage }) => (
+      <pre>{JSON.stringify(props.message, null, 4)}</pre>
+    ),
+  ],
+]);
 
 ReactDOM.render(
   <React.StrictMode>
@@ -44,6 +59,7 @@ ReactDOM.render(
           names: ["pietro", "tommaso", "filippo"],
         },
       }}
+      customMessageDisplay={CustomDisplay}
       theme={{
         bot: {
           buttonsRadius: "6px",

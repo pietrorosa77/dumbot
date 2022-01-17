@@ -17,6 +17,10 @@ import {
 export interface IMessageProps {
   message: IDmbtMessage;
   active?: boolean;
+  customMessageDisplay: Map<
+    string,
+    (props: { message: IDmbtMessage }) => JSX.Element
+  >;
 }
 
 export const Message = (props: IMessageProps) => {
@@ -71,6 +75,8 @@ export const Message = (props: IMessageProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [true]);
 
+  const Display = props.customMessageDisplay.get(props.message.output.type);
+
   return (
     <Box
       direction={direction}
@@ -83,6 +89,7 @@ export const Message = (props: IMessageProps) => {
         justifyContent,
         outline: "none",
       }}
+      margin={{ top: "5px" }}
       className={`message-part ${className}`}
     >
       {showavatar && !forceHideAvatars && (
@@ -112,9 +119,12 @@ export const Message = (props: IMessageProps) => {
           nicknameColor={nicknameColor}
           showClock={theme.avatarClock}
         >
-          <MarkdownView
-            text={props.message.content || props.message.output.value}
-          />
+          {Display && <Display message={props.message} />}
+          {!Display && (
+            <MarkdownView
+              text={props.message.content || props.message.output.value}
+            />
+          )}
         </MessageBoubbleContent>
       </Bubble>
     </Box>

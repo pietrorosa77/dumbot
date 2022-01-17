@@ -205,9 +205,9 @@ const onAnswer = (
 };
 
 const onMessage = (state: IDmbtState, message: IDmbtMessage) => {
-  const processed = state.processed.concat(message);
+  const active = state.active.concat(message);
   return {
     ...state,
-    processed,
+    active,
   };
 };

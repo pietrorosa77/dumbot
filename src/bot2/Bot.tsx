@@ -36,7 +36,7 @@ const DumbotInner = (
   }
 ) => {
   const {
-    //  initiallyClosed,
+    initiallyClosed,
     className,
     activeTheme: theme,
     trigger,
@@ -50,12 +50,9 @@ const DumbotInner = (
   const DmbtEventBus = getEventBus();
   const scrollAnchor = React.useRef<HTMLDivElement>();
   const botRef = React.useRef<HTMLDivElement>();
-  const [opened, setOpened] = React.useState(
-    props.initiallyClosed ? false : true
-  );
+  const [opened, setOpened] = React.useState(initiallyClosed ? false : true);
   const scrollerID = `${props.botUUID}scroll`;
   const scrollElement = React.useRef<HTMLElement | null>(null);
-
   const [state, dispatch] = useDmbtReducer(reducer, initialState, middlewares);
   const activeInteraction = onGetInteractionNode(state.activeInteraction);
   const interactionOnFooter =
@@ -74,9 +71,13 @@ const DumbotInner = (
         });
       }
 
-      if (scrollAnchor.current) {
-        scrollAnchor.current.scrollIntoView({ behavior: "smooth" });
-      }
+      // lets also delay the scroll to view of the bottom anchor: give timeto images and video to take
+      // additional space
+      setTimeout(() => {
+        if (scrollAnchor.current) {
+          scrollAnchor.current.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 300);
     });
   };
 
@@ -93,6 +94,12 @@ const DumbotInner = (
   }, []);
 
   //   React.useEffect(() => {
+  // onSetVariable: (name: string, value: any) => void;
+  // onComponentError?: (error: any) => void;
+  // onUserAction: (answer: IUserAction) => void;
+  // onLoaded: (ref: React.RefObject<any>) => void;
+  //onAddProcessedMessage: (message: IMessage) => void;
+  // onSendAttachments: (attachments: any[]) => Promise<void>;
   //     if (!botBodyRef.current) {
   //       return;
   //     }
@@ -167,6 +174,7 @@ const DumbotInner = (
                 active={state.active}
                 processed={state.processed}
                 onProcessed={messagesProcessed}
+                customMessageDisplay={props.customMessageDisplay}
               />
               {activeInteraction && (
                 <button onClick={onUserAnswer}>moveon</button>

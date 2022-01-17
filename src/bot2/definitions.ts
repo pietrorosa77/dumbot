@@ -66,6 +66,18 @@ export interface IDmbtState {
   variables: { [key: string]: any };
 }
 
+export interface IDmbtInteractionProps {
+  node: IDmbtNode;
+  customInteractions: Map<
+    string,
+    (props: IDmbtInteractionProps) => JSX.Element
+  >;
+  onCallHost?: (
+    label: string,
+    variables: { [key: string]: any }
+  ) => Promise<any>;
+}
+
 export interface IDmbtProps {
   botUUID: string;
   uuid?: string;
@@ -89,6 +101,14 @@ export interface IDmbtProps {
   onStateChanged?: (state: IDmbtState) => void;
   onBotFinished?: (state: IDmbtState) => void;
   disableAutofocus?: boolean;
+  customInteractions?: Map<
+    string,
+    (props: IDmbtInteractionProps) => JSX.Element
+  >;
+  customMessageDisplay?: Map<
+    string,
+    (props: { message: IDmbtMessage }) => JSX.Element
+  >;
 }
 
 export interface IBotThemableProps {

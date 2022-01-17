@@ -8,7 +8,7 @@ export const testBotDefiniton = {
         user: false,
         preventRemoval: true,
         content:
-          "# A demo of React\n ${multiOut}   \n\nLift($L$) can be determined by Lift Coefficient ($C_L$) like the following\nequation.\n\n$$\nL = \\frac{1}{2} \\rho v^2 S C_L\n$$\n<dumbot-boubble/>test small boubble\\nhttp://techslides.com/demos/sample-videos/small.webm<dumbot-boubble/>test small boubble<dumbot-boubble/>",
+          "# A demo of React\n ${multiOut}   \n\nLift($L$) can be determined by Lift Coefficient ($C_L$) like the following\nequation.\n\n$$\nL = \\frac{1}{2} \\rho v^2 S C_L\n$$\n<dumbot-boubble/>test small boubble\n\nhttp://techslides.com/demos/sample-videos/small.webm\n\n<dumbot-boubble/>test small boubble<dumbot-boubble/>",
         position: { x: 0, y: 0 },
         type: "start",
         output: { type: "null", id: "start" },

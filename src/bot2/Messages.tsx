@@ -9,6 +9,10 @@ interface IMessagesProps {
   processed: IDmbtMessage[];
   active: IDmbtMessage[];
   onProcessed: (last: IDmbtMessage) => void;
+  customMessageDisplay?: Map<
+    string,
+    (props: { message: IDmbtMessage }) => JSX.Element
+  >;
 }
 
 const getAdjustedProcessedMessages = (processed: IDmbtMessage[]) => {
@@ -17,7 +21,6 @@ const getAdjustedProcessedMessages = (processed: IDmbtMessage[]) => {
       const startNew =
         !acc.last ||
         acc.last.meta?.isUser !== curr.meta?.isUser ||
-        acc.last.meta?.label !== curr.meta?.label ||
         acc.last.meta?.nickname !== curr.meta?.nickname;
 
       if (startNew) {
@@ -28,10 +31,11 @@ const getAdjustedProcessedMessages = (processed: IDmbtMessage[]) => {
       } else {
         acc.group = acc.group.concat(curr as any) as any;
       }
-      acc.last =
-        curr.output.type !== "message" || curr.meta.silent
-          ? undefined
-          : (curr as any);
+      acc.last = curr;
+      // acc.last =
+      //   curr.output.type !== "message" || curr.meta.silent
+      //     ? undefined
+      //     : (curr as any);
       curr;
       if (index === processed.length - 1) {
         acc.messages.push(acc.group);
@@ -132,6 +136,7 @@ export const Messages = (props: IMessagesProps) => {
         key={`${m.id}-${i}`}
         active={i === processed.length - 1}
         message={m}
+        customMessageDisplay={props.customMessageDisplay || new Map()}
       ></Message>
     );
   });
