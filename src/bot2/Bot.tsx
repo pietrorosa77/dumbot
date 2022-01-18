@@ -62,7 +62,7 @@ const DumbotInner = (
   const [state, dispatch] = useDmbtReducer(reducer, initialState, middlewares);
   const activeInteraction = onGetInteractionNode(state.activeInteraction);
   const interactionOnFooter =
-    activeInteraction && activeInteraction.properties?.displayAs === "footer";
+    activeInteraction && activeInteraction.properties?.asFooter;
 
   const autoscroll = () => {
     requestAnimationFrame(() => {
@@ -183,7 +183,7 @@ const DumbotInner = (
                 ref={scrollAnchor as any}
                 height="100px"
                 background="transparent"
-                id="testDivBottom"
+                id="dumbotBottomAnchor"
               />
             </ChatbotContent>
             {/* <div

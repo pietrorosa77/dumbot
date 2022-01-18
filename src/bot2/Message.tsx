@@ -1,6 +1,6 @@
 import { Box } from "grommet";
 import React from "react";
-import { ThemeContext } from "styled-components";
+import styled, { css, keyframes, ThemeContext } from "styled-components";
 import {
   IBotThemableColors,
   IBotThemableProps,
@@ -80,7 +80,7 @@ export const Message = (props: IMessageProps) => {
   return (
     <Box
       direction={direction}
-      align="end"
+      align="start"
       pad="xsmall"
       alignSelf="end"
       alignContent="end"
@@ -93,12 +93,13 @@ export const Message = (props: IMessageProps) => {
       className={`message-part ${className}`}
     >
       {showavatar && !forceHideAvatars && (
-        <AvatarContainer>
+        <AvatarContainer className="dmbt-avatar-container">
           <BotAvatar
+            className="dmbt-avatar"
             user={!!isUser}
             active={!!props.active}
             src={avatar}
-            size={theme.avatarSize}
+            leading={!!metadata.leaingGroup}
             stay={!!metadata.hasAvatar}
           />
         </AvatarContainer>

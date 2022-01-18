@@ -59,6 +59,7 @@ const getAdjustedProcessedMessages = (processed: IDmbtMessage[]) => {
       meta: {
         ...m.meta,
         hasAvatar: i === el.length - 1,
+        leaingGroup: i === 0,
       },
     }));
     return acc.concat(messages);
@@ -99,51 +100,32 @@ export const Messages = (props: IMessagesProps) => {
     const queueCopy = [...(activeQueue as IDmbtMessage[])];
     const newActive = queueCopy.shift() as IDmbtMessage;
     setActive(newActive);
-    timer = setTimeout(() => {
-      setActive(undefined);
-      setProcessed(processed.concat(newActive));
-      setActiveQueue(queueCopy);
-    }, messageDelay);
+    timer = setTimeout(
+      () => {
+        setActive(undefined);
+        setProcessed(processed.concat(newActive));
+        setActiveQueue(queueCopy);
+      },
+      newActive.meta.isUser ? 300 : messageDelay
+    );
     return () => {
       clearTimeout(timer);
     };
   }, [activeQueueLength, messageDelay]);
 
-  // React.useEffect(() => {
-  //   let timer: any = 0;
-  //   if (active) {
-  //     //eventBus.emit("syncScroll", loading);
-  //     timer = setTimeout(() => {
-  //       setProcessed(processed.concat(active));
-  //       setActive(undefined);
-  //       const queueCopy = [...(activeQueue as IDmbtMessage[])];
-  //       queueCopy.shift() as IDmbtMessage;
-  //       setActiveQueue(queueCopy);
-  //     }, messageDelay);
-  //   }
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // }, [active?.id]);
-
-  // React.useEffect(() => {
-  //   if (loading) {
-  //     eventBus.emit("syncScroll", loading);
-  //   }
-  // }, [loading]);
-
-  const processedList = getAdjustedProcessedMessages(processed)
-    .filter((m) => props.viewSilentNoses ? m : !m.meta.silent)
-    .map((m, i) => {
-      return (
-        <Message
-          key={`${m.id}-${i}`}
-          active={i === processed.length - 1}
-          message={m}
-          customMessageDisplay={props.customMessageDisplay || new Map()}
-        ></Message>
-      );
-    });
+  const adjustedProcessed = getAdjustedProcessedMessages(processed).filter(
+    (m) => (props.viewSilentNoses ? m : !m.meta.silent)
+  );
+  const processedList = adjustedProcessed.map((m, i) => {
+    return (
+      <Message
+        key={`${m.id}-${i}`}
+        active={i === adjustedProcessed.length - 1}
+        message={m}
+        customMessageDisplay={props.customMessageDisplay || new Map()}
+      ></Message>
+    );
+  });
 
   return (
     <>

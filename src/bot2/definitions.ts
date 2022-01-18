@@ -12,6 +12,9 @@ export interface IDmbtNode {
     type: string;
   };
   properties?: {
+    width?: string;
+    asStart?: boolean;
+    asFooter?: boolean;
     [key: string]: any;
   };
   ports: {
@@ -46,6 +49,7 @@ export interface IDmbtMessage {
   output: IDmbtMessageOutput;
   meta: {
     isUser?: boolean;
+    leaingGroup?: boolean;
     nickname?: string;
     time?: string;
     silent?: boolean;
@@ -136,7 +140,7 @@ export interface IBotThemableProps {
   userAvatar?: string;
   botAvatar?: string;
   messageDelay?: number;
-  avatarSize?: string;
+  avatarSize?: number;
   disableAvatars?: boolean;
   bubbleAnimationDuration?: string;
   bubbleWidth?: string;

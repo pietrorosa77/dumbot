@@ -38,7 +38,7 @@ const BotProps: IBotThemableProps = {
   userAvatar: defaultuserAvatar,
   finalMessageContent: "Powered by Dumbot!",
   messageDelay: 2000,
-  avatarSize: "50px",
+  avatarSize: 60,
   disableAvatars: false,
   allowRestartOnEnd: true,
   bubbleAnimationDuration: "0.5s",

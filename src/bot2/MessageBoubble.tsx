@@ -1,10 +1,6 @@
 import { Avatar, Box, Clock } from "grommet";
 import styled, { css, keyframes } from "styled-components";
 
-export const scale = keyframes`
-  100% { transform: scale(1); }
-`;
-
 export const Bubble = styled(Box)<{
   user: boolean;
   hasAvatar: boolean;
@@ -41,21 +37,27 @@ export const Bubble = styled(Box)<{
   animation: ${(props: any) =>
     props.active
       ? css`
-          ${scale} ${props.theme.bot.bubbleAnimationDuration} ease forwards
+          ${keyframes`
+          100% { opacity: 1; }
+        `} ${props.theme.bot.bubbleAnimationDuration} ease-in forwards
         `
       : "none"};
 
-  transform: ${(props) => (props.active ? "scale(0)" : "none")};
+  opacity: ${(props) => (props.active ? "0" : "1")};
 `;
 
 export const AvatarContainer = styled.div`
-  max-width: ${(props) => props.theme.bot.avatarSize};
+  width: ${(props) => props.theme.bot.avatarSize}px;
+  max-width: ${(props) => props.theme.bot.avatarSize}px;
+  align-self: stretch;
+  position: relative;
 `;
 
 export const BotAvatar = styled(Avatar)<{
   user: boolean;
   active: boolean;
   stay: boolean;
+  leading: boolean;
 }>`
   background-color: ${(props) =>
     props.user
@@ -64,14 +66,26 @@ export const BotAvatar = styled(Avatar)<{
   border-radius: ${(props) => (props.user ? "50% 50% 50% 0" : "50% 50% 0 50%")};
   box-shadow: ${(props) => props.theme.bot.bubbleBoxShadow};
   padding: 3px;
+  width: ${(props) => props.theme.bot.avatarSize}px;
+  height: ${(props) => props.theme.bot.avatarSize}px;
+  display: ${(props) => (props.stay ? "flex" : "none")};
+  top: ${(props) =>
+    props.leading ? `calc( 100% - ${props.theme.bot.avatarSize}px )` : "0"};
+  position: absolute;
   animation: ${(props: any) =>
-    props.active
+    props.stay && !props.leading
       ? css`
-          ${scale} ${props.theme.bot.bubbleAnimationDuration} ease forwards
+          ${keyframes`
+          from {
+            top: 0px;
+          }
+          to {
+            opacity: 1;
+            top: calc( 100% - ${props.theme.bot.avatarSize}px );
+          }
+      `} ${props.theme.bot.bubbleAnimationDuration} ease-in forwards
         `
       : "none"};
-
-  transform: ${(props) => (!props.stay ? "scale(0)" : "none")};
 `;
 
 export const MessageBoubbleContent = (props: {
