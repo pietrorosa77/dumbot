@@ -7,7 +7,6 @@ export const Bubble = styled(Box)<{
   active: boolean;
   width?: string;
   maxWidth?: string;
-  color?: string;
 }>`
   display: inline-block;
   overflow: hidden;
@@ -28,11 +27,7 @@ export const Bubble = styled(Box)<{
     return rd;
   }};
   box-shadow: ${(props) => props.theme.bot.bubbleBoxShadow};
-  color: ${(props) =>
-    props.color ||
-    (props.user
-      ? props.theme.global.colors.botUserFontColor
-      : props.theme.global.colors.botFontColor)};
+  color: ${(props) => props.color};
   padding: ${(props) => props.theme.bot.bubblePadding};
   animation: ${(props: any) =>
     props.active
@@ -102,7 +97,7 @@ export const MessageBoubbleContent = (props: {
           {props.nickname}
         </Box>
       )}
-      <Box direction="row">
+      <Box direction="row" gap="xsmall">
         <div
           style={{
             flex: 1,

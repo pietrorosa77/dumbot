@@ -1,6 +1,6 @@
 import { Box } from "grommet";
 import React from "react";
-import styled, { css, keyframes, ThemeContext } from "styled-components";
+import { ThemeContext } from "styled-components";
 import {
   IBotThemableColors,
   IBotThemableProps,
@@ -35,9 +35,11 @@ export const Message = (props: IMessageProps) => {
   const avatar =
     metadata.avatarSrc || (isUser ? theme.userAvatar : theme.botAvatar);
   const boubbleBgColor =
-    metadata?.bgColor ||
-    (isUser ? themeColors.botUserBubbleColor : themeColors.botBubbleColor);
-  const boubbleColor = metadata?.color;
+    metadata?.bgColor || (isUser ? "botUserBubbleColor" : "botBubbleColor");
+  const boubbleColor =
+    metadata?.color || isUser
+      ? themeColors.botUserFontColor
+      : themeColors.botFontColor;
   const nickName =
     metadata?.nickname || (isUser ? theme.userNick : theme.dumbotNick);
   const nicknameColor =
@@ -48,9 +50,9 @@ export const Message = (props: IMessageProps) => {
   const justifyContent = isUser ? "end" : "start";
   const className = isUser ? "message-part-user" : "message-part-bot";
 
-  React.useEffect(() => {
-    console.log("rerendering", props.message.id);
-  }, [true]);
+  // React.useEffect(() => {
+  //   console.log("remounting", props.message.id);
+  // }, [true]);
 
   React.useEffect(() => {
     const mq = window.matchMedia(

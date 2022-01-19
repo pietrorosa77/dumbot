@@ -77,6 +77,7 @@ const BotColors: IBotThemableColors = {
   botCloseButtonFontColor: "#fff",
   botBackButtonFontColor: "#fff",
   tipColor: "#fff",
+  botInteractionBgColor: "#4a4d70",
 };
 
 export const DefaultBotFont = {

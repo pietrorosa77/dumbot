@@ -56,7 +56,6 @@ export const testBotDefiniton = {
           max: 4,
           direction: "row",
           label: "buttons",
-          displayAs: "message",
         },
         ports: {
           default: {

@@ -1,4 +1,3 @@
-import { Box } from "grommet";
 import React from "react";
 import { ThemeContext } from "styled-components";
 import { IBotTheme, IDmbtMessage } from "./definitions";
@@ -79,10 +78,12 @@ export const Messages = (props: IMessagesProps) => {
 
   React.useEffect(() => {
     setProcessed(props.processed);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [processedStr]);
 
   React.useEffect(() => {
     setActiveQueue(props.active);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeStr]);
 
   React.useEffect(() => {

@@ -35,25 +35,19 @@ ReactDOM.render(
       onToggle={(opened: boolean) => {
         //console.log(opened);
       }}
-      //   onUserAction={(answer) => {
-      //     console.log("USERANSWER", answer);
-      //   }}
-      //   onSetVariable={(name, value) => {
-      //     console.log("SETTINGVARIABLE", name, value);
-      //   }}
-      //   onStateChanging={(state, type, payload) => {
-      //     console.log("STATECHANGING", type, payload);
-      //   }}
-      //   onStateChanged={(state) => {
-      //     console.log("STATECHANGED", state);
-      //   }}
+      onSendDataToHost={(data) => {
+        console.log("onSendDataToHost", data);
+      }}
+      onStateChanged={(data) => {
+        console.log("STATECHANGED", data);
+      }}
       //   onBotFinished={(state) => {
       //     console.log("FINISHED");
       //   }}
-      //   onCallHost={async () => {
-      //     const res = await fetch("https://gorest.co.in/public/v1/users");
-      //     return await res.json();
-      //   }}
+      onCallHost={async () => {
+        const res = await fetch("https://gorest.co.in/public/v1/users");
+        return await res.json();
+      }}
       externalVariables={{
         test: {
           names: ["pietro", "tommaso", "filippo"],

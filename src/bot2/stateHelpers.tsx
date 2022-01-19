@@ -1,4 +1,5 @@
-import { get } from "lodash";
+import { Avatar } from "grommet";
+import { get, isEmpty } from "lodash";
 import {
   IDmbtState,
   IDmbtShape,
@@ -7,7 +8,9 @@ import {
   IDmbtMessage,
   IDmbtMessageOutput,
   DEFAULT_NODE_PORT,
+  IDmbtPort,
 } from "./definitions";
+import * as AllIcons from "grommet-icons";
 
 const navigateObjectPropertiesAndSubastitute = (path: string, bag: any) => {
   return get(bag, path, undefined);
@@ -31,6 +34,32 @@ const substituteVars = (
   );
 };
 
+export const substituteVarsInObject = (data: any, metadata: any): any => {
+  if (isEmpty(metadata)) {
+    return data;
+  }
+
+  let text = JSON.stringify(data); // stringify data object
+  // eslint-disable-next-line
+  const myregexp = /\${([\[\]a-z\d.]+)}/i; // regex to match the content to be replaced in data
+  let match;
+  let new_data = "";
+  while ((match = myregexp.exec(text))) {
+    // loop all matches
+    try {
+      // Example: [0]=${user.name} / [1]=user.name
+      new_data = text.replace(match[0], get(metadata, match[1]) || match[1]);
+      text = new_data;
+    } catch (err: any) {
+      console.log("Requested element doesn't exist", err.message);
+    }
+    match = myregexp.exec(text);
+  }
+
+  const ret = new_data ? JSON.parse(new_data) : data;
+  return ret;
+};
+
 export const BUBBLE_DELIMITER = "<dumbot-boubble/>";
 
 export const getBotStartingNode = (state: IDmbtShape) => {
@@ -38,6 +67,35 @@ export const getBotStartingNode = (state: IDmbtShape) => {
   return nodes.find(
     (el) => el.type === START_NODE_TYPE || el.properties?.asStart
   );
+};
+
+export const prepareInteractionNode = (
+  node: IDmbtNode,
+  variables: any
+): IDmbtNode => {
+  const ports = Object.keys(node.ports).reduce(
+    (acc: { [key: string]: IDmbtPort }, key) => {
+      const currPort = node.ports[key];
+      const text = substituteVars(currPort.text, variables);
+      const value = currPort.value
+        ? substituteVars(currPort.value, variables)
+        : text;
+      return {
+        ...acc,
+        [`${key}`]: {
+          ...currPort,
+          text,
+          value,
+        },
+      };
+    },
+    {}
+  );
+
+  return {
+    ...node,
+    ports,
+  };
 };
 
 export const getNodeMessages = (
@@ -48,7 +106,7 @@ export const getNodeMessages = (
     return [];
   }
 
-  if(!node.content) {
+  if (!node.content) {
     return [
       {
         id: `${node.id}-silentpart}`,
@@ -65,8 +123,8 @@ export const getNodeMessages = (
           silent: true,
           time: new Date().toISOString(),
         },
-      }
-    ]
+      },
+    ];
   }
 
   const parts = node.content.split(BUBBLE_DELIMITER).filter((el: string) => el);
@@ -136,3 +194,20 @@ export const getInitialState = (
     loading: false,
   };
 };
+
+export const getPortsArray = (
+  portDictionary: { [key: string]: IDmbtPort },
+  keepDefault = false
+): IDmbtPort[] =>
+  Object.entries(portDictionary)
+    .filter((e) => (keepDefault ? e[1] : e[0] !== DEFAULT_NODE_PORT))
+    .map((e) => ({
+      key: e[0],
+      ...e[1],
+    }));
+
+// eslint-disable-next-line
+const getImageIcon = (src: string) => (props: any) =>
+  <Avatar src={src} className="dbot-icon" size="20px" {...props} />;
+export const GetIcon = (icon?: string) =>
+  icon ? (AllIcons as any)[icon] || getImageIcon(icon) : null;

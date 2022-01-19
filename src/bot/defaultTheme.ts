@@ -54,7 +54,7 @@ const BotProps: IBotThemableProps = {
 const BotColors: IBotThemableColors = {
   botBackground: "#cbd2ff",
   botBubbleColor: "#4a4d70",
-  botFontColor: "#fff",
+  botFontColor: "red",
   botUserBubbleColor: "#edeef9",
   botUserFontColor: "#4a4a4a",
   optionsColor: "#7D4CDB",

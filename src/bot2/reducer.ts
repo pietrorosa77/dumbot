@@ -5,6 +5,7 @@ import {
   DmbtDispatch,
   DmbtMiddlewhare,
   DmbtStore,
+  IDmbtEventBus,
   IDmbtMessage,
   IDmbtMessageOutput,
   IDmbtNode,
@@ -19,10 +20,14 @@ import {
   getUserAnswer,
 } from "./stateHelpers";
 
+export const DispatcherContext: React.Context<DmbtDispatch> =
+  React.createContext<any>(null);
+
 export function useDmbtReducer(
   reducer: (state: IDmbtState, action: SimpleAction) => IDmbtState,
   initialState: IDmbtState,
-  middlewares: DmbtMiddlewhare[] = []
+  middlewares: DmbtMiddlewhare[] = [],
+  eventBus: IDmbtEventBus
 ): [IDmbtState, DmbtDispatch] {
   const hook = useState(initialState);
   const state = hook[0];
@@ -36,6 +41,7 @@ export function useDmbtReducer(
   };
   const store: DmbtStore = {
     getState: () => draftState.current,
+    getEventBus: () => eventBus,
     dispatch: (...args: any[]) => (enhancedDispatch as any)(...args),
   };
   const chain = middlewares.map((middleware) => middleware(store));
@@ -86,6 +92,9 @@ export const createReducer = (shape: IDmbtShape, externalVariables?: any) => {
         break;
       case "@loading":
         ret = onLoading(state, action.payload as boolean);
+        break;
+      default:
+        ret = state;
         break;
     }
 

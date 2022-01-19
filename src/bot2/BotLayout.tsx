@@ -45,6 +45,11 @@ const ChatBotContentWrpper = styled.div`
     &:focus {
       outline: none;
     }
+    .dmbt-interaction-container {
+      &:focus {
+        outline: 3px solid ${({ theme }) => theme.global.colors.focus};
+      }
+    }
     scrollbar-width: none;
     /* this will hide the scrollbar in mozilla based browsers */
     overflow: -moz-scrollbars-none;

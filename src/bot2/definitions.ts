@@ -3,6 +3,15 @@ import { Colors, ThemeType } from "grommet/themes/base";
 export const START_NODE_TYPE = "start";
 export const DEFAULT_NODE_PORT = "default";
 
+export interface IDmbtPort {
+  id: string;
+  text: string;
+  index: number;
+  value?: string;
+  icon?: string;
+  [key: string]: any;
+}
+
 export interface IDmbtNode {
   id: string;
   type: string;
@@ -18,9 +27,7 @@ export interface IDmbtNode {
     [key: string]: any;
   };
   ports: {
-    [key: string]: {
-      [key: string]: any;
-    };
+    [key: string]: IDmbtPort;
   };
   user: boolean;
   silent?: boolean;
@@ -74,13 +81,12 @@ export interface IDmbtState {
 
 export interface IDmbtInteractionProps {
   node: IDmbtNode;
-  customInteractions: Map<
-    string,
-    (props: IDmbtInteractionProps) => JSX.Element
-  >;
+  theme: IBotTheme;
+  variables: any;
+  dispatcher: DmbtDispatch;
   onCallHost?: (
-    label: string,
-    variables: { [key: string]: any }
+    hostFunctionName: string,
+    parameters: { [key: string]: any }
   ) => Promise<any>;
 }
 
@@ -103,12 +109,14 @@ export interface IDmbtProps {
   hideHeader?: boolean;
   hideFooter?: boolean;
   onToggle?: (opened: boolean) => void;
-  onUserAnswer?: (answer: IDmbtMessageOutput) => void;
   onCallHost?: (label: string, variables: any) => Promise<any>;
-  onSetVariable?: (name: string, value: any) => void;
-  onSendAttachments?: (files: any[]) => Promise<void>;
-  onStateChanged?: (state: IDmbtState) => void;
+  onStateChanged?: (data: {
+    new: IDmbtState;
+    prev: IDmbtState;
+    action: SimpleAction;
+  }) => void;
   onBotFinished?: (state: IDmbtState) => void;
+  onSendDataToHost?: (data: any) => void;
   disableAutofocus?: boolean;
   customInteractions?: Map<
     string,
@@ -182,32 +190,56 @@ export interface IBotThemableColors extends Colors {
   botCloseButtonFontColor: string;
   botBackButtonFontColor: string;
   tipColor: string;
+  botInteractionBgColor: string;
 }
 
 export type IBotTheme = ThemeType & {
   bot?: IBotThemableProps;
 };
 
+export type DmbtActionType =
+  | "@next"
+  | "@prev"
+  | "@answer"
+  | "@variable"
+  | "@message"
+  | "@restart"
+  | "@loading"
+  | DmbtEvents;
+
 export type SimpleAction = {
-  type:
-    | "@next"
-    | "@prev"
-    | "@answer"
-    | "@variable"
-    | "@message"
-    | "@restart"
-    | "@loading";
+  type: DmbtActionType;
   payload: any;
 };
-export type DmbtAction = SimpleAction | any;
+export type DmbtAction = SimpleAction | ((store: DmbtStore) => any);
 
 export type DmbtDispatch = (action: DmbtAction) => any;
 
 export type DmbtStore = {
   getState: () => IDmbtState;
   dispatch: DmbtDispatch;
+  getEventBus: () => IDmbtEventBus;
 };
 
 export type DmbtMiddlewhare = (
   store: DmbtStore
 ) => (next: DmbtDispatch) => (action: DmbtAction) => any;
+
+export type DmbtEventBusUnsubscibeHandle = (event: CustomEvent) => void;
+export type DmbtEvents = "dmbt-StateChanged" | "evt-SendDataToHost";
+
+export interface IDmbtEventBus {
+  subscribe: (
+    event: DmbtEvents,
+    callback: (data?: any) => void,
+    options?: AddEventListenerOptions
+  ) => DmbtEventBusUnsubscibeHandle;
+
+  unSubscribe: (
+    event: DmbtEvents,
+    unsubscribeHandle: DmbtEventBusUnsubscibeHandle,
+    options?: AddEventListenerOptions
+  ) => void;
+
+  emit: (type: DmbtEvents, data: any) => void;
+}

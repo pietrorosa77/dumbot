@@ -83,3 +83,49 @@ export const ActionButtonUser = styled(Button)`
   }
   `};
 `;
+
+export const BotInteractionButton = styled(Button)<{
+  onlyIcon: boolean;
+  selected: boolean;
+}>`
+  background-color: ${(props) =>
+    props.theme.global.colors[
+      props.selected ? "botBubbleColor" : "botUserBubbleColor"
+    ]};
+  border: 2px solid ${(props) => props.theme.global.colors["botBubbleColor"]};
+  border-radius: ${(props) =>
+    props.onlyIcon
+      ? props.theme.bot.onlyIconButtonsRadius || "50%"
+      : props.theme.bot.buttonsRadius || "8px"};
+  color: ${(props) =>
+    props.theme.global.colors[
+      props.selected ? "botFontColor" : "botUserFontColor"
+    ]};
+  box-shadow: ${(props) =>
+    props.selected
+      ? `0 0 2px 2px ${props.theme.global.colors["botFocusColor"]} !important`
+      : "none"};
+  svg {
+    fill: ${(props) =>
+      props.theme.global.colors[
+        props.selected ? "botFontColor" : "botBubbleColor"
+      ]};
+    stroke: ${(props) =>
+      props.theme.global.colors[
+        props.selected ? "botFontColor" : "botBubbleColor"
+      ]};
+  }
+
+  &:hover {
+    box-shadow: 0 0 2px 2px
+      ${(props) => props.theme.global.colors["botFocusColor"]};
+    opacity: 0.9;
+    transform: scale(1.1);
+    transition: 0.3s ease-out;
+    color: ${(props) => props.theme.global.colors["botFocusColor"]};
+    svg {
+      fill: ${(props) => props.theme.global.colors["botFocusColor"]};
+      stroke: ${(props) => props.theme.global.colors["botFocusColor"]};
+    }
+  }
+`;

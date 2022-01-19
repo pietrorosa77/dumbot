@@ -1,6 +1,5 @@
 import { Box, Grommet } from "grommet";
 import { deepMerge } from "grommet/utils";
-import { nanoid } from "nanoid";
 import React, { useCallback } from "react";
 import { createGlobalStyle } from "styled-components";
 import { ChatbotContent, ChatBotOuterContainer } from "./BotLayout";
@@ -8,7 +7,6 @@ import {
   DmbtMiddlewhare,
   IBotTheme,
   IDmbtMessage,
-  IDmbtMessageOutput,
   IDmbtNode,
   IDmbtProps,
   IDmbtShape,
@@ -18,16 +16,21 @@ import {
 import { BotFooter } from "./Footer";
 import { BotHeader } from "./Header";
 import { Messages } from "./Messages";
-import { logMiddleware, thunkMiddleware } from "./middlewares";
-import { useDmbtReducer, createReducer } from "./reducer";
+import {
+  eventBusMiddleware,
+  logMiddleware,
+  thunkMiddleware,
+} from "./middlewares";
+import { useDmbtReducer, createReducer, DispatcherContext } from "./reducer";
 import { getInitialState } from "./stateHelpers";
 import { BotTheme } from "./Theme";
 import { Trigger } from "./Trigger";
-import { EventBusContext, getEventBus } from "./eventBus";
+import { useEventBus } from "./eventBus";
 import {
   useMutationObservable,
   useResizeListener,
 } from "./useMutationObservable";
+import { Interaction } from "./Interaction";
 
 const DumbotInner = (
   props: IDmbtProps & {
@@ -53,16 +56,22 @@ const DumbotInner = (
     hideHeader,
   } = props;
 
-  const DmbtEventBus = getEventBus();
   const scrollAnchor = React.useRef<HTMLDivElement>();
   const botRef = React.useRef<HTMLDivElement>();
   const [opened, setOpened] = React.useState(initiallyClosed ? false : true);
   const scrollerID = `${props.botUUID}scroll`;
   const scrollElement = React.useRef<HTMLElement | null>(null);
-  const [state, dispatch] = useDmbtReducer(reducer, initialState, middlewares);
+  const DmbtEventBus = useEventBus();
+  const [state, dispatch] = useDmbtReducer(
+    reducer,
+    initialState,
+    middlewares,
+    DmbtEventBus
+  );
   const activeInteraction = onGetInteractionNode(state.activeInteraction);
   const interactionOnFooter =
     activeInteraction && activeInteraction.properties?.asFooter;
+  const { onSendDataToHost, onStateChanged, onToggle, onCallHost } = props;
 
   const autoscroll = () => {
     requestAnimationFrame(() => {
@@ -90,34 +99,38 @@ const DumbotInner = (
   useMutationObservable(botRef.current as any, autoscroll);
   useResizeListener(autoscroll);
 
-  //   React.useEffect(() => {
-  // onSetVariable: (name: string, value: any) => void;
-  // onComponentError?: (error: any) => void;
-  // onUserAction: (answer: IUserAction) => void;
-  // onLoaded: (ref: React.RefObject<any>) => void;
-  //onAddProcessedMessage: (message: IMessage) => void;
-  // onSendAttachments: (attachments: any[]) => Promise<void>;
-  //     if (!botBodyRef.current) {
-  //       return;
-  //     }
-  //     const handler = DmbtEventBus.subscribe("syncScroll", () => {
-  //       autoscroll(botBodyRef.current);
-  //       if (opened && botBodyRef.current && !props.disableAutofocus) {
-  //         botBodyRef.current.focus();
-  //       }
-  //     });
+  React.useEffect(() => {
+    const sendDataToHostHandler = DmbtEventBus.subscribe(
+      "evt-SendDataToHost",
+      (data) => {
+        if (onSendDataToHost) {
+          onSendDataToHost(data);
+        }
+      }
+    );
 
-  //     return () => DmbtEventBus.unSubscribe("syncScroll", handler);
-  //   }, [botBodyRef.current, DmbtEventBus]);
+    const stateChangedHandler = DmbtEventBus.subscribe(
+      "dmbt-StateChanged",
+      (data) => {
+        if (onStateChanged) {
+          onStateChanged(data);
+        }
+      }
+    );
+
+    return () => {
+      DmbtEventBus.unSubscribe("evt-SendDataToHost", sendDataToHostHandler);
+      DmbtEventBus.unSubscribe("dmbt-StateChanged", stateChangedHandler);
+    };
+  }, [DmbtEventBus, dispatch, onSendDataToHost, onStateChanged]);
 
   React.useEffect(() => {
-    if (props.onToggle) {
-      props.onToggle(opened);
+    if (onToggle) {
+      onToggle(opened);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [opened]);
+  }, [opened, onToggle]);
 
-  const onToggle = useCallback((opened: boolean) => {
+  const onToggleCb = useCallback((opened: boolean) => {
     setOpened(opened);
   }, []);
 
@@ -135,34 +148,30 @@ const DumbotInner = (
     });
   };
 
-  const onUserAnswer = () => {
-    const usrAnswer: IDmbtMessageOutput = {
-      id: nanoid(),
-      port: "default",
-      type: "text",
-      value: "test",
-    };
-    dispatch({
-      type: "@answer",
-      payload: usrAnswer,
-    });
+  const onCallHostCb = async (hostFunctionName: string, parameters: any) => {
+    if (!onCallHost) {
+      console.error("on call host isn't defined as Bot property");
+      return null;
+    }
+
+    return await onCallHost(hostFunctionName, parameters);
   };
 
   return (
-    <EventBusContext.Provider value={DmbtEventBus}>
+    <DispatcherContext.Provider value={dispatch}>
       <Box width="100%" height="100%" className={className} ref={botRef as any}>
         <Trigger
           opened={opened}
           icon={trigger?.icon || theme.bot?.botAvatar}
           size={trigger?.size}
-          onToggleBot={onToggle}
+          onToggleBot={onToggleCb}
         />
         {opened && (
           <ChatBotOuterContainer>
             {!hideHeader && (
               <BotHeader
                 allowClose={allowClose}
-                onClose={() => onToggle(false)}
+                onClose={() => onToggleCb(false)}
                 isEnd={state.finished || false}
                 interactive={state.activeInteraction ? true : false}
                 onBack={onBack}
@@ -176,8 +185,17 @@ const DumbotInner = (
                 viewSilentNoses={viewSilentNodes}
                 customMessageDisplay={props.customMessageDisplay}
               />
-              {activeInteraction && (
-                <button onClick={onUserAnswer}>moveon</button>
+              {activeInteraction && !interactionOnFooter && (
+                <Interaction
+                  customInteractions={props.customInteractions}
+                  node={activeInteraction}
+                  variables={state.variables}
+                  theme={theme}
+                  dispatcher={dispatch}
+                  round="medium"
+                  margin={{ top: "20px" }}
+                  onCallHost={onCallHostCb}
+                />
               )}
               <Box
                 ref={scrollAnchor as any}
@@ -186,26 +204,19 @@ const DumbotInner = (
                 id="dumbotBottomAnchor"
               />
             </ChatbotContent>
-            {/* <div
-              style={{
-                backgroundColor: theme.global?.colors
-                  ?.botFooterBgColor as any,
-              }}
-            > */}
-            {/* <FooterInteraction
-                    node={botState.activeInteraction}
-                    key={`footerinteractionwr-${botState.activeInteraction?.id}`}
-                    onAddProcessedMessage={onAddProcessedMessage}
-                    onLoaded={onLoaded}
-                    onCallHost={onCallHost}
-                    variables={botState.variables}
-                    onSetVariable={onSetVariable}
-                    onSendAttachments={onSendAttachments}
-                    onUserAction={onUserAction}
-                    renderErrorDetails={props.renderErrorDetails}
-                    onGetExternalComponent={onGetExternalComponent}
-                  /> */}
-            {/* </div> */}
+            {activeInteraction && interactionOnFooter && (
+              <div style={{ maxHeight: "100%" }}>
+                <Interaction
+                  customInteractions={props.customInteractions}
+                  node={activeInteraction}
+                  variables={state.variables}
+                  theme={theme}
+                  dispatcher={dispatch}
+                  bgColor="botFooterBgColor"
+                  onCallHost={onCallHostCb}
+                />
+              </div>
+            )}
             {!interactionOnFooter && !hideFooter && (
               <BotFooter
                 isEnd={state.finished || false}
@@ -216,7 +227,7 @@ const DumbotInner = (
           </ChatBotOuterContainer>
         )}
       </Box>
-    </EventBusContext.Provider>
+    </DispatcherContext.Provider>
   );
 };
 
@@ -260,10 +271,10 @@ export const Dumbot = (
     props.savedState,
     props.externalVariables
   );
-
-  const baseMiddlewares = props.log
-    ? [thunkMiddleware, logMiddleware]
-    : [thunkMiddleware];
+  const baseMiddlewares = [thunkMiddleware, eventBusMiddleware];
+  if (props.log) {
+    baseMiddlewares.push(logMiddleware);
+  }
   const middlewares = (props.middlewares || []).concat(baseMiddlewares);
 
   const onGetInteractionNode = (id?: string) => {

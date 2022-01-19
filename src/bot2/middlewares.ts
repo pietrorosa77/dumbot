@@ -1,4 +1,10 @@
-import { DmbtAction, DmbtDispatch, DmbtStore } from "./definitions";
+import {
+  DmbtAction,
+  DmbtDispatch,
+  DmbtEvents,
+  DmbtStore,
+  SimpleAction,
+} from "./definitions";
 
 export function composeMiddleware(...fns: any[]) {
   if (fns.length === 0) return (arg: any) => arg;
@@ -22,11 +28,29 @@ export function logMiddleware(store: DmbtStore) {
 export function thunkMiddleware(store: DmbtStore) {
   return (next: DmbtDispatch) => (action: DmbtAction) => {
     if (typeof action === "function") {
-      // Inject the store's `dispatch` and `getState`
-      return action(store.dispatch, store.getState);
+      // Inject the store
+      return action(store);
     }
-
     // Otherwise, pass the action down the middleware chain as usual
     return next(action);
+  };
+}
+
+export function eventBusMiddleware(store: DmbtStore) {
+  return (next: DmbtDispatch) => (action: DmbtAction) => {
+    const type = (action as SimpleAction).type as DmbtEvents;
+    if (type.startsWith("evt-")) {
+      return store.getEventBus().emit(type, (action as SimpleAction).payload);
+    }
+    const prevState = store.getState();
+    // Otherwise, pass the action down the middleware chain as usual
+    next(action);
+    store
+      .getEventBus()
+      .emit("dmbt-StateChanged", {
+        prev: prevState,
+        next: store.getState(),
+        action,
+      });
   };
 }

@@ -1,25 +1,10 @@
-import React from "react";
+import {
+  DmbtEventBusUnsubscibeHandle,
+  DmbtEvents,
+  IDmbtEventBus,
+} from "./definitions";
 
 let _bus: Comment;
-
-type DmbtEventBusUnsubscibeHandle = (event: CustomEvent) => void;
-type DmbtEvents = "syncScroll" | "resize";
-
-interface IDmbtEventBus {
-  subscribe: (
-    event: DmbtEvents,
-    callback: (data?: any) => void,
-    options?: AddEventListenerOptions
-  ) => DmbtEventBusUnsubscibeHandle;
-
-  unSubscribe: (
-    event: DmbtEvents,
-    unsubscribeHandle: DmbtEventBusUnsubscibeHandle,
-    options?: AddEventListenerOptions
-  ) => void;
-
-  emit: (type: DmbtEvents, data: any) => void;
-}
 
 const subscribe = (
   event: DmbtEvents,
@@ -57,7 +42,7 @@ const emit = (type: DmbtEvents, data: any) => {
   _bus.dispatchEvent(event);
 };
 
-export const getEventBus = (): IDmbtEventBus => {
+export const useEventBus = (): IDmbtEventBus => {
   if (!_bus) {
     _bus = document.appendChild(new Comment("my-event-bus"));
   }
@@ -68,6 +53,3 @@ export const getEventBus = (): IDmbtEventBus => {
     emit,
   };
 };
-
-export const EventBusContext: React.Context<IDmbtEventBus> =
-  React.createContext<any>(null);
