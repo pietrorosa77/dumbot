@@ -2,6 +2,7 @@ import { Box, ThemeContext } from "grommet";
 import { MarginType } from "grommet/utils";
 import React from "react";
 import { IBotTheme, IDmbtInteractionProps } from "./definitions";
+import { BotMultiChoice } from "./interactions/MultiChoiceInteraction";
 import { BotSingleChoice } from "./interactions/SingleChoiceInteraction";
 import { prepareInteractionNode } from "./stateHelpers";
 
@@ -11,6 +12,7 @@ const InteractionsMap = new Map<
 >([
   // ["question", BotQuestion],
   ["buttons", BotSingleChoice],
+  ["multiButtons", BotMultiChoice],
 ]);
 
 export const Interaction = (

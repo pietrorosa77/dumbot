@@ -44,14 +44,14 @@ export const testBotDefiniton = {
       },
       KfB4u17Hzo: {
         id: "KfB4u17Hzo",
-        type: "buttons",
+        type: "multiButtons",
         user: true,
         content: "please pick an option",
         position: { x: 46, y: 419 },
         title: "Buttons",
         output: { id: "multiOut", type: "text" },
         properties: {
-          multiple: false,
+          asFooter: false,
           min: 2,
           max: 4,
           direction: "row",

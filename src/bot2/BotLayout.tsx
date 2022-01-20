@@ -1,5 +1,4 @@
 import { Box } from "grommet";
-import React, { LegacyRef } from "react";
 import styled, { css, keyframes } from "styled-components";
 
 const showElement = keyframes`
@@ -110,3 +109,12 @@ export const ChatbotContent = (props: { children: any; id: string }) => {
     </ChatBotContentWrpper>
   );
 };
+
+// used to surround input controls
+export const HoveredContainer = styled(Box)<{
+  hoverBorderColor: string;
+}>`
+  &:hover {
+    border-color: ${(props) => props.hoverBorderColor};
+  }
+`;

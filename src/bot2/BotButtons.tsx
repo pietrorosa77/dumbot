@@ -1,5 +1,10 @@
 import { Button } from "grommet";
 import styled from "styled-components";
+import { ThemeContext } from "grommet";
+import { Attachment } from "grommet-icons";
+import * as React from "react";
+import { ChangeEvent } from "react";
+import { IBotThemableColors, IBotTheme } from "./definitions";
 
 export const ActionButtonBot = styled(Button)<{
   bgColor?: string;
@@ -129,3 +134,61 @@ export const BotInteractionButton = styled(Button)<{
     }
   }
 `;
+
+export const SubmitButton = styled(Button)<{
+  hoverColor: string;
+}>`
+  &:hover {
+    svg {
+      fill: ${(props) => (!props.disabled ? props.hoverColor : undefined)};
+      stroke: ${(props) => (!props.disabled ? props.hoverColor : undefined)};
+    }
+  }
+`;
+
+export const UploadFileButton = (props: {
+  onSelectFiles: (files: FileList | null) => void;
+  loading?: boolean;
+  multiple?: boolean;
+  accept?: string;
+}) => {
+  const theme: IBotTheme = React.useContext(ThemeContext) as IBotTheme;
+  const botColors = theme.global?.colors as IBotThemableColors;
+  const botFocusColor = botColors.botFocusColor;
+  const simpleColor = botColors.botBubbleColor as string;
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    props.onSelectFiles(files);
+  };
+
+  return (
+    <>
+      <input
+        type="file"
+        id="file"
+        ref={fileInputRef}
+        accept={props.accept}
+        onChange={onChange}
+        multiple={props.multiple}
+        style={{ display: "none" }}
+      />
+      <SubmitButton
+        icon={<Attachment />}
+        hoverColor={botFocusColor}
+        size="small"
+        disabled={props.loading}
+        color={simpleColor}
+        a11yTitle="attach file"
+        tip={"upload file"}
+        focusIndicator={false}
+        onClick={() => {
+          if (fileInputRef.current) {
+            fileInputRef.current.click();
+          }
+        }}
+      ></SubmitButton>
+    </>
+  );
+};
