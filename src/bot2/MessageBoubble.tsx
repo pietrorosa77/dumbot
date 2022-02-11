@@ -89,6 +89,7 @@ export const MessageBoubbleContent = (props: {
   children: any;
   showClock?: boolean;
   time: string;
+  clockSide: "start" | "end";
 }) => {
   return (
     <Box direction="column">
@@ -97,24 +98,24 @@ export const MessageBoubbleContent = (props: {
           {props.nickname}
         </Box>
       )}
-      <Box direction="row" gap="xsmall">
+      <Box gap="xsmall">
         <div
           style={{
             flex: 1,
-            overflow: "hidden",
+            overflowX: "auto",
             overflowWrap: "break-word",
           }}
         >
           {props.children}
         </div>
         {props.showClock && (
-          <Box pad="none" justify="end">
+          <Box pad="none">
             <Clock
               type="digital"
               precision="minutes"
               run={false}
               time={props.time}
-              alignSelf="end"
+              alignSelf={props.clockSide}
               size="xsmall"
             />
           </Box>

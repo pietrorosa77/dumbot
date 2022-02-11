@@ -44,7 +44,7 @@ const emit = (type: DmbtEvents, data: any) => {
 
 export const useEventBus = (): IDmbtEventBus => {
   if (!_bus) {
-    _bus = document.appendChild(new Comment("my-event-bus"));
+    _bus = document.appendChild(new Comment("mdmbtBot-event-bus"));
   }
 
   return {

@@ -121,6 +121,7 @@ export const Message = (props: IMessageProps) => {
           time={metadata.time as string}
           nicknameColor={nicknameColor}
           showClock={theme.avatarClock}
+          clockSide={isUser ? "start" : "end"}
         >
           {Display && <Display message={props.message} />}
           {!Display && (

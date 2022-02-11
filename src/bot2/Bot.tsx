@@ -1,6 +1,6 @@
 import { Box, Grommet } from "grommet";
 import { deepMerge } from "grommet/utils";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { createGlobalStyle } from "styled-components";
 import { ChatbotContent, ChatBotOuterContainer } from "./BotLayout";
 import {
@@ -26,11 +26,12 @@ import { getInitialState } from "./stateHelpers";
 import { BotTheme } from "./Theme";
 import { Trigger } from "./Trigger";
 import { useEventBus } from "./eventBus";
-import {
-  useMutationObservable,
-  useResizeListener,
-} from "./useMutationObservable";
+// import {
+//   useMutationObservable,
+//   useResizeListener,
+// } from "./useMutationObservable";
 import { Interaction } from "./Interaction";
+import { normalizeCss } from "./normalizeCss";
 
 const DumbotInner = (
   props: IDmbtProps & {
@@ -58,6 +59,7 @@ const DumbotInner = (
 
   const scrollAnchor = React.useRef<HTMLDivElement>();
   const botRef = React.useRef<HTMLDivElement>();
+  const resizeableRef = React.useRef<HTMLDivElement>();
   const [opened, setOpened] = React.useState(initiallyClosed ? false : true);
   const scrollerID = `${props.botUUID}scroll`;
   const scrollElement = React.useRef<HTMLElement | null>(null);
@@ -72,6 +74,23 @@ const DumbotInner = (
   const interactionOnFooter =
     activeInteraction && activeInteraction.properties?.asFooter;
   const { onSendDataToHost, onStateChanged, onToggle, onCallHost } = props;
+
+  const resizeObserver = useRef<ResizeObserver>(
+    new ResizeObserver(() => autoscroll())
+  );
+
+  useEffect(() => {
+    const observed = resizeableRef.current;
+    const observer = resizeObserver.current;
+    if (opened && observed) {
+      observer.observe(observed);
+    }
+    return () => {
+      if (observed) {
+        observer.unobserve(observed);
+      }
+    };
+  }, [opened, scrollerID]);
 
   const autoscroll = () => {
     requestAnimationFrame(() => {
@@ -96,8 +115,8 @@ const DumbotInner = (
     });
   };
 
-  useMutationObservable(botRef.current as any, autoscroll);
-  useResizeListener(autoscroll);
+  // useMutationObservable(botRef.current as any, autoscroll);
+  // useResizeListener(autoscroll);
 
   React.useEffect(() => {
     const sendDataToHostHandler = DmbtEventBus.subscribe(
@@ -178,31 +197,33 @@ const DumbotInner = (
               />
             )}
             <ChatbotContent id={scrollerID}>
-              <Messages
-                active={state.active}
-                processed={state.processed}
-                onProcessed={messagesProcessed}
-                viewSilentNoses={viewSilentNodes}
-                customMessageDisplay={props.customMessageDisplay}
-              />
-              {activeInteraction && !interactionOnFooter && (
-                <Interaction
-                  customInteractions={props.customInteractions}
-                  node={activeInteraction}
-                  variables={state.variables}
-                  theme={theme}
-                  dispatcher={dispatch}
-                  round="medium"
-                  margin={{ top: "20px" }}
-                  onCallHost={onCallHostCb}
+              <div ref={resizeableRef as any}>
+                <Messages
+                  active={state.active}
+                  processed={state.processed}
+                  onProcessed={messagesProcessed}
+                  viewSilentNoses={viewSilentNodes}
+                  customMessageDisplay={props.customMessageDisplay}
                 />
-              )}
-              <Box
-                ref={scrollAnchor as any}
-                height="100px"
-                background="transparent"
-                id="dumbotBottomAnchor"
-              />
+                {activeInteraction && !interactionOnFooter && (
+                  <Interaction
+                    customInteractions={props.customInteractions}
+                    node={activeInteraction}
+                    variables={state.variables}
+                    theme={theme}
+                    dispatcher={dispatch}
+                    round="medium"
+                    margin={{ top: "20px" }}
+                    onCallHost={onCallHostCb}
+                  />
+                )}
+                <Box
+                  ref={scrollAnchor as any}
+                  height="100px"
+                  background="transparent"
+                  id="dumbotBottomAnchor"
+                />
+              </div>
             </ChatbotContent>
             {activeInteraction && interactionOnFooter && (
               <div style={{ maxHeight: "100%" }}>
@@ -249,6 +270,7 @@ const GlobalStyle = createGlobalStyle`
     th {
       font-size: ${(props: any) => props.theme.global.font?.size || "unset"};
     }
+    ${normalizeCss}
 `;
 
 export const Dumbot = (
