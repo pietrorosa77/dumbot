@@ -24,14 +24,12 @@ const BotProps: IBotThemableProps = {
   bubbleBoxShadow: "0 3px 5px 0 rgba(0, 0, 0, 0.90)",
   bubblePxRadius: "18px",
   bubblePadding: "10px",
-  headerHeight: "100px",
+  headerHeight: "80px",
   headerLogoSize: "40px",
-  headerFontSize: "20px",
   headerText: "Welcome to this amazing experience",
   headerTextAlign: "center",
   headerLogo: defaultbotAvatar,
-  footerHeight: "65px",
-  footerFontSize: "12px",
+  footerHeight: "55px",
   footerText: "Powered by Dumbot",
   footerTextAlign: "center",
   botAvatar: defaultbotAvatar,
@@ -78,6 +76,7 @@ const BotColors: IBotThemableColors = {
   botBackButtonFontColor: "#fff",
   tipColor: "#fff",
   botInteractionBgColor: "#4a4d70",
+  specialTagsBackground: "#2b2e4b",
 };
 
 export const DefaultBotFont = {

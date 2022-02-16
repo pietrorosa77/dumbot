@@ -165,6 +165,7 @@ export const defaultSchema = {
       "value",
       "vSpace",
       "width",
+      "line",
       "itemProp",
     ],
   },

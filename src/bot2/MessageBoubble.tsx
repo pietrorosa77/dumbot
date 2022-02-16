@@ -92,7 +92,7 @@ export const MessageBoubbleContent = (props: {
   clockSide: "start" | "end";
 }) => {
   return (
-    <Box direction="column">
+    <Box direction="column" className="dumbot-content-body">
       {props.nickname && (
         <Box direction="row" style={{ color: props.nicknameColor }}>
           {props.nickname}

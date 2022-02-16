@@ -2,7 +2,7 @@ import * as React from "react";
 import styled, { ThemeContext } from "styled-components";
 import { Avatar, Box } from "grommet";
 import { FormClose, LinkPrevious, Rewind } from "grommet-icons";
-import { ActionButtonBot } from "./BotButtons";
+import { OnlyIconButton } from "./BotButtons";
 export interface IBotHeaderProps {
   allowClose?: boolean;
   onClose: () => void;
@@ -16,13 +16,12 @@ const Header = styled.div`
   background: ${({ theme }) => theme.global.colors.botHeaderBgColor};
   color: ${({ theme }) => theme.global.colors.botHeaderFontColor};
   display: flex;
-  height: ${({ theme }) => theme.bot.headerHeight};
-  justify-content: space-between;
-  padding: 0 10px;
+  gap: 0.3em;
+  min-height: ${({ theme }) => theme.bot.headerHeight};
+  padding: 10px;
 `;
 
-const HeaderTitle = styled.h2`
-  margin-left: 10px;
+const HeaderTitle = styled.div`
   flex: 1;
 `;
 
@@ -37,15 +36,12 @@ export const BotHeader = (props: IBotHeaderProps) => {
         size={theme.bot.headerLogoSize}
       />
       <HeaderTitle className="rsc-header-title">
-        <Box
-          align={theme.bot.headerTextAlign}
-          style={{ fontSize: theme.bot.headerFontSize }}
-        >
-          {theme.bot.headerText}
+        <Box align={theme.bot.headerTextAlign}>
+          <h1>{theme.bot.headerText}</h1>
         </Box>
       </HeaderTitle>
       {(props.interactive || props.isEnd) && (
-        <ActionButtonBot
+        <OnlyIconButton
           icon={<Icon size="small" />}
           onClick={props.onBack}
           size="small"
@@ -55,7 +51,7 @@ export const BotHeader = (props: IBotHeaderProps) => {
         />
       )}
       {props.allowClose && (
-        <ActionButtonBot
+        <OnlyIconButton
           onClick={props.onClose}
           fontColor="botCloseButtonFontColor"
           bgColor="botCloseButtonBgColor"

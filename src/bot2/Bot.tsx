@@ -26,12 +26,10 @@ import { getInitialState } from "./stateHelpers";
 import { BotTheme } from "./Theme";
 import { Trigger } from "./Trigger";
 import { useEventBus } from "./eventBus";
-// import {
-//   useMutationObservable,
-//   useResizeListener,
-// } from "./useMutationObservable";
+
 import { Interaction } from "./Interaction";
-import { normalizeCss } from "./normalizeCss";
+import { getBotCss } from "./botMessagesCss";
+import "rehype-katex/node_modules/katex/dist/katex.css";
 
 const DumbotInner = (
   props: IDmbtProps & {
@@ -253,24 +251,7 @@ const DumbotInner = (
 };
 
 const GlobalStyle = createGlobalStyle`
-    * {
-      font-family: ${(props: any) =>
-        props.theme.global.font?.family || "unset"};
-        font-size: ${(props: any) => props.theme.global.font?.size || "unset"};
-    }
-
-    p,
-    span,
-    tr,
-    th,
-    tbody,
-    a,
-    td,
-    div,
-    th {
-      font-size: ${(props: any) => props.theme.global.font?.size || "unset"};
-    }
-    ${normalizeCss}
+    ${(props) => getBotCss(props.theme)}
 `;
 
 export const Dumbot = (

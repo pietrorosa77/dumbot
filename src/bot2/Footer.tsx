@@ -2,7 +2,7 @@ import { Box } from "grommet";
 import { LinkPrevious, Rewind } from "grommet-icons";
 import * as React from "react";
 import styled, { ThemeContext } from "styled-components";
-import { ActionButtonBot } from "./BotButtons";
+import { OnlyIconButton } from "./BotButtons";
 import { IBotThemableProps } from "./definitions";
 
 export interface IBotFooterProps {
@@ -16,10 +16,9 @@ const Footer = styled.div`
   background: ${({ theme }) => theme.global.colors.botFooterBgColor};
   color: ${({ theme }) => theme.global.colors.botFooterFontColor};
   display: flex;
-
-  height: ${({ theme }) => theme.bot.footerHeight};
+  min-height: ${({ theme }) => theme.bot.footerHeight};
   justify-content: center;
-  padding: 0 10px;
+  padding: 10px;
 `;
 
 export const BotFooter = (props: IBotFooterProps) => {
@@ -30,15 +29,12 @@ export const BotFooter = (props: IBotFooterProps) => {
   return (
     <Footer className="rsc-header">
       <Box flex="grow">
-        <Box
-          align={theme.footerTextAlign}
-          style={{ fontSize: theme.footerFontSize }}
-        >
+        <Box align={theme.footerTextAlign} style={{ fontSize: "0.7em" }}>
           {theme.footerText}
         </Box>
       </Box>
       {((props.isEnd && theme.allowRestartOnEnd) || props.interactive) && (
-        <ActionButtonBot
+        <OnlyIconButton
           icon={<Icon size="small" />}
           onClick={props.onBack}
           size="small"

@@ -137,12 +137,12 @@ export interface IBotThemableProps {
   avatarClock?: boolean;
   headerHeight?: string;
   headerLogoSize?: string;
-  headerFontSize?: string;
+  // headerFontSize?: string;
   headerText?: string;
   headerTextAlign?: string;
   headerLogo?: string;
   footerHeight?: string;
-  footerFontSize?: string;
+  // footerFontSize?: string;
   footerText?: string;
   footerTextAlign?: string;
   userAvatar?: string;
@@ -191,6 +191,7 @@ export interface IBotThemableColors extends Colors {
   botBackButtonFontColor: string;
   tipColor: string;
   botInteractionBgColor: string;
+  specialTagsBackground: string;
 }
 
 export type IBotTheme = ThemeType & {

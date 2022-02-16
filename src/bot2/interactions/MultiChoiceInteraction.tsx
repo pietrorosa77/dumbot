@@ -2,7 +2,7 @@ import { Box } from "grommet";
 import { DEFAULT_NODE_PORT, IDmbtInteractionProps } from "../definitions";
 import { GetIcon, getPortsArray } from "../stateHelpers";
 import { DirectionType } from "grommet/utils";
-import { ActionButtonBot, BotInteractionButton } from "../BotButtons";
+import { OnlyIconButton, BotInteractionButton } from "../BotButtons";
 import React from "react";
 import { PlayFill } from "grommet-icons";
 
@@ -71,7 +71,7 @@ export const BotMultiChoice = (props: IDmbtInteractionProps) => {
         })}
       </Box>
       <Box pad="small">
-        <ActionButtonBot
+        <OnlyIconButton
           disabled={!valid}
           icon={<PlayFill />}
           onClick={onSubmit}

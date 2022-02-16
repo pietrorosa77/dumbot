@@ -11,12 +11,13 @@ import rehypeStringify from "rehype-stringify";
 import { unified } from "unified";
 import { defaultSchema } from "./MarkdownSchema";
 import rehypePrism from "rehype-prism-plus";
+import rehipeExternalLinks from "rehype-external-links";
 
 interface IMarkdownViewProps {
   text: any;
 }
 
-export const markdownToHtml = async (md: string) => {
+export const markdownToHtml = async (md: string): Promise<string> => {
   const data = await unified()
     .use(remarkParse)
     .use(remarkMath)
@@ -70,6 +71,10 @@ export const markdownToHtml = async (md: string) => {
             "prolog",
             "comment",
             "namespace",
+            "code-line",
+            "line-number",
+            "highlight-line",
+            "line",
           ],
         ],
         pre: [
@@ -94,10 +99,11 @@ export const markdownToHtml = async (md: string) => {
     })
     .use(rehypeKatex)
     .use(rehypeVideo, { test: /\/(.*)(.mp4|.mov|webm)$/ })
+    .use(rehipeExternalLinks, { target: "_blank" })
     .use(rehypeStringify)
     .process(md);
 
-  return data.value;
+  return data.value as string;
 };
 
 export const MarkdownView = React.memo(

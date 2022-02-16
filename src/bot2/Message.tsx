@@ -110,7 +110,7 @@ export const Message = (props: IMessageProps) => {
         user={!!isUser}
         color={boubbleColor}
         background={boubbleBgColor}
-        className="dmbt-bubble"
+        className="dmbt-bubble "
         active={!!props.active}
         hasAvatar={!!metadata.hasAvatar && showavatar}
         width={forceHideAvatars ? "100%" : messageWidth}

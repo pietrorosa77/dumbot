@@ -7,9 +7,9 @@ import { HoveredContainer } from "../BotLayout";
 import { IBotThemableColors, IDmbtInteractionProps } from "../definitions";
 
 export const DmbtTextInput = (props: IDmbtInteractionProps) => {
-  const dispatch = props.dispatcher;
-  const controlProperties = props.node.properties as IBotSingleChoiceSettings;
-  const [valid, setValid] = React.useState(false);
+  // const dispatch = props.dispatcher;
+  // const controlProperties = props.node.properties as IBotSingleChoiceSettings;
+  // const [valid, setValid] = React.useState(false);
   const [focus, setFocus] = React.useState(false);
   const theme = props.theme;
   const botColors = theme.global?.colors as IBotThemableColors;
@@ -28,7 +28,7 @@ export const DmbtTextInput = (props: IDmbtInteractionProps) => {
     if (event.shiftKey) {
       return true;
     }
-    props.onSubmit(val);
+    //props.onSubmit(val);
     setVal("");
     (event as Event).stopPropagation();
     (event as Event).preventDefault();
@@ -71,7 +71,7 @@ export const DmbtTextInput = (props: IDmbtInteractionProps) => {
           icon={<PlayFill size="medium" color={simpleColor} />}
           hoverColor={botFocusColor}
           size="small"
-          disabled={props.loading || props.error}
+          // disabled={props.loading || props.error}
           color={simpleColor}
           a11yTitle="Send your answer"
           focusIndicator={false}
