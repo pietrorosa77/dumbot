@@ -1,89 +1,118 @@
-import { nanoid } from "nanoid";
+import React from "react";
+import { useRef, useState } from "react";
 import {
-  Actions,
-  BotActionPayload,
-  IBotNode,
-  IBotState,
-  IMessage,
-  ISetVariable,
-  IUserAction,
+  DEFAULT_NODE_PORT,
+  DmbtDispatch,
+  DmbtMiddlewhare,
+  DmbtStore,
+  IDmbtEventBus,
+  IDmbtMessage,
+  IDmbtMessageOutput,
+  IDmbtNode,
+  IDmbtShape,
+  IDmbtState,
+  SimpleAction,
 } from "./definitions";
+import { composeMiddleware } from "./middlewares";
 import {
-  getBotStartingNode,
-  getNextBotNodeId,
-  getNodeFromState,
-} from "./utils";
+  getInitialState,
+  getNodeMessages,
+  getUserAnswer,
+} from "./stateHelpers";
 
-export const getInitialState = (
-  state: IBotState,
-  externalVariables: object
-): IBotState => {
-  if (state.finished || state.activeMessage || state.activeInteraction) {
-    return state;
-  }
+export const DispatcherContext: React.Context<DmbtDispatch> =
+  React.createContext<any>(null);
 
-  const startNode = getBotStartingNode(state) as IBotNode;
+export function useDmbtReducer(
+  reducer: (state: IDmbtState, action: SimpleAction) => IDmbtState,
+  initialState: IDmbtState,
+  middlewares: DmbtMiddlewhare[] = [],
+  eventBus: IDmbtEventBus
+): [IDmbtState, DmbtDispatch] {
+  const hook = useState(initialState);
+  const state = hook[0];
+  const setState = hook[1];
+  const draftState = useRef(initialState);
 
-  return {
-    ...state,
-    variables: {
-      ...state.variables,
-      ...externalVariables,
-    },
-    activeMessage: startNode.properties?.startWaitingUser
-      ? null
-      : {
-          nodeId: startNode.id,
-          id: nanoid(),
-          nodeContent: startNode.content,
-          user: false,
-          exitPort: startNode.ports[0],
-        },
-    activeInteraction: startNode.properties?.startWaitingUser
-      ? startNode
-      : null,
+  const dispatch = (action: SimpleAction) => {
+    draftState.current = reducer(draftState.current, action);
+    setState(draftState.current);
+    return action;
+  };
+  const store: DmbtStore = {
+    getState: () => draftState.current,
+    getEventBus: () => eventBus,
+    dispatch: (...args: any[]) => (enhancedDispatch as any)(...args),
+  };
+  const chain = middlewares.map((middleware) => middleware(store));
+  // eslint-disable-next-line
+  const enhancedDispatch = composeMiddleware.apply(
+    undefined,
+    chain
+  )(dispatch) as DmbtDispatch;
+
+  (window as any)._Dumbot = {
+    enhancedDispatch,
+  };
+
+  return [state, enhancedDispatch];
+}
+
+export const createReducer = (shape: IDmbtShape, externalVariables?: any) => {
+  return function dumbotReducer(
+    state: IDmbtState,
+    action: SimpleAction
+  ): IDmbtState {
+    let ret: IDmbtState;
+    switch (action.type) {
+      case "@message":
+        ret = onMessage(state, action.payload as IDmbtMessage);
+        break;
+      case "@answer":
+        ret = onAnswer(
+          state,
+          action.payload as IDmbtMessageOutput,
+          state.activeInteraction as string
+        );
+        break;
+      case "@next":
+        ret = onNext(state, action.payload as IDmbtMessage, shape);
+        break;
+      case "@prev":
+        ret = onPrev(state, action.payload as string, shape);
+        break;
+      case "@variable":
+        ret = onSetVariable(
+          state,
+          action.payload as { id: string; value: any }
+        );
+        break;
+      case "@restart":
+        ret = getInitialState(shape, undefined, externalVariables);
+        break;
+      case "@loading":
+        ret = onLoading(state, action.payload as boolean);
+        break;
+      default:
+        ret = state;
+        break;
+    }
+
+    return ret;
   };
 };
 
-export const reducer = (
-  state: IBotState,
-  action: { type: Actions; payload: BotActionPayload }
-) => {
-  let ret: IBotState;
-  switch (action.type) {
-    case "onCustomMessage":
-      ret = onCustomMessage(state, action.payload as IMessage);
-      break;
-    case "onUserAction":
-      ret = onUserAction(state, action.payload as IUserAction);
-      break;
-    case "onGetNextMessage":
-      ret = onGetNextMessage(state, action.payload as IMessage);
-      break;
-    case "onBack":
-      ret = onGetPrevMessage(state, action.payload as IBotNode);
-      break;
-    case "onSetVariable":
-      ret = onSetVariable(state, action.payload as ISetVariable);
-      break;
-    case "onBotRestart":
-      ret = getInitialState(
-        {
-          ...state,
-          processedMessages: [],
-          finished: false,
-          activeMessage: null,
-          activeInteraction: null,
-        },
-        state.variables
-      );
-      break;
-  }
-
-  return ret;
+const getNextNode = (shape: IDmbtShape, fromId: string, fromPort?: string) => {
+  const exitPath = `${fromId}-${fromPort || DEFAULT_NODE_PORT}`;
+  const defaultExitPath = `${fromId}-${DEFAULT_NODE_PORT}`;
+  const nextId = shape.paths[exitPath] || shape.paths[defaultExitPath];
+  return nextId ? shape.nodes[nextId] : undefined;
 };
 
-const onSetVariable = (state: IBotState, payload: ISetVariable): IBotState => {
+const onSetVariable = (
+  state: IDmbtState,
+  payload: { id: string; value: any }
+): IDmbtState => {
   return {
     ...state,
     variables: {
@@ -93,153 +122,105 @@ const onSetVariable = (state: IBotState, payload: ISetVariable): IBotState => {
   };
 };
 
-const onGetPrevMessage = (
-  state: IBotState,
-  activeInteraction: IBotNode
-): IBotState => {
-  if (!state.processedMessages || !state.processedMessages.length) {
+const onLoading = (state: IDmbtState, loading: boolean) => {
+  return {
+    ...state,
+    loading,
+  };
+};
+
+const onNext = (
+  state: IDmbtState,
+  lastActive: IDmbtMessage,
+  shape: IDmbtShape
+): IDmbtState => {
+  const processed = state.processed.concat(state.active);
+  if (lastActive.interactive) {
+    return {
+      ...state,
+      processed,
+      active: [],
+      activeInteraction: lastActive.nodeId,
+    };
+  }
+
+  const nextNode = getNextNode(
+    shape,
+    lastActive.nodeId,
+    lastActive.output?.port
+  );
+  const active = getNodeMessages(nextNode, state.variables);
+
+  return {
+    ...state,
+    processed,
+    active,
+    activeInteraction: undefined,
+    finished: nextNode ? false : true,
+    loading: false,
+  };
+};
+
+const onPrev = (
+  state: IDmbtState,
+  activeInteraction: string,
+  shape: IDmbtShape
+): IDmbtState => {
+  if (!activeInteraction) {
     return state;
   }
 
-  const prevMessages = state.processedMessages.filter(
-    (el) =>
-      ["chat", "label", "skip"].includes(el.desc || "") &&
-      el.nodeId !== activeInteraction.id
-  );
-
-  let prevMessage = null;
-  let prevInteraction = null;
-
-  if (!prevMessages.length) {
-    prevMessage = {
-      ...state.processedMessages[0],
-      id: nanoid(),
-    };
-  } else {
-    const lastInteractionMessage = prevMessages[prevMessages.length - 1];
-    prevInteraction = getNodeFromState(state, lastInteractionMessage.nodeId);
-
-    prevInteraction.prevOutput = lastInteractionMessage.output;
+  const interactions = [...state.interactionProgress];
+  let nextId = interactions.pop();
+  if (!nextId) {
+    nextId = state.processed[0].nodeId;
   }
 
+  const nextNode: IDmbtNode = shape.nodes[nextId];
+  const active = getNodeMessages(nextNode, state.variables);
+
   return {
     ...state,
-    activeInteraction: prevInteraction,
-    activeMessage: prevMessage,
-    finished: false,
-    processedMessages: state.processedMessages.filter(
-      (el) => el.nodeId !== activeInteraction.id
-    ),
+    active,
+    activeInteraction: undefined,
+    finished: nextNode ? false : true,
+    loading: false,
   };
 };
 
-const onGetNextMessage = (
-  state: IBotState,
-  processedMessage: IMessage
-): IBotState => {
-  const currentNode = getNodeFromState(state, processedMessage.nodeId);
-  const nextId = getNextBotNodeId(
-    state,
-    currentNode.id,
-    processedMessage.exitPort
+const onAnswer = (
+  state: IDmbtState,
+  answer: IDmbtMessageOutput,
+  activeId: string
+): IDmbtState => {
+  const userAnswerMessage: IDmbtMessage = getUserAnswer(
+    activeId,
+    answer,
+    answer.meta
   );
-  const nextNode = getNodeFromState(state, nextId);
-  const activeMessage: IMessage | null =
-    nextNode && !nextNode.user
-      ? {
-          nodeId: nextId,
-          id: nanoid(),
-          user: false,
-          nodeContent: nextNode.content,
-          exitPort: nextNode.ports[0],
-        }
-      : null;
-
-  const activeInteraction = nextNode && nextNode.user ? nextNode : null;
-  const finished = activeMessage === null && activeInteraction === null;
-
-  return {
-    ...state,
-    activeMessage,
-    activeInteraction,
-    finished,
-    processedMessages: state.processedMessages.concat(processedMessage),
-  };
-};
-
-const onUserAction = (state: IBotState, userAnswer: IUserAction): IBotState => {
-  const activeNode = state.activeInteraction as IBotNode;
-  const silent = activeNode.silent;
-  const outputVarId = activeNode.output?.id || activeNode.id;
+  const active = [userAnswerMessage];
+  const outputVarId = answer.id || activeId;
   const variables = {
     ...state.variables,
-    [`${outputVarId}`]: userAnswer.value,
+    [`${outputVarId}`]: answer.value,
   };
-
-  const processedMessage: IMessage = {
-    nodeId: activeNode.id,
-    id: nanoid(),
-    desc: !silent ? "label" : "",
-    user: false,
-    silent,
-    nodeContent: silent
-      ? `silent ${activeNode.type} - ${activeNode.title}`
-      : activeNode.content,
-    exitPort: userAnswer.port,
-  };
-
-  const activeMessage: IMessage = {
-    nodeId: activeNode.id,
-    output: {
-      ...userAnswer,
-      id: outputVarId,
-    },
-    id: nanoid(),
-    user: true,
-    nodeContent: "", // note useful here since the render will take the output
-    silent,
-    exitPort: userAnswer.port,
-  };
-
-  const newState = {
-    ...state,
-    variables,
-    activeMessage,
-    activeInteraction: null,
-    processedMessages: state.processedMessages.concat([processedMessage]),
-  };
-
-  if (userAnswer.stateTransformer) {
-    return userAnswer.stateTransformer(newState);
-  }
-
-  return newState;
-};
-
-const onCustomMessage = (state: IBotState, message: IMessage): IBotState => {
-  const activeNode = state.activeInteraction as IBotNode;
-  const messageId = message.id || nanoid();
-  const exists = state.processedMessages.find((m) => m.id === messageId);
-  if (exists) {
-    return {
-      ...state,
-    };
-  }
-
-  const processedMessage: IMessage = {
-    nodeId: activeNode ? activeNode.id : nanoid(),
-    id: messageId,
-    user: message.user,
-    silent: false,
-    desc: message.desc,
-    nodeContent: message.nodeContent,
-    metadata: message.metadata,
-    exitPort: message.exitPort,
-    output: message.output
-  };
+  const interactionProgress = state.interactionProgress.concat([activeId]);
 
   return {
     ...state,
-    processedMessages: state.processedMessages.concat([processedMessage]),
+    variables,
+    active,
+    interactionProgress,
+    activeInteraction: undefined,
+    finished: false,
+    loading: false,
+  };
+};
+
+const onMessage = (state: IDmbtState, message: IDmbtMessage) => {
+  const active = state.active.concat(message);
+  return {
+    ...state,
+    active,
   };
 };

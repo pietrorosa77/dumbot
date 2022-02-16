@@ -1,118 +1,131 @@
-import { ThemeType } from "grommet";
-import { Colors } from "grommet/themes/base";
-import { PlaceHolderType } from "grommet/utils";
-export type BotNodeType = "question" | "buttons" | "start" | "message" | string;
+import { Colors, ThemeType } from "grommet/themes/base";
 
-export type BotNodeOutputType =
-  | "string"
-  | "number"
-  | "array"
-  | "date"
-  | "boolean"
-  | "object"
-  | "null"
-  | "password"
-  | "file"
-  | "color"
-  | "error"
-  | "text"
-  | `Custom-${string}`;
+export const START_NODE_TYPE = "start";
+export const DEFAULT_NODE_PORT = "default";
 
-export type Actions =
-  | "onBack"
-  | "onGetNextMessage"
-  | "onUserAction"
-  | "onSetVariable"
-  | "onCustomMessage"
-  | "onBotRestart";
-
-export const BUBBLE_DELIMITER = "<dumbot-boubble/>";
-
-export type DEFAULT_PORT_ID = "default";
-export const DEFAULTPORT: DEFAULT_PORT_ID = "default";
-
-export interface IUserAction {
-  type: BotNodeOutputType;
-  value: any;
-  port: string;
-  id?: string;
-  stateTransformer?: (state: IBotState) => IBotState;
-}
-
-export interface ISetVariable {
+export interface IDmbtPort {
   id: string;
-  value: any;
-}
-
-export type BotActionPayload = IUserAction | IMessage | IBotNode | ISetVariable;
-
-export interface IBotNode {
-  id: string;
-  type: BotNodeType;
-  content: string;
-  title: string;
-  output: {
-    id: string;
-    type: BotNodeOutputType;
-  };
-  properties: {
-    [key: string]: any;
-    ports?: {
-      [key: string]: {
-        [key: string]: any;
-      };
-    };
-  };
-  ports: [DEFAULT_PORT_ID, ...string[]];
-  user: boolean;
-  silent?: boolean;
-  prevOutput?: {
-    value: any;
-    type: BotNodeOutputType;
-  };
-}
-
-export interface IMessageMetadata {
-  nickname: string;
-  label: string;
-  bgColor?: string;
-  color?: string;
-  avatarSrc?: string;
-  nicknameColor?: string;
-  width?: string;
+  text: string;
+  index: number;
+  value?: string;
+  icon?: string;
   [key: string]: any;
 }
 
-export interface IMessage {
+export interface IDmbtNode {
+  id: string;
+  type: string;
+  content: string;
+  output: {
+    id: string;
+    type: string;
+  };
+  properties?: {
+    width?: string;
+    asStart?: boolean;
+    asFooter?: boolean;
+    [key: string]: any;
+  };
+  ports: {
+    [key: string]: IDmbtPort;
+  };
   user: boolean;
   silent?: boolean;
+}
+
+export interface IDmbtShape {
+  nodes: {
+    [id: string]: IDmbtNode;
+  };
+  paths: { [id: string]: string };
+}
+
+export interface IDmbtMessageOutput {
+  type: string;
+  value: any;
+  id: string;
+  port: string;
+  meta?: { [key: string]: any };
+}
+
+export interface IDmbtMessage {
   id: string;
   nodeId: string;
-  output?: {
-    value: any;
-    type: BotNodeOutputType;
-    id?: string;
+  content: string;
+  interactive?: boolean;
+  output: IDmbtMessageOutput;
+  meta: {
+    isUser?: boolean;
+    leaingGroup?: boolean;
+    nickname?: string;
+    time?: string;
+    silent?: boolean;
+    avatarSrc?: string;
+    bgColor?: string;
+    nicknameColor?: string;
+    hasAvatar?: boolean;
+    width?: string;
+    [key: string]: any;
   };
-  exitPort: string;
-  nodeContent: string;
-  metadata?: IMessageMetadata;
-  desc?: string;
 }
 
-export interface IStartNode extends IBotNode {
-  type: "start";
-}
-
-export interface IBotState {
-  nodes: [IStartNode, ...IBotNode[]];
-  paths: {
-    [key: string]: string;
-  };
+export interface IDmbtState {
+  processed: IDmbtMessage[];
+  active: IDmbtMessage[];
+  activeInteraction?: string;
+  interactionProgress: string[];
   finished?: boolean;
+  loading?: boolean;
   variables: { [key: string]: any };
-  processedMessages: IMessage[];
-  activeMessage: IMessage | null;
-  activeInteraction: IBotNode | null;
+}
+
+export interface IDmbtInteractionProps {
+  node: IDmbtNode;
+  theme: IBotTheme;
+  variables: any;
+  dispatcher: DmbtDispatch;
+  onCallHost?: (
+    hostFunctionName: string,
+    parameters: { [key: string]: any }
+  ) => Promise<any>;
+}
+
+export interface IDmbtProps {
+  botUUID: string;
+  uuid?: string;
+  trigger?: {
+    icon?: string;
+    size: "small" | "medium" | "large";
+  };
+  initiallyClosed?: boolean;
+  allowClose?: boolean;
+  theme?: IBotTheme;
+  externalVariables?: { [key: string]: any };
+  mode?: "full" | "popup" | "inline" | "chat";
+  className?: string;
+  height?: string;
+  width?: string;
+  viewSilentNodes?: boolean;
+  hideHeader?: boolean;
+  hideFooter?: boolean;
+  onToggle?: (opened: boolean) => void;
+  onCallHost?: (label: string, variables: any) => Promise<any>;
+  onStateChanged?: (data: {
+    new: IDmbtState;
+    prev: IDmbtState;
+    action: SimpleAction;
+  }) => void;
+  onBotFinished?: (state: IDmbtState) => void;
+  onSendDataToHost?: (data: any) => void;
+  disableAutofocus?: boolean;
+  customInteractions?: Map<
+    string,
+    (props: IDmbtInteractionProps) => JSX.Element
+  >;
+  customMessageDisplay?: Map<
+    string,
+    (props: { message: IDmbtMessage }) => JSX.Element
+  >;
 }
 
 export interface IBotThemableProps {
@@ -124,18 +137,18 @@ export interface IBotThemableProps {
   avatarClock?: boolean;
   headerHeight?: string;
   headerLogoSize?: string;
-  headerFontSize?: string;
+  // headerFontSize?: string;
   headerText?: string;
   headerTextAlign?: string;
   headerLogo?: string;
   footerHeight?: string;
-  footerFontSize?: string;
+  // footerFontSize?: string;
   footerText?: string;
   footerTextAlign?: string;
   userAvatar?: string;
   botAvatar?: string;
   messageDelay?: number;
-  avatarSize?: string;
+  avatarSize?: number;
   disableAvatars?: boolean;
   bubbleAnimationDuration?: string;
   bubbleWidth?: string;
@@ -177,139 +190,57 @@ export interface IBotThemableColors extends Colors {
   botCloseButtonFontColor: string;
   botBackButtonFontColor: string;
   tipColor: string;
+  botInteractionBgColor: string;
+  specialTagsBackground: string;
 }
 
 export type IBotTheme = ThemeType & {
   bot?: IBotThemableProps;
 };
 
-export type BotInputType = "input" | "masked" | "textarea" | "file";
+export type DmbtActionType =
+  | "@next"
+  | "@prev"
+  | "@answer"
+  | "@variable"
+  | "@message"
+  | "@restart"
+  | "@loading"
+  | DmbtEvents;
 
-export interface IInputControlProperties
-  extends Omit<
-    JSX.IntrinsicElements["input"],
-    "onSelect" | "size" | "placeholder"
-  > {
-  suggestions?: string[];
-  size?: "small" | "medium" | "large" | "xlarge" | string;
-  icon?: string;
-  placeholder?: PlaceHolderType;
-  libraryMask?: string;
-  mask?: Array<{
-    length?: number | number[];
-    fixed?: string;
-    options?: string[] | number[];
-    regexp?: any;
-    placeholder?: string;
-  }>;
-  validationErrorMessage?: string;
-  controlType: BotInputType;
-  format?: string;
-}
+export type SimpleAction = {
+  type: DmbtActionType;
+  payload: any;
+};
+export type DmbtAction = SimpleAction | ((store: DmbtStore) => any);
 
-export interface IInputComponentProps {
-  inputProps: IInputControlProperties;
-  isValid: boolean;
-  focused: boolean;
-  value: string;
-  onChange: (value: any) => void;
-  onFocus: (focused: boolean) => void;
-  onSubmit: () => void;
-  fontColor: string;
-  Icon?: JSX.Element | undefined;
-}
+export type DmbtDispatch = (action: DmbtAction) => any;
 
-export interface IButtonsProps {
-  multiple?: boolean;
-  min?: number;
-  max?: number;
-  direction?: "row" | "column";
-  icon?: string;
-  ports: IPortProps;
-}
+export type DmbtStore = {
+  getState: () => IDmbtState;
+  dispatch: DmbtDispatch;
+  getEventBus: () => IDmbtEventBus;
+};
 
-export interface IPortProps {
-  [key: string]: {
-    icon?: string;
-    text?: string;
-    value?: string;
-  };
-}
+export type DmbtMiddlewhare = (
+  store: DmbtStore
+) => (next: DmbtDispatch) => (action: DmbtAction) => any;
 
-export interface ISnippetContext {
-  variables: { [key: string]: any };
-  ports: { [key: string]: string };
-  nodeId: string;
-  theme: IBotTheme;
-  onCallHost: (
-    label: string,
-    variables: { [key: string]: any }
-  ) => Promise<any>;
-  onSetVariable: (name: string, value: any) => void;
-}
+export type DmbtEventBusUnsubscibeHandle = (event: CustomEvent) => void;
+export type DmbtEvents = "dmbt-StateChanged" | "evt-SendDataToHost";
 
-export interface ICustomNodeContext extends ISnippetContext {
-  onUserAction: (value: any, port: string) => void;
-  onSendAttachments: (attachments: any[]) => Promise<void>;
-}
+export interface IDmbtEventBus {
+  subscribe: (
+    event: DmbtEvents,
+    callback: (data?: any) => void,
+    options?: AddEventListenerOptions
+  ) => DmbtEventBusUnsubscibeHandle;
 
-export interface IBotNodeInteractionLoaderProps {
-  node: IBotNode | null;
-  variables: { [key: string]: any };
-  preview?: boolean;
-  customProps?: { [key: string]: any };
-  onSendAttachments: (attachments: any[]) => Promise<void>;
-  onCallHost: (
-    label: string,
-    variables: { [key: string]: any }
-  ) => Promise<any>;
-  onSetVariable: (name: string, value: any) => void;
-  onComponentError?: (error: any) => void;
-  onUserAction: (answer: IUserAction) => void;
-  onLoaded: (ref: React.RefObject<any>) => void;
-}
-
-export interface IBotNodeInteractionProps
-  extends IBotNodeInteractionLoaderProps {
-  node: IBotNode;
-  theme: IBotTheme;
-}
-
-export interface IDumbotProps {
-  initialState: IBotState;
-  botUUID: string;
-  uuid?: string;
-  trigger?: {
-    icon?: string;
-    size: "small" | "medium" | "large";
-  };
-  initiallyClosed?: boolean;
-  allowClose?: boolean;
-  theme?: IBotTheme;
-  externalVariables?: { [key: string]: any };
-  viewSilentNodes?: boolean;
-  mode?: "full" | "popup" | "inline" | "chat";
-  className?: string;
-  height?: string;
-  width?: string;
-  onToggle?: (opened: boolean) => void;
-  onUserAction?: (answer: IUserAction) => void;
-  onCallHost?: (label: string, variables: any) => Promise<any>;
-  onSetVariable?: (name: string, value: any) => void;
-  onSendAttachments?: (files: any[]) => Promise<void>;
-  onStateChanging?: (
-    state: IBotState,
-    type: Actions,
-    payload: BotActionPayload
+  unSubscribe: (
+    event: DmbtEvents,
+    unsubscribeHandle: DmbtEventBusUnsubscibeHandle,
+    options?: AddEventListenerOptions
   ) => void;
-  onStateChanged?: (state: IBotState) => void;
-  onBotFinished?: (state: IBotState) => void;
-  onGetExternalComponent?: (
-    props: IBotNodeInteractionProps
-  ) => (props: IBotNodeInteractionProps) => JSX.Element;
-  renderErrorDetails?: (error: any) => JSX.Element;
-  disableAutofocus?: boolean;
-  CustomAnswer: React.FC<IMessage>;
-}
 
-export const USERANSWER = "<USERANSWER/>";
+  emit: (type: DmbtEvents, data: any) => void;
+}

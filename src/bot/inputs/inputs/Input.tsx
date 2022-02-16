@@ -1,8 +1,7 @@
 import { DateInput, Keyboard, TextInput } from "grommet";
 import React, { ChangeEvent } from "react";
-import { IInputComponentProps } from "../../definitions";
 
-export const BotTextInput = (props: IInputComponentProps) => {
+export const BotTextInput = (props: any) => {
   const suggestionsProps = props.inputProps.suggestions;
   const renderCalendar = props.inputProps.type === "date";
   const allSuggestions = React.useMemo(

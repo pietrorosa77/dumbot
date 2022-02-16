@@ -1,8 +1,7 @@
 import { Box, FileInput, Keyboard } from "grommet";
 import React from "react";
-import { IInputComponentProps } from "../../definitions";
 
-export const BotFileInput = (props: IInputComponentProps) => {
+export const BotFileInput = (props: any) => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files as FileList;
     props.onChange(fileList);
