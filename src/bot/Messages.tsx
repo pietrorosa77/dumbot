@@ -112,6 +112,7 @@ export const Messages = (props: IMessagesProps) => {
     return () => {
       clearTimeout(timer);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeQueueLength, messageDelay]);
 
   const adjustedProcessed = getAdjustedProcessedMessages(processed).filter(

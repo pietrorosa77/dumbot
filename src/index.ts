@@ -5,12 +5,4 @@ import { Dumbot } from "./bot/Bot";
 import * as definitions from "./bot/definitions";
 import { BotTheme } from "./bot/Theme";
 
-
-export default {
-    markdownToHtml,
-    botHelpers,
-    getMessageCss: getBotCss,
-    Dumbot,
-    definitions,
-    BotTheme
-}
+export { markdownToHtml, botHelpers, getBotCss, Dumbot, definitions, BotTheme };
