@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react";
 import ReactDOM from "react-dom";
-import { Dumbot } from "./src/bot2/Bot";
-import { IDmbtMessage, IDmbtShape } from "./src/bot2/definitions";
+import { Dumbot } from "./src/bot/Bot";
+import { IDmbtMessage, IDmbtShape } from "./src/bot/definitions";
 import { testBotDefiniton } from "./testdata";
 
 const BotShape: IDmbtShape = {
