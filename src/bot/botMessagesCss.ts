@@ -267,7 +267,17 @@ code.language-markup .token.script .token.keyword {
 .dumbot-content-body .octicon {
   display: inline-block;
   fill: currentColor;
-  vertical-align: text-bottom;
+  summary {
+    svg {
+      margin-right: 5px;
+    }
+    * {
+    font-size:1.2em;
+    margin-top:10px;
+
+    }
+  }
+
 }
 
 .dumbot-content-body details,
@@ -463,7 +473,6 @@ code.language-markup .token.script .token.keyword {
 .dumbot-content-body .octicon {
   display: inline-block;
   overflow: visible !important;
-  vertical-align: text-bottom;
   fill: currentColor;
 }
 

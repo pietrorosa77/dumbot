@@ -16,7 +16,7 @@ const navigateObjectPropertiesAndSubastitute = (path: string, bag: any) => {
   return get(bag, path, undefined);
 };
 
-const substituteVars = (
+export const substituteVars = (
   templateString: string | undefined,
   templateVariables: { [key: string]: any }
 ): string => {
