@@ -1,8 +1,7 @@
-import { Box, Button, Text } from "grommet";
+import { Box, Button } from "grommet";
 import { IDmbtInteractionProps } from "../definitions";
 import { GetIcon, getPortsArray } from "../stateHelpers";
 import { DirectionType } from "grommet/utils";
-import { Add } from "grommet-icons";
 
 export interface IBotSingleChoiceSettings {
   direction?: DirectionType;
