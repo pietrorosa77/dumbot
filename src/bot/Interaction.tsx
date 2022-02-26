@@ -39,12 +39,7 @@ export const Interaction = (
   const nodeSub = prepareInteractionNode(props.node, props.variables);
   const InteractionControl =
     customInteractions.get(props.node.type) ||
-    InteractionsMap.get(props.node.type) ||
-    (() => (
-      <Box pad="large" background="status-error">
-        Missing specified interaction
-      </Box>
-    ));
+    InteractionsMap.get(props.node.type);
 
   React.useEffect(() => {
     if (containerRef.current) {
@@ -58,18 +53,18 @@ export const Interaction = (
   }
 
   return (
-    <Box
-      ref={containerRef as any}
-      tabIndex={0}
-      margin={props.margin || "none"}
-      pad="small"
-      className="dmbt-interaction-container"
-      focusIndicator={true}
-      hoverIndicator="accent-1"
-      background={props.bgColor || "botInteractionBgColor"}
-      round={props.round}
-    >
-      <InteractionControl {...props} theme={theme} node={nodeSub} />
-    </Box>
+      <Box
+        ref={containerRef as any}
+        tabIndex={0}
+        margin={props.margin || "none"}
+        pad="small"
+        className="dmbt-interaction-container"
+        focusIndicator={true}
+        hoverIndicator="accent-1"
+        background={props.bgColor || "botInteractionBgColor"}
+        round={props.round}
+      >
+        <InteractionControl {...props} theme={theme} node={nodeSub} />
+      </Box>
   );
 };

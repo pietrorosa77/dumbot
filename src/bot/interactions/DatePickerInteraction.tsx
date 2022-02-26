@@ -23,7 +23,6 @@ const StyledDate = styled(DateInput)`
 
 export const BotDatePicker = (props: IDmbtInteractionProps) => {
   const dispatch = props.dispatcher;
-  const outType = props.node.output.type;
   const [text, setText] = useState<string>("");
   const controlProperties = props.node.properties as IDateIntervalProperties;
   const dateFormat = controlProperties.format || "dd/mm/yyyy";
@@ -35,7 +34,7 @@ export const BotDatePicker = (props: IDmbtInteractionProps) => {
       payload: {
         value,
         port: DEFAULT_NODE_PORT,
-        type: outType,
+        type: "date",
         id: props.node.output.id,
       },
     });
@@ -55,8 +54,8 @@ export const BotDatePicker = (props: IDmbtInteractionProps) => {
   };
 
   const onSubmit = () => {
-    if (isValid()) {
-      onAnswer(text);
+    if (isValid() && dateInputRef.current) {
+      onAnswer(dateInputRef.current.value);
     }
   };
 

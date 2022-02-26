@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { createGlobalStyle } from "styled-components";
 import { ChatbotContent, ChatBotOuterContainer } from "./BotLayout";
 import {
+  DEFAULT_NODE_PORT,
   DmbtMiddlewhare,
   IBotTheme,
   IDmbtMessage,
@@ -30,6 +31,7 @@ import { useEventBus } from "./eventBus";
 import { Interaction } from "./Interaction";
 import { getBotCss } from "./botMessagesCss";
 import "rehype-katex/node_modules/katex/dist/katex.css";
+import { ErrorBoundary } from "./ErrorBoundary";
 
 const DumbotInner = (
   props: IDmbtProps & {
@@ -174,6 +176,18 @@ const DumbotInner = (
     return await onCallHost(hostFunctionName, parameters);
   };
 
+  const onErrorAction = () => {
+    dispatch({
+      type: "@answer",
+      payload: {
+        value: "Sorry, an error happened",
+        port: DEFAULT_NODE_PORT,
+        type: "error",
+        id: activeInteraction?.id,
+      },
+    });
+  };
+
   return (
     <DispatcherContext.Provider value={dispatch}>
       <Box width="100%" height="100%" className={className} ref={botRef as any}>
@@ -204,16 +218,18 @@ const DumbotInner = (
                   customMessageDisplay={props.customMessageDisplay}
                 />
                 {activeInteraction && !interactionOnFooter && (
-                  <Interaction
-                    customInteractions={props.customInteractions}
-                    node={activeInteraction}
-                    variables={state.variables}
-                    theme={theme}
-                    dispatcher={dispatch}
-                    round="small"
-                    margin={{ top: "20px" }}
-                    onCallHost={onCallHostCb}
-                  />
+                  <ErrorBoundary onDismiss={onErrorAction}>
+                    <Interaction
+                      customInteractions={props.customInteractions}
+                      node={activeInteraction}
+                      variables={state.variables}
+                      theme={theme}
+                      dispatcher={dispatch}
+                      round="small"
+                      margin={{ top: "20px" }}
+                      onCallHost={onCallHostCb}
+                    />
+                  </ErrorBoundary>
                 )}
                 <Box
                   ref={scrollAnchor as any}
@@ -225,15 +241,17 @@ const DumbotInner = (
             </ChatbotContent>
             {activeInteraction && interactionOnFooter && (
               <div style={{ maxHeight: "100%" }}>
-                <Interaction
-                  customInteractions={props.customInteractions}
-                  node={activeInteraction}
-                  variables={state.variables}
-                  theme={theme}
-                  dispatcher={dispatch}
-                  bgColor="botFooterBgColor"
-                  onCallHost={onCallHostCb}
-                />
+                <ErrorBoundary onDismiss={onErrorAction}>
+                  <Interaction
+                    customInteractions={props.customInteractions}
+                    node={activeInteraction}
+                    variables={state.variables}
+                    theme={theme}
+                    dispatcher={dispatch}
+                    bgColor="botFooterBgColor"
+                    onCallHost={onCallHostCb}
+                  />
+                </ErrorBoundary>
               </div>
             )}
             {!interactionOnFooter && !hideFooter && (

@@ -36,7 +36,7 @@ export const BotQuestion = (props: IDmbtInteractionProps) => {
   const dangerColor = props.theme.global?.colors?.["status-error"];
 
   const outType = props.node.output.type;
-  const [text, setText] = useState<string>();
+  const [text, setText] = useState<string>("");
   const [valid, setValid] = useState<boolean>(true);
   const [suggestions, setSuggestions] = useState(
     controlProperties.suggestions || []

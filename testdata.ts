@@ -264,16 +264,16 @@ export const testBotDefiniton = {
       },
       "ZT-AyLLws-": {
         id: "ZT-AyLLws-",
-        type: "tags",
+        type: "question",
         user: true,
         content: "You picked ${multiOut};\nCan you answer this now?? :smile:",
         position: { x: 478, y: 342 },
         title: "Question",
-        output: { type: "date", id: "question_w4vefIRD64" },
+        output: { type: "color", id: "question_w4vefIRD64" },
         properties: {
           placeholder: "answer this...",
           asFooter: false,
-          suggestions: ["test 1", "test 2", "test 3", "test 4"],
+          type: "color",
         },
         ports: {
           default: {

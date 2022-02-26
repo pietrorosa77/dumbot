@@ -4,8 +4,13 @@ import { ThemeContext } from "styled-components";
 import {
   IBotThemableColors,
   IBotThemableProps,
+  IDisplayResponseProps,
   IDmbtMessage,
 } from "./definitions";
+import { ArrayAnswerDisplay } from "./display/ArrayDisplay";
+import { ColorAnswerDisplay } from "./display/ColorDisplay";
+import { JsonObjectDisplay } from "./display/JsonDisplay";
+import { ObjectAnswerDisplay } from "./display/ObjectDisplay";
 import { MarkdownView } from "./MarkdownView";
 import {
   AvatarContainer,
@@ -22,6 +27,16 @@ export interface IMessageProps {
     (props: { message: IDmbtMessage }) => JSX.Element
   >;
 }
+
+const DisplayMessageMap = new Map<
+  string,
+  (props: IDisplayResponseProps) => JSX.Element
+>([
+  ["array", ArrayAnswerDisplay],
+  ["object", ObjectAnswerDisplay],
+  ["json", JsonObjectDisplay],
+  ["color", ColorAnswerDisplay]
+]);
 
 export const Message = (props: IMessageProps) => {
   const themeContext = React.useContext(ThemeContext);
@@ -50,9 +65,9 @@ export const Message = (props: IMessageProps) => {
   const justifyContent = isUser ? "end" : "start";
   const className = isUser ? "message-part-user" : "message-part-bot";
 
-  // React.useEffect(() => {
-  //   console.log("remounting", props.message.id);
-  // }, [true]);
+  React.useEffect(() => {
+    console.log("Mounting", props.message.id);
+  }, [props.message.id]);
 
   React.useEffect(() => {
     const mq = window.matchMedia(
@@ -77,7 +92,9 @@ export const Message = (props: IMessageProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [true]);
 
-  const Display = props.customMessageDisplay.get(props.message.output.type);
+  const Display =
+    props.customMessageDisplay.get(props.message.output.type) ||
+    DisplayMessageMap.get(props.message.output.type);
 
   return (
     <Box
@@ -123,7 +140,7 @@ export const Message = (props: IMessageProps) => {
           showClock={theme.avatarClock}
           clockSide={isUser ? "start" : "end"}
         >
-          {Display && <Display message={props.message} />}
+          {Display && <Display message={props.message} theme={themeContext} />}
           {!Display && (
             <MarkdownView
               text={props.message.content || props.message.output.value}

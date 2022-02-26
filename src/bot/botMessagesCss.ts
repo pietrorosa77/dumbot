@@ -454,7 +454,7 @@ code.language-markup .token.script .token.keyword {
 }
 
 .dumbot-content-body dd {
-  margin-left: 0;
+  margin-left: 5px;
 }
 
 .dumbot-content-body tt,
@@ -615,15 +615,9 @@ code.language-markup .token.script .token.keyword {
 
 .dumbot-content-body dl dt {
   padding: 0;
-  margin-top: 16px;
   font-size: 1em;
   font-style: italic;
   font-weight: 600;
-}
-
-.dumbot-content-body dl dd {
-  padding: 0 16px;
-  margin-bottom: 16px;
 }
 
 

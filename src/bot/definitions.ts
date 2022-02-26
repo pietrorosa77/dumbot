@@ -242,3 +242,8 @@ export interface IDmbtEventBus {
 
   emit: (type: DmbtEvents, data: any) => void;
 }
+
+export interface IDisplayResponseProps {
+  message: IDmbtMessage;
+  theme: IBotTheme;
+}

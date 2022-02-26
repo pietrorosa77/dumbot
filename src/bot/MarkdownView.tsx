@@ -116,7 +116,7 @@ export const MarkdownView = React.memo(
       if (isText) {
         markdownToHtml(text).then((res) => setHtml(res as string));
       }
-    }, [text, isText]);
+    }, [text, isText, setHtml]);
 
     return isText ? (
       <div
