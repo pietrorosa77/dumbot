@@ -68,8 +68,6 @@ const BotColors: IBotThemableColors = {
   botTriggerButtonHoverColor: "cornflowerblue",
   botTriggerButtonColor: "#fff",
   botTriggerButtonBackgroundColor: "#2b2e4b",
-  botInputControlsFontColor: "#4a4a4a",
-  botInputBoxBgColor: "#fff",
   botCloseButtonBgColor: "#4a4d70",
   botBackButtonBgColor: "#4a4d70",
   botCloseButtonFontColor: "#fff",

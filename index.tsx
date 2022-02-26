@@ -59,6 +59,12 @@ ReactDOM.render(
           buttonsRadius: "6px",
           messageDelay: 1500,
         },
+        button: {
+          padding: {
+            horizontal: "10px",
+            vertical: "10px",
+          },
+        },
       }}
     />
   </React.StrictMode>,

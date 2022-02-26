@@ -183,8 +183,6 @@ export interface IBotThemableColors extends Colors {
   botTriggerButtonHoverColor: string;
   botTriggerButtonColor: string;
   botTriggerButtonBackgroundColor: string;
-  botInputControlsFontColor: string;
-  botInputBoxBgColor: string;
   botCloseButtonBgColor: string;
   botBackButtonBgColor: string;
   botCloseButtonFontColor: string;

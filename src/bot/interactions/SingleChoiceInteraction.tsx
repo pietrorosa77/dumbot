@@ -1,11 +1,13 @@
-import { Box } from "grommet";
+import { Box, Button, Text } from "grommet";
 import { IDmbtInteractionProps } from "../definitions";
 import { GetIcon, getPortsArray } from "../stateHelpers";
 import { DirectionType } from "grommet/utils";
-import { BotInteractionButton } from "../BotButtons";
+import { Add } from "grommet-icons";
 
 export interface IBotSingleChoiceSettings {
   direction?: DirectionType;
+  size?: "small" | "medium" | "large" | undefined;
+  hoverIndicator?: string;
 }
 
 export const BotSingleChoice = (props: IDmbtInteractionProps) => {
@@ -36,16 +38,14 @@ export const BotSingleChoice = (props: IDmbtInteractionProps) => {
       >
         {ports.map((p) => {
           const Icon = GetIcon(p.icon);
-          const onlyIcon = Icon && !p.text ? true : false;
           return (
-            <BotInteractionButton
-              onlyIcon={onlyIcon}
+            <Button
               key={p.id}
-              tabIndex={0}
-              selected={false}
+              hoverIndicator={controlProperties.hoverIndicator || "light-1"}
+              size={controlProperties.size}
+              label={p.text || undefined}
               margin={{ top: "small" }}
               icon={Icon ? <Icon /> : undefined}
-              label={p.text}
               onClick={() => onPress(p.id, p.value || p.text)}
             />
           );

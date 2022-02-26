@@ -264,20 +264,16 @@ export const testBotDefiniton = {
       },
       "ZT-AyLLws-": {
         id: "ZT-AyLLws-",
-        type: "question",
+        type: "tags",
         user: true,
         content: "You picked ${multiOut};\nCan you answer this now?? :smile:",
         position: { x: 478, y: 342 },
         title: "Question",
         output: { type: "date", id: "question_w4vefIRD64" },
         properties: {
-          label: "date (date range depending on format)",
-          controlType: "input",
-          type: "date",
-          size: "medium",
-          width: "100%",
-          format: "dd/mm/yyyy-dd/mm/yyyy",
-          textAlign: "start",
+          placeholder: "answer this...",
+          asFooter: false,
+          suggestions: ["test 1", "test 2", "test 3", "test 4"],
         },
         ports: {
           default: {

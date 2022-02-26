@@ -210,7 +210,7 @@ const DumbotInner = (
                     variables={state.variables}
                     theme={theme}
                     dispatcher={dispatch}
-                    round="medium"
+                    round="small"
                     margin={{ top: "20px" }}
                     onCallHost={onCallHostCb}
                   />

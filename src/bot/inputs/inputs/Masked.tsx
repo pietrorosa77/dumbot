@@ -2,7 +2,7 @@ import * as React from "react";
 import { Keyboard, MaskedInput } from "grommet";
 import { ChangeEvent } from "react";
 //import { IInputComponentProps } from "../../definitions";
-import * as masks from "./availableMasks";
+import * as masks from "../../interactions/availableMasks";
 
 export const BotMaskedInput = (props: any) => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {

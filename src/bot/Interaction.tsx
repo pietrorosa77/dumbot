@@ -2,17 +2,24 @@ import { Box, ThemeContext } from "grommet";
 import { MarginType } from "grommet/utils";
 import React from "react";
 import { IBotTheme, IDmbtInteractionProps } from "./definitions";
+import { BotQuestion } from "./interactions/QuestionInteraction";
+import { BotDatePicker } from "./interactions/DatePickerInteraction";
 import { BotMultiChoice } from "./interactions/MultiChoiceInteraction";
 import { BotSingleChoice } from "./interactions/SingleChoiceInteraction";
 import { prepareInteractionNode } from "./stateHelpers";
+import { BotMaskedInput } from "./interactions/MaskedInputInteraction";
+import { BotInteractionTags } from "./interactions/TagsInteraction";
 
 const InteractionsMap = new Map<
   string,
   (props: IDmbtInteractionProps) => JSX.Element
 >([
-  // ["question", BotQuestion],
+  ["question", BotQuestion],
+  ["mask", BotMaskedInput],
   ["buttons", BotSingleChoice],
   ["multiButtons", BotMultiChoice],
+  ["datePicker", BotDatePicker],
+  ["tags", BotInteractionTags],
 ]);
 
 export const Interaction = (
@@ -32,7 +39,12 @@ export const Interaction = (
   const nodeSub = prepareInteractionNode(props.node, props.variables);
   const InteractionControl =
     customInteractions.get(props.node.type) ||
-    InteractionsMap.get(props.node.type);
+    InteractionsMap.get(props.node.type) ||
+    (() => (
+      <Box pad="large" background="status-error">
+        Missing specified interaction
+      </Box>
+    ));
 
   React.useEffect(() => {
     if (containerRef.current) {

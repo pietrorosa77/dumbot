@@ -5,8 +5,6 @@ const daysInMonth = (month: number) =>
 const IPv4ElementExp =
   /^[0-1][0-9][0-9]$|^2[0-4][0-9]$|^25[0-5]$|^[0-9][0-9]$|^[0-9]$/;
 
-export const emptyMask = () => "";
-
 export const dateMask = (value: any) => [
   {
     length: [1, 2],
@@ -192,3 +190,23 @@ export const dateTimeMask = (value: any) => [
     placeholder: "ap",
   },
 ];
+
+export const ValidateMask = {
+  dateMask: (val: string) =>
+    val.length >= 8 &&
+    val.split("/").length === 3 &&
+    val.split("/")[2].length === 4,
+  dateRangeMask: (val: string) =>
+    val.length >= 19 &&
+    val.split("/").length === 5 &&
+    val.split("-").length === 2 &&
+    val.split("/")[4].length === 4,
+  ipv4Mask: (val: string) => val.length >= 6 && val.split(".").length === 4,
+  urlMask: (val: string) => val.startsWith("https://") && val.length >= 10,
+  timeMask: (val: string) => val.length >= 7,
+  dateTimeMask: (val: string) =>
+    val.length >= 15 &&
+    val.split("/").length === 3 &&
+    val.split("/")[2].length === 4 &&
+    val.split(":").length === 2,
+};
