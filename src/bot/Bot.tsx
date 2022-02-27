@@ -72,7 +72,7 @@ const DumbotInner = (
   );
   const activeInteraction = onGetInteractionNode(state.activeInteraction);
   const interactionOnFooter =
-    activeInteraction && activeInteraction.properties?.asFooter;
+    activeInteraction && (activeInteraction.properties?.displayAs==="footer")
   const { onSendDataToHost, onStateChanged, onToggle, onCallHost } = props;
 
   const resizeObserver = useRef<ResizeObserver>(

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { DEFAULT_NODE_PORT, IDmbtInteractionProps } from "../definitions";
 
 export interface IDateIntervalProperties {
-  asFooter?: boolean;
+  displayAs: string;
   format?: string;
 }
 
@@ -25,6 +25,7 @@ export const BotDatePicker = (props: IDmbtInteractionProps) => {
   const dispatch = props.dispatcher;
   const [text, setText] = useState<string>("");
   const controlProperties = props.node.properties as IDateIntervalProperties;
+  const asFooter = controlProperties.displayAs === "footer";
   const dateFormat = controlProperties.format || "dd/mm/yyyy";
   const dateInputRef = useRef<HTMLInputElement>();
 
@@ -60,12 +61,7 @@ export const BotDatePicker = (props: IDmbtInteractionProps) => {
   };
 
   return (
-    <Box
-      align="center"
-      justify="start"
-      pad={controlProperties.asFooter ? "none" : "medium"}
-      fill
-    >
+    <Box align="center" justify="start" pad={asFooter ? "none" : "medium"} fill>
       <Keyboard target="component" onEnter={onSubmit}>
         <Box
           width="100%"

@@ -6,7 +6,7 @@ import { DEFAULT_NODE_PORT, IDmbtInteractionProps } from "../definitions";
 
 export interface IBotTagsQuestionProperties {
   placeholder?: string;
-  asFooter?: boolean;
+  displayAs: string;
   suggestions?: string[];
 }
 

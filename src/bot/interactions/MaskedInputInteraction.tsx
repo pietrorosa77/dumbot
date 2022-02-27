@@ -6,7 +6,7 @@ import { DEFAULT_NODE_PORT, IDmbtInteractionProps } from "../definitions";
 import * as masks from "./availableMasks";
 
 export interface IBotMaskQuestionProperties {
-  asFooter?: boolean;
+  displayAs: string;
   mask: string;
 }
 
@@ -24,6 +24,7 @@ const StyleMaskeddInput = styled(MaskedInput)`
 export const BotMaskedInput = (props: IDmbtInteractionProps) => {
   const dispatch = props.dispatcher;
   const controlProperties = props.node.properties as IBotMaskQuestionProperties;
+  const asFooter = controlProperties.displayAs === "footer";
   const outType = props.node.output.type;
   const [text, setText] = useState<string>("");
   const mask = (masks as any)[controlProperties.mask](text);
@@ -56,7 +57,7 @@ export const BotMaskedInput = (props: IDmbtInteractionProps) => {
     <Box
       align="center"
       justify="start"
-      pad={controlProperties.asFooter ? "none" : "medium"}
+      pad={asFooter ? "none" : "medium"}
       fill
     >
       <Keyboard target="component" onEnter={onSubmit}>

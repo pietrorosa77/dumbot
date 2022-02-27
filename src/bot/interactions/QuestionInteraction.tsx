@@ -10,7 +10,7 @@ export interface IBotQuestionProperties {
   placeholder?: string;
   pattern?: string;
   validationMessage?: string;
-  asFooter?: boolean;
+  displayAs: string;
   long?: boolean;
   suggestions?: string[];
 }
@@ -33,6 +33,7 @@ const StyledInput = styled(TextInput)`
 export const BotQuestion = (props: IDmbtInteractionProps) => {
   const dispatch = props.dispatcher;
   const controlProperties = props.node.properties as IBotQuestionProperties;
+  const asFooter = controlProperties.displayAs === "footer";
   const dangerColor = props.theme.global?.colors?.["status-error"];
 
   const outType = props.node.output.type;
@@ -98,7 +99,7 @@ export const BotQuestion = (props: IDmbtInteractionProps) => {
     <Box
       align="center"
       justify="start"
-      pad={controlProperties.asFooter ? "none" : "medium"}
+      pad={asFooter ? "none" : "medium"}
       fill
     >
       <Keyboard target="component" onEnter={onSubmit}>

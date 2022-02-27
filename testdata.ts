@@ -51,7 +51,7 @@ export const testBotDefiniton = {
         title: "Buttons",
         output: { id: "multiOut", type: "text" },
         properties: {
-          asFooter: false,
+          displayAs: "message",
           min: 2,
           max: 4,
           direction: "row",
@@ -272,7 +272,7 @@ export const testBotDefiniton = {
         output: { type: "color", id: "question_w4vefIRD64" },
         properties: {
           placeholder: "answer this...",
-          asFooter: false,
+          displayAs: "message",
           type: "color",
         },
         ports: {
