@@ -264,7 +264,7 @@ export const testBotDefiniton = {
       },
       "ZT-AyLLws-": {
         id: "ZT-AyLLws-",
-        type: "question",
+        type: "password",
         user: true,
         content: "You picked ${multiOut};\nCan you answer this now?? :smile:",
         position: { x: 478, y: 342 },
@@ -273,7 +273,8 @@ export const testBotDefiniton = {
         properties: {
           placeholder: "answer this...",
           displayAs: "message",
-          type: "color",
+          pattern: "123456",
+          validationMessage: "password should have !@#",
         },
         ports: {
           default: {

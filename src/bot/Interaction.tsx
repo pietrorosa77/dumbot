@@ -9,6 +9,7 @@ import { BotSingleChoice } from "./interactions/SingleChoiceInteraction";
 import { prepareInteractionNode } from "./stateHelpers";
 import { BotMaskedInput } from "./interactions/MaskedInputInteraction";
 import { BotInteractionTags } from "./interactions/TagsInteraction";
+import { BotPasswordInteraction } from "./interactions/PasswordInteraction";
 
 const InteractionsMap = new Map<
   string,
@@ -20,6 +21,7 @@ const InteractionsMap = new Map<
   ["multiButtons", BotMultiChoice],
   ["datePicker", BotDatePicker],
   ["tags", BotInteractionTags],
+  ["password", BotPasswordInteraction],
 ]);
 
 export const Interaction = (
@@ -53,18 +55,18 @@ export const Interaction = (
   }
 
   return (
-      <Box
-        ref={containerRef as any}
-        tabIndex={0}
-        margin={props.margin || "none"}
-        pad="small"
-        className="dmbt-interaction-container"
-        focusIndicator={true}
-        hoverIndicator="accent-1"
-        background={props.bgColor || "botInteractionBgColor"}
-        round={props.round}
-      >
-        <InteractionControl {...props} theme={theme} node={nodeSub} />
-      </Box>
+    <Box
+      ref={containerRef as any}
+      tabIndex={0}
+      margin={props.margin || "none"}
+      pad="small"
+      className="dmbt-interaction-container"
+      focusIndicator={true}
+      hoverIndicator="accent-1"
+      background={props.bgColor || "botInteractionBgColor"}
+      round={props.round}
+    >
+      <InteractionControl {...props} theme={theme} node={nodeSub} />
+    </Box>
   );
 };
