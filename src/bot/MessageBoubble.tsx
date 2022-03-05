@@ -44,6 +44,7 @@ export const Bubble = styled(Box)<{
 export const AvatarContainer = styled.div`
   width: ${(props) => props.theme.bot.avatarSize}px;
   max-width: ${(props) => props.theme.bot.avatarSize}px;
+  min-width: ${(props) => props.theme.bot.avatarSize}px;
   align-self: stretch;
   position: relative;
 `;
@@ -53,11 +54,9 @@ export const BotAvatar = styled(Avatar)<{
   active: boolean;
   stay: boolean;
   leading: boolean;
+  bgColor: string;
 }>`
-  background-color: ${(props) =>
-    props.user
-      ? props.theme.global.colors.botUserAvatarBg
-      : props.theme.global.colors.botAvatarBg};
+  background-color: ${(props) => props.bgColor};
   border-radius: ${(props) => (props.user ? "50% 50% 50% 0" : "50% 50% 0 50%")};
   box-shadow: ${(props) => props.theme.bot.bubbleBoxShadow};
   padding: 3px;
@@ -85,7 +84,7 @@ export const BotAvatar = styled(Avatar)<{
 
 export const MessageBoubbleContent = (props: {
   nickname?: string;
-  nicknameColor?: string;
+  // nicknameColor?: string;
   children: any;
   showClock?: boolean;
   time: string;
@@ -93,11 +92,7 @@ export const MessageBoubbleContent = (props: {
 }) => {
   return (
     <Box direction="column" className="dumbot-content-body">
-      {props.nickname && (
-        <Box direction="row" style={{ color: props.nicknameColor }}>
-          {props.nickname}
-        </Box>
-      )}
+      {props.nickname && <Box direction="row">{props.nickname}</Box>}
       <Box gap="xsmall">
         <div
           style={{

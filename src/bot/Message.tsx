@@ -43,7 +43,6 @@ const DisplayMessageMap = new Map<
 export const Message = (props: IMessageProps) => {
   const themeContext = React.useContext(ThemeContext);
   const theme: IBotThemableProps = themeContext.bot as IBotThemableProps;
-  const themeColors = themeContext.global.colors as IBotThemableColors;
   const [forceHideAvatars, setForceHideAvatars] = React.useState(false);
   const showavatar = theme.disableAvatars ? false : true;
   const metadata = props.message.meta;
@@ -52,16 +51,10 @@ export const Message = (props: IMessageProps) => {
   const avatar =
     metadata.avatarSrc || (isUser ? theme.userAvatar : theme.botAvatar);
   const boubbleBgColor =
-    metadata?.bgColor || (isUser ? "botUserBubbleColor" : "botBubbleColor");
-  const boubbleColor =
-    metadata?.color || isUser
-      ? themeColors.botUserFontColor
-      : themeColors.botFontColor;
+    metadata?.bgColor || (isUser ? "botUserBubbleColor" : "brand");
+
   const nickName =
     metadata?.nickname || (isUser ? theme.userNick : theme.dumbotNick);
-  const nicknameColor =
-    metadata?.nicknameColor ||
-    (isUser ? themeColors.botBubbleColor : themeColors.botFocusColor);
   const messageWidth = metadata?.width;
   const direction = isUser ? "row-reverse" : "row";
   const justifyContent = isUser ? "end" : "start";
@@ -122,12 +115,16 @@ export const Message = (props: IMessageProps) => {
             src={avatar}
             leading={!!metadata.leaingGroup}
             stay={!!metadata.hasAvatar}
+            bgColor={
+              isUser
+                ? themeContext.global.colors["brand"]
+                : themeContext.global.colors["botUserBubbleColor"]
+            }
           />
         </AvatarContainer>
       )}
       <Bubble
         user={!!isUser}
-        color={boubbleColor}
         background={boubbleBgColor}
         className="dmbt-bubble "
         active={!!props.active}
@@ -138,7 +135,7 @@ export const Message = (props: IMessageProps) => {
         <MessageBoubbleContent
           nickname={nickName}
           time={metadata.time as string}
-          nicknameColor={nicknameColor}
+          // nicknameColor={nicknameColor}
           showClock={theme.avatarClock}
           clockSide={isUser ? "start" : "end"}
         >

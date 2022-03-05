@@ -23,7 +23,7 @@ export class ErrorBoundary extends Component<
         return this.props.renderError(this.state.error);
       }
       return (
-        <Box margin="large" pad="medium" background="bars" round>
+        <Box margin="large" pad="medium" background="brand" round>
           <Notification
             status="critical"
             title="Dumbot Error"

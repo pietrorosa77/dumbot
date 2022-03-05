@@ -1,8 +1,7 @@
-import { Box } from "grommet";
+import { Box, Button } from "grommet";
 import { LinkPrevious, Rewind } from "grommet-icons";
 import * as React from "react";
 import styled, { ThemeContext } from "styled-components";
-import { OnlyIconButton } from "./BotButtons";
 import { IBotThemableProps } from "./definitions";
 
 export interface IBotFooterProps {
@@ -11,10 +10,8 @@ export interface IBotFooterProps {
   onBack: () => void;
 }
 
-const Footer = styled.div`
+const Footer = styled(Box)`
   align-items: center;
-  background: ${({ theme }) => theme.global.colors.botFooterBgColor};
-  color: ${({ theme }) => theme.global.colors.botFooterFontColor};
   display: flex;
   min-height: ${({ theme }) => theme.bot.footerHeight};
   justify-content: center;
@@ -27,20 +24,24 @@ export const BotFooter = (props: IBotFooterProps) => {
   const Icon = props.isEnd ? Rewind : LinkPrevious;
 
   return (
-    <Footer className="rsc-header">
+    <Footer className="rsc-header" direction="row" background="brand">
       <Box flex="grow">
         <Box align={theme.footerTextAlign} style={{ fontSize: "0.7em" }}>
           {theme.footerText}
         </Box>
       </Box>
       {((props.isEnd && theme.allowRestartOnEnd) || props.interactive) && (
-        <OnlyIconButton
-          icon={<Icon size="small" />}
+        <Button
+          icon={<Icon />}
+          plain
           onClick={props.onBack}
           size="small"
-          bgColor="botBackButtonBgColor"
-          fontColor="botBackButtonFontColor"
-          tip="Go back!"
+          primary
+          tip="Go back"
+          hoverIndicator
+          style={{
+            padding: "0.8rem",
+          }}
         />
       )}
     </Footer>

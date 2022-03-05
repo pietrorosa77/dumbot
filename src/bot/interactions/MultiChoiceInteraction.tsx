@@ -2,7 +2,6 @@ import { Box, Button } from "grommet";
 import { DEFAULT_NODE_PORT, IDmbtInteractionProps } from "../definitions";
 import { GetIcon, getPortsArray } from "../stateHelpers";
 import { DirectionType } from "grommet/utils";
-import { OnlyIconButton } from "../BotButtons";
 import React from "react";
 import { PlayFill } from "grommet-icons";
 
@@ -65,18 +64,19 @@ export const BotMultiChoice = (props: IDmbtInteractionProps) => {
               icon={Icon ? <Icon /> : undefined}
               key={p.id}
               primary={isSelected}
-              hoverIndicator={controlProperties.hoverIndicator || "light-1"}
+              hoverIndicator
               onClick={() => onPress(p.id, isSelected ? true : false)}
             />
           );
         })}
       </Box>
-      <Box pad="small">
-        <OnlyIconButton
-          disabled={!valid}
+      <Box round="full" overflow="hidden" margin="small">
+        <Button
           icon={<PlayFill />}
+          disabled={!valid}
           onClick={onSubmit}
           tip="Confirm selection"
+          hoverIndicator
         />
       </Box>
     </Box>

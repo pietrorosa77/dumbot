@@ -8,7 +8,9 @@ export const ArrayAnswerDisplay = (props: IDisplayResponseProps) => {
   }
   return (
     <Box pad="small">
-      <pre>{answer.join(",\n")}</pre>
+      {answer.map((a, i) => (
+        <p key={i}>{a}</p>
+      ))}
     </Box>
   );
 };

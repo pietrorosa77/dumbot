@@ -41,9 +41,9 @@ ReactDOM.render(
       onStateChanged={(data) => {
         console.log("STATECHANGED", data);
       }}
-      //   onBotFinished={(state) => {
-      //     console.log("FINISHED");
-      //   }}
+      onBotFinished={(state) => {
+        console.log("FINISHED");
+      }}
       onCallHost={async () => {
         const res = await fetch("https://gorest.co.in/public/v1/users");
         return await res.json();
@@ -55,16 +55,31 @@ ReactDOM.render(
       }}
       // customMessageDisplay={CustomDisplay}
       theme={{
+        global: {
+          colors: {
+            brand: "#2b2e4b",
+            "accent-1": "cornflowerblue",
+          },
+        },
         bot: {
           buttonsRadius: "6px",
           messageDelay: 1500,
+          specialTagsBackground: "#4a4d70",
         },
-        button: {
-          padding: {
-            horizontal: "10px",
-            vertical: "10px",
-          },
-        },
+
+        // button: {
+        //   padding: {
+        //     horizontal: "10px",
+        //     vertical: "10px",
+        //   },
+        //   extend: `background: skyblue; border: 5px dotted green;hover:red`,
+        //   hover: {
+        //     background: { color: "red" },
+        //     secondary: {
+        //       border: { color: "active" },
+        //     },
+        //   },
+        // },
       }}
     />
   </React.StrictMode>,

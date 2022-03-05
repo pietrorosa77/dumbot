@@ -63,8 +63,11 @@ export const Interaction = (
       className="dmbt-interaction-container"
       focusIndicator={true}
       hoverIndicator="accent-1"
-      background={props.bgColor || "botInteractionBgColor"}
+      background={props.bgColor}
       round={props.round}
+      style={{
+        boxShadow: "0 3px 5px 0 rgb(0 0 0 / 90%)",
+      }}
     >
       <InteractionControl {...props} theme={theme} node={nodeSub} />
     </Box>

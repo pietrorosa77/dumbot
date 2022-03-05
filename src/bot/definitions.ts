@@ -23,7 +23,7 @@ export interface IDmbtNode {
   properties?: {
     width?: string;
     asStart?: boolean;
-    displayAs: "message" | "footer",
+    displayAs: "message" | "footer";
     [key: string]: any;
   };
   ports: {
@@ -137,12 +137,10 @@ export interface IBotThemableProps {
   avatarClock?: boolean;
   headerHeight?: string;
   headerLogoSize?: string;
-  // headerFontSize?: string;
   headerText?: string;
   headerTextAlign?: string;
   headerLogo?: string;
   footerHeight?: string;
-  // footerFontSize?: string;
   footerText?: string;
   footerTextAlign?: string;
   userAvatar?: string;
@@ -162,34 +160,14 @@ export interface IBotThemableProps {
   botCodeHighLightTheme?: string;
   userNick?: string;
   dumbotNick?: string;
+  specialTagsBackground: string;
 }
 
 export interface IBotThemableColors extends Colors {
-  botBackground: string;
-  botBubbleColor: string;
-  botFontColor: string;
   botUserBubbleColor: string;
-  botUserFontColor: string;
-  optionsColor: string;
-  botUserAvatarBg: string;
-  botAvatarBg: string;
-  botFocusColor: string;
-  botHeaderLogoBgColor: string;
-  botHeaderBgColor: string;
-  botHeaderFontColor: string;
-  botFooterBgColor: string;
-  botFooterFontColor: string;
-  botAvatarClockFontColor: string;
-  botTriggerButtonHoverColor: string;
+  botBackground: string;
   botTriggerButtonColor: string;
   botTriggerButtonBackgroundColor: string;
-  botCloseButtonBgColor: string;
-  botBackButtonBgColor: string;
-  botCloseButtonFontColor: string;
-  botBackButtonFontColor: string;
-  tipColor: string;
-  botInteractionBgColor: string;
-  specialTagsBackground: string;
 }
 
 export type IBotTheme = ThemeType & {

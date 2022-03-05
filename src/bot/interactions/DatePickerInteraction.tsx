@@ -1,6 +1,6 @@
 import { Box, Button, DateInput, Grommet, Keyboard } from "grommet";
 import { PlayFill } from "grommet-icons";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { DEFAULT_NODE_PORT, IDmbtInteractionProps } from "../definitions";
 
@@ -24,6 +24,7 @@ const StyledDate = styled(DateInput)`
 export const BotDatePicker = (props: IDmbtInteractionProps) => {
   const dispatch = props.dispatcher;
   const [text, setText] = useState<string>("");
+  const [valid, setValid] = useState(false);
   const controlProperties = props.node.properties as IDateIntervalProperties;
   const asFooter = controlProperties.displayAs === "footer";
   const dateFormat = controlProperties.format || "dd/mm/yyyy";
@@ -43,19 +44,23 @@ export const BotDatePicker = (props: IDmbtInteractionProps) => {
 
   const onChangeText = (e: any) => {
     setText(e.value);
+    setValid(isValid(e.value));
   };
 
-  const isValid = () => {
-    if (!dateInputRef.current) {
+  const isValid = (date: string | string[]) => {
+    if (!date) {
       return false;
     }
 
-    const textValue = dateInputRef.current.value;
-    return textValue && textValue.length === dateFormat.length;
+    if (Array.isArray(date)) {
+      return date.length === 2;
+    }
+
+    return true;
   };
 
   const onSubmit = () => {
-    if (isValid() && dateInputRef.current) {
+    if (valid && dateInputRef.current) {
       onAnswer(dateInputRef.current.value);
     }
   };
@@ -84,11 +89,7 @@ export const BotDatePicker = (props: IDmbtInteractionProps) => {
               onChange={onChangeText}
             />
           </Grommet>
-          <Button
-            icon={<StyledPlay />}
-            disabled={!isValid()}
-            onClick={onSubmit}
-          />
+          <Button icon={<StyledPlay />} disabled={!valid} onClick={onSubmit} />
         </Box>
       </Keyboard>
     </Box>

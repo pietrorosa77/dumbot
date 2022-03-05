@@ -8,50 +8,28 @@ const TriggerButton = styled(Button)<{
   active?: boolean;
 }>`
   background-color: ${(props) =>
-    props.theme.global.colors["botTriggerButtonBackgroundColor"] ||
-    props.theme.global.colors["botHeaderBgColor"]};
+    props.theme.global.colors["botTriggerButtonBackgroundColor"]};
   border: ${(props) =>
-    `2px solid ${
-      props.theme.global.colors["botTriggerButtonColor"] ||
-      props.theme.global.colors["botHeaderFontColor"]
-    }`};
+    `2px solid ${props.theme.global.colors["botTriggerButtonColor"]}`};
   border-radius: 50%;
-  color: ${(props) =>
-    props.theme.global.colors["botTriggerButtonColor"] ||
-    props.theme.global.colors["botHeaderFontColor"]};
+  color: ${(props) => props.theme.global.colors["botTriggerButtonColor"]};
   box-shadow: 0 0 5px 4px rgb(0 0 0 / 40%);
   svg {
-    fill: ${(props) =>
-      props.theme.global.colors["botTriggerButtonColor"] ||
-      props.theme.global.colors["botHeaderFontColor"]};
-    stroke: ${(props) =>
-      props.theme.global.colors["botTriggerButtonColor"] ||
-      props.theme.global.colors["botHeaderFontColor"]};
+    fill: ${(props) => props.theme.global.colors["botTriggerButtonColor"]};
+    stroke: ${(props) => props.theme.global.colors["botTriggerButtonColor"]};
   }
 
   &: hover
     ${(props) => `
   {
-    box-shadow: 0 0 5px 5px ${
-      props.theme.global.colors["botTriggerButtonHoverColor"] ||
-      props.theme.global.colors["botFocusColor"]
-    };
+    box-shadow: 0 0 5px 5px ${props.theme.global.colors["focus"]};
     transform: scale(1.2);
     transition: 0.5s ease-out;
-    color: ${
-      props.theme.global.colors["botTriggerButtonHoverColor"] ||
-      props.theme.global.colors["botFocusColor"]
-    };
+    color: ${props.theme.global.colors["focus"]};
     opacity: 0.9;
     svg {
-      fill: ${
-        props.theme.global.colors["botTriggerButtonHoverColor"] ||
-        props.theme.global.colors["botFocusColor"]
-      };
-      stroke: ${
-        props.theme.global.colors["botTriggerButtonHoverColor"] ||
-        props.theme.global.colors["botFocusColor"]
-      };
+      fill: ${props.theme.global.colors["focus"]};
+      stroke: ${props.theme.global.colors["focus"]};
     }
   }
   `};

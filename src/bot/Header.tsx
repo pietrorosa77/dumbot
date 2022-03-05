@@ -1,8 +1,7 @@
 import * as React from "react";
 import styled, { ThemeContext } from "styled-components";
-import { Avatar, Box } from "grommet";
+import { Avatar, Box, Button } from "grommet";
 import { FormClose, LinkPrevious, Rewind } from "grommet-icons";
-import { OnlyIconButton } from "./BotButtons";
 export interface IBotHeaderProps {
   allowClose?: boolean;
   onClose: () => void;
@@ -11,10 +10,8 @@ export interface IBotHeaderProps {
   onBack: () => void;
 }
 
-const Header = styled.div`
+const Header = styled(Box)`
   align-items: center;
-  background: ${({ theme }) => theme.global.colors.botHeaderBgColor};
-  color: ${({ theme }) => theme.global.colors.botHeaderFontColor};
   display: flex;
   gap: 0.3em;
   min-height: ${({ theme }) => theme.bot.headerHeight};
@@ -28,36 +25,74 @@ const HeaderTitle = styled.div`
 export const BotHeader = (props: IBotHeaderProps) => {
   const theme = React.useContext(ThemeContext);
   const Icon = props.isEnd ? Rewind : LinkPrevious;
+  const [hideLogo, setHideLogo] = React.useState(false);
+  React.useEffect(() => {
+    const mq = window.matchMedia(
+      `(max-width: ${theme.global.breakpoints.onlyMessages.value}px)`
+    );
+    setHideLogo(mq.matches);
+    function checkSmallScreen(e: MediaQueryListEvent) {
+      if (e.matches) {
+        /* the viewport is onlyMessages pixels wide or less */
+        setHideLogo(true);
+      } else {
+        /* the viewport is more than onlyMessages pixels wide */
+        setHideLogo(false);
+      }
+    }
+
+    mq.addEventListener("change", checkSmallScreen);
+
+    return () => {
+      mq.removeEventListener("change", checkSmallScreen);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [true]);
   return (
-    <Header className="rsc-header">
-      <Avatar
-        src={theme.bot.headerLogo}
-        style={{ backgroundColor: theme.global.colors.botHeaderLogoBgColor }}
-        size={theme.bot.headerLogoSize}
-      />
+    <Header className="rsc-header" direction="row" background="brand">
+      {!hideLogo && (
+        <Avatar
+          src={theme.bot.headerLogo}
+          size={theme.bot.headerLogoSize}
+          style={{
+            backgroundColor: theme.global.colors["accent-1"],
+            minWidth: theme.bot.headerLogoSize,
+            maxWidth: theme.bot.headerLogoSize,
+          }}
+          background={{ color: "accent-1" }}
+        />
+      )}
       <HeaderTitle className="rsc-header-title">
         <Box align={theme.bot.headerTextAlign}>
-          <h1>{theme.bot.headerText}</h1>
+          <h2>{theme.bot.headerText}</h2>
         </Box>
       </HeaderTitle>
       {(props.interactive || props.isEnd) && (
-        <OnlyIconButton
-          icon={<Icon size="small" />}
+        <Button
+          icon={<Icon />}
+          plain
           onClick={props.onBack}
           size="small"
-          bgColor="botBackButtonBgColor"
-          fontColor="botBackButtonFontColor"
-          tip="Go back!"
+          primary
+          hoverIndicator
+          tip="Go back"
+          style={{
+            padding: "0.8rem",
+          }}
         />
       )}
       {props.allowClose && (
-        <OnlyIconButton
+        <Button
+          icon={<FormClose />}
+          plain
           onClick={props.onClose}
-          fontColor="botCloseButtonFontColor"
-          bgColor="botCloseButtonBgColor"
-          icon={<FormClose size="small" />}
           size="small"
-          style={{ marginLeft: "5px" }}
+          primary
+          hoverIndicator
+          tip="Close"
+          style={{
+            padding: "0.8rem",
+          }}
         />
       )}
     </Header>

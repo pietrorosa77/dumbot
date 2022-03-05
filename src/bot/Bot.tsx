@@ -72,7 +72,7 @@ const DumbotInner = (
   );
   const activeInteraction = onGetInteractionNode(state.activeInteraction);
   const interactionOnFooter =
-    activeInteraction && (activeInteraction.properties?.displayAs==="footer")
+    activeInteraction && activeInteraction.properties?.displayAs === "footer";
   const { onSendDataToHost, onStateChanged, onToggle, onCallHost } = props;
 
   const resizeObserver = useRef<ResizeObserver>(
@@ -226,6 +226,7 @@ const DumbotInner = (
                       theme={theme}
                       dispatcher={dispatch}
                       round="small"
+                      bgColor="brand"
                       margin={{ top: "20px" }}
                       onCallHost={onCallHostCb}
                     />

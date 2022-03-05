@@ -40,10 +40,9 @@ export const BotSingleChoice = (props: IDmbtInteractionProps) => {
           return (
             <Button
               key={p.id}
-              hoverIndicator={controlProperties.hoverIndicator || "light-1"}
               size={controlProperties.size}
               label={p.text || undefined}
-              margin={{ top: "small" }}
+              margin="10px"
               icon={Icon ? <Icon /> : undefined}
               onClick={() => onPress(p.id, p.value || p.text)}
             />

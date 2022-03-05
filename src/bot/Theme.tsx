@@ -25,7 +25,7 @@ const BotProps: IBotThemableProps = {
   bubblePxRadius: "18px",
   bubblePadding: "10px",
   headerHeight: "80px",
-  headerLogoSize: "40px",
+  headerLogoSize: "4rem",
   headerText: "Welcome to this amazing experience",
   headerTextAlign: "center",
   headerLogo: defaultbotAvatar,
@@ -47,34 +47,15 @@ const BotProps: IBotThemableProps = {
   botCodeHighLightTheme: "nord",
   userNick: "You",
   dumbotNick: "Dumbot",
+  specialTagsBackground: "transparent",
 };
 
 const BotColors: IBotThemableColors = {
   botBackground: "#cbd2ff",
-  botBubbleColor: "#4a4d70",
-  botFontColor: "#fff",
-  botUserBubbleColor: "#edeef9",
-  botUserFontColor: "#4a4a4a",
-  optionsColor: "#7D4CDB",
-  botUserAvatarBg: "#4a4d70",
-  botAvatarBg: "#edeef9",
-  botFocusColor: "rgba(81, 203, 238, 1)",
-  botHeaderLogoBgColor: "#4a4d70",
-  botHeaderBgColor: "#2b2e4b",
-  botHeaderFontColor: "#fff",
-  botFooterBgColor: "#2b2e4b",
-  botFooterFontColor: "#fff",
-  botAvatarClockFontColor: "#4a4a4a",
+  botUserBubbleColor: "#EDEDED",
   botTriggerButtonHoverColor: "cornflowerblue",
   botTriggerButtonColor: "#fff",
   botTriggerButtonBackgroundColor: "#2b2e4b",
-  botCloseButtonBgColor: "#4a4d70",
-  botBackButtonBgColor: "#4a4d70",
-  botCloseButtonFontColor: "#fff",
-  botBackButtonFontColor: "#fff",
-  tipColor: "#fff",
-  botInteractionBgColor: "#4a4d70",
-  specialTagsBackground: "#2b2e4b",
 };
 
 export const DefaultBotFont = {
@@ -104,20 +85,12 @@ export const BotTheme: IBotTheme = deepMerge(base, {
   global: {
     breakpoints: {
       onlyMessages: {
-        value: 350,
+        value: 400,
       },
     },
     colors: {
       focus: "cornflowerblue",
       hide: "transparent",
-      canvasBg: "#3a5584",
-      canvasGrid: "rgba(81, 203, 238, 0.1)",
-      connection: "cornflowerblue",
-      "accent-1": "rgba(81, 203, 238, 1)",
-      nodehighlight: "#6FFFB0",
-      bars: "#2b2e4b",
-      brand: "#4a4d70",
-      options: "#7D4CDB",
       ...BotColors,
     },
     font: DefaultBotFont,
@@ -135,37 +108,12 @@ export const BotTheme: IBotTheme = deepMerge(base, {
       margin: "none",
       round: "medium",
       elevation: "none",
-      style: {
-        color: BotColors.tipColor,
-      },
     },
     content: {
       elevation: "none",
       background: "none",
       pad: "none",
     },
-  },
-  table: {
-    body: {
-      background: {
-        color: "bars",
-        opacity: "strong",
-      },
-    },
-    header: {
-      background: {
-        color: "accent-1",
-        opacity: "strong",
-      },
-    },
-  },
-  anchor: {
-    color: "accent-1",
-    fontWeight: 400,
-    hover: {
-      textDecoration: "underline",
-    },
-    textDecoration: "none",
   },
   bot: BotProps,
   textInput: {
@@ -176,20 +124,6 @@ export const BotTheme: IBotTheme = deepMerge(base, {
             padding-left: ${props.icon ? "48px" : "5px"};
           }`
         : "";
-    },
-    suggestions: {
-      extend: (props: any) => {
-        const botFocusColor = props.theme.global.colors.botFocusColor;
-        const simpleColor = props.theme.global.colors.botBubbleColor;
-        const fontcolor = props.theme.global.colors.botFontColor;
-        return `
-            color: ${fontcolor};
-            background: ${simpleColor};
-            li: hover {
-              background: ${botFocusColor};
-            }
-          `;
-      },
     },
   },
   notification: {
