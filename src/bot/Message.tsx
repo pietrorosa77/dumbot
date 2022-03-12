@@ -2,7 +2,6 @@ import { Box } from "grommet";
 import React from "react";
 import { ThemeContext } from "styled-components";
 import {
-  IBotThemableColors,
   IBotThemableProps,
   IDisplayResponseProps,
   IDmbtMessage,
@@ -117,8 +116,8 @@ export const Message = (props: IMessageProps) => {
             stay={!!metadata.hasAvatar}
             bgColor={
               isUser
-                ? themeContext.global.colors["brand"]
-                : themeContext.global.colors["botUserBubbleColor"]
+                ? themeContext.global.colors["botUserBubbleColor"]
+                : themeContext.global.colors["brand"]
             }
           />
         </AvatarContainer>

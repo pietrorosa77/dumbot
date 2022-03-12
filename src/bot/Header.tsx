@@ -55,11 +55,9 @@ export const BotHeader = (props: IBotHeaderProps) => {
           src={theme.bot.headerLogo}
           size={theme.bot.headerLogoSize}
           style={{
-            backgroundColor: theme.global.colors["accent-1"],
             minWidth: theme.bot.headerLogoSize,
             maxWidth: theme.bot.headerLogoSize,
           }}
-          background={{ color: "accent-1" }}
         />
       )}
       <HeaderTitle className="rsc-header-title">

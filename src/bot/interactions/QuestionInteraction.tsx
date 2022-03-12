@@ -96,12 +96,7 @@ export const BotQuestion = (props: IDmbtInteractionProps) => {
   };
 
   return (
-    <Box
-      align="center"
-      justify="start"
-      pad={asFooter ? "none" : "medium"}
-      fill
-    >
+    <Box align="center" justify="start" pad={asFooter ? "none" : "medium"} fill>
       <Keyboard target="component" onEnter={onSubmit}>
         <Box
           width="100%"
@@ -139,7 +134,7 @@ export const BotQuestion = (props: IDmbtInteractionProps) => {
         </Box>
       </Keyboard>
       {!valid && (
-        <Text color={dangerColor} size="xsmall">
+        <Text color={dangerColor} size="small">
           {controlProperties.validationMessage || "invalid answer"}
         </Text>
       )}

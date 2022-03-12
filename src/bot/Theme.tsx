@@ -47,15 +47,21 @@ const BotProps: IBotThemableProps = {
   botCodeHighLightTheme: "nord",
   userNick: "You",
   dumbotNick: "Dumbot",
-  specialTagsBackground: "transparent",
 };
 
 const BotColors: IBotThemableColors = {
   botBackground: "#cbd2ff",
-  botUserBubbleColor: "#EDEDED",
+  botUserBubbleColor: "cornflowerblue",
   botTriggerButtonHoverColor: "cornflowerblue",
   botTriggerButtonColor: "#fff",
   botTriggerButtonBackgroundColor: "#2b2e4b",
+  botCodeBg: "black",
+  botSpecialTagsBackground: "#4a4d70",
+  brand: "#2b2e4b",
+  "accent-1": "#4a4d70",
+  active: "cornflowerblue",
+  focus: "cornflowerblue",
+  hide: "transparent",
 };
 
 export const DefaultBotFont = {
@@ -89,8 +95,6 @@ export const BotTheme: IBotTheme = deepMerge(base, {
       },
     },
     colors: {
-      focus: "cornflowerblue",
-      hide: "transparent",
       ...BotColors,
     },
     font: DefaultBotFont,

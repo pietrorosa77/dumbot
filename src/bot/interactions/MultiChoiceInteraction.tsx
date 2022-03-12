@@ -63,8 +63,9 @@ export const BotMultiChoice = (props: IDmbtInteractionProps) => {
               margin={{ top: "small" }}
               icon={Icon ? <Icon /> : undefined}
               key={p.id}
-              primary={isSelected}
+              active={isSelected}
               hoverIndicator
+              primary
               onClick={() => onPress(p.id, isSelected ? true : false)}
             />
           );

@@ -83,6 +83,9 @@ export const BotDatePicker = (props: IDmbtInteractionProps) => {
                 overflow: "scroll",
                 responsive: true,
               }}
+              buttonProps={{
+                className: "gggg",
+              }}
               ref={dateInputRef as any}
               format={dateFormat}
               value={text}

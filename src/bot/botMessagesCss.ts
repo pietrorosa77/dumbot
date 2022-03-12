@@ -33,14 +33,14 @@ a {
 }
 
 .math-display {
-  background-color: ${theme.bot?.specialTagsBackground};
+  background-color: ${theme.global?.colors?.botSpecialTagsBackground};
   padding: 1em;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  background-color: ${theme.bot?.specialTagsBackground};
+  background-color: ${theme.global?.colors?.botSpecialTagsBackground};
   th {
     font-weight: bold;
     font-size:1.2em;
@@ -53,7 +53,7 @@ table, th, td {
 }
 
 blockquote {
-  background: ${theme.bot?.specialTagsBackground};
+  background: ${theme.global?.colors?.botSpecialTagsBackground};
   border-left: 10px solid;
   margin: 1.5em 10px;
   padding: 0.5em 10px;
@@ -101,7 +101,7 @@ pre > code[class*="language-"] {
 
 pre[class*="language-"],
 :not(pre) > code[class*="language-"] {
-  background: ${theme.bot?.specialTagsBackground};
+  background: ${theme.global?.colors?.botCodeBg};
 }
 
 pre[class*="language-"] {
@@ -310,7 +310,7 @@ code.language-markup .token.script .token.keyword {
 }
 
 .dumbot-content-body mark {
-  background-color: ${theme.bot?.specialTagsBackground};
+  background-color: ${theme.global?.colors?.botSpecialTagsBackground};
 }
 
 .dumbot-content-body small {
@@ -427,7 +427,7 @@ code.language-markup .token.script .token.keyword {
   font: 11px ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
   line-height: 10px;
   vertical-align: middle;
-  background-color: ${theme.bot?.specialTagsBackground};
+  background-color: ${theme.global?.colors?.botSpecialTagsBackground};
   border: solid 1px;
   border-radius: 6px;
 }

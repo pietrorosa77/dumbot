@@ -160,7 +160,6 @@ export interface IBotThemableProps {
   botCodeHighLightTheme?: string;
   userNick?: string;
   dumbotNick?: string;
-  specialTagsBackground: string;
 }
 
 export interface IBotThemableColors extends Colors {
@@ -168,6 +167,8 @@ export interface IBotThemableColors extends Colors {
   botBackground: string;
   botTriggerButtonColor: string;
   botTriggerButtonBackgroundColor: string;
+  botCodeBg: string;
+  botSpecialTagsBackground: string;
 }
 
 export type IBotTheme = ThemeType & {

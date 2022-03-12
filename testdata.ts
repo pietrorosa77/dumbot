@@ -264,7 +264,7 @@ export const testBotDefiniton = {
       },
       "ZT-AyLLws-": {
         id: "ZT-AyLLws-",
-        type: "question",
+        type: "datePicker",
         user: true,
         content: "You picked ${multiOut};\nCan you answer this now?? :smile:",
         position: { x: 478, y: 342 },

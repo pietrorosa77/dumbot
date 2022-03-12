@@ -57,14 +57,15 @@ ReactDOM.render(
       theme={{
         global: {
           colors: {
-            brand: "#2b2e4b",
-            "accent-1": "cornflowerblue",
+            // brand: "#2b2e4b",
+            // buttonsBg: "#4a4d70",
+            // "accent-1": "buttonsBg",
+            // active: "#6FFFB0",
           },
         },
         bot: {
           buttonsRadius: "6px",
           messageDelay: 1500,
-          specialTagsBackground: "#4a4d70",
         },
 
         // button: {
