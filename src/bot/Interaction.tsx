@@ -66,7 +66,7 @@ export const Interaction = (
       background={props.bgColor}
       round={props.round}
       style={{
-        boxShadow: "0 3px 5px 0 rgb(0 0 0 / 90%)",
+        boxShadow: theme.bot?.bubbleBoxShadow,
       }}
     >
       <InteractionControl {...props} theme={theme} node={nodeSub} />

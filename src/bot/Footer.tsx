@@ -1,5 +1,5 @@
 import { Box, Button } from "grommet";
-import { LinkPrevious, Rewind } from "grommet-icons";
+import { LinkPrevious, Cycle } from "grommet-icons";
 import * as React from "react";
 import styled, { ThemeContext } from "styled-components";
 import { IBotThemableProps } from "./definitions";
@@ -21,7 +21,7 @@ const Footer = styled(Box)`
 export const BotFooter = (props: IBotFooterProps) => {
   const theme = React.useContext(ThemeContext).bot as IBotThemableProps;
 
-  const Icon = props.isEnd ? Rewind : LinkPrevious;
+  const Icon = props.isEnd ? Cycle : LinkPrevious;
 
   return (
     <Footer className="rsc-header" direction="row" background="brand">

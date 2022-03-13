@@ -9,7 +9,7 @@ export const ArrayAnswerDisplay = (props: IDisplayResponseProps) => {
   return (
     <Box pad="small">
       {answer.map((a, i) => (
-        <p key={i}>{a}</p>
+        <div key={i}>{a}</div>
       ))}
     </Box>
   );

@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled, { ThemeContext } from "styled-components";
 import { Avatar, Box, Button } from "grommet";
-import { FormClose, LinkPrevious, Rewind } from "grommet-icons";
+import { FormClose, LinkPrevious, Cycle } from "grommet-icons";
 export interface IBotHeaderProps {
   allowClose?: boolean;
   onClose: () => void;
@@ -24,7 +24,7 @@ const HeaderTitle = styled.div`
 
 export const BotHeader = (props: IBotHeaderProps) => {
   const theme = React.useContext(ThemeContext);
-  const Icon = props.isEnd ? Rewind : LinkPrevious;
+  const Icon = props.isEnd ? Cycle : LinkPrevious;
   const [hideLogo, setHideLogo] = React.useState(false);
   React.useEffect(() => {
     const mq = window.matchMedia(
