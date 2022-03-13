@@ -57,10 +57,15 @@ ReactDOM.render(
       theme={{
         global: {
           colors: {
-            // brand: "#2b2e4b",
-            // buttonsBg: "#4a4d70",
-            // "accent-1": "buttonsBg",
-            // active: "#6FFFB0",
+            gold: {
+              dark: "#df9007",
+              light: "#e7b86b",
+            },
+            "gold!": "#F9B644",
+            brand: "black",
+            "accent-1": "gold!",
+            active: "gold!",
+            botUserBubbleColor: "cornflowerblue",
           },
         },
         bot: {

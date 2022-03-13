@@ -182,6 +182,7 @@ const onPrev = (
   return {
     ...state,
     active,
+    interactionProgress: interactions,
     activeInteraction: undefined,
     finished: nextNode ? false : true,
     loading: false,

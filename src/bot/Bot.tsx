@@ -249,7 +249,7 @@ const DumbotInner = (
                     variables={state.variables}
                     theme={theme}
                     dispatcher={dispatch}
-                    bgColor="botFooterBgColor"
+                    bgColor="brand"
                     onCallHost={onCallHostCb}
                   />
                 </ErrorBoundary>
