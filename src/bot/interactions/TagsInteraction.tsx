@@ -90,7 +90,7 @@ const TagInput = ({ value = [], onAdd, onChange, onRemove, ...rest }: any) => {
         direction="row"
         align="center"
         pad={{ horizontal: "small" }}
-        border="all"
+        border={false}
         ref={boxRef as any}
         wrap
       >

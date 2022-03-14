@@ -74,7 +74,7 @@ export const BotDatePicker = (props: IDmbtInteractionProps) => {
           align="center"
           round="small"
           pad={{ horizontal: "small", vertical: "xsmall" }}
-          border
+          border={false}
         >
           <Grommet theme={props.theme} style={{ width: "100%" }}>
             <StyledDate
