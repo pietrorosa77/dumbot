@@ -19,6 +19,13 @@ const StyledPlay = styled(PlayFill)`
 const StyledDate = styled(DateInput)`
   font-size: 1rem;
   width: 100%;
+  border: none;
+`;
+
+const StyledContainer = styled(Box)`
+  div {
+    border: none !important;
+  }
 `;
 
 export const BotDatePicker = (props: IDmbtInteractionProps) => {
@@ -68,13 +75,13 @@ export const BotDatePicker = (props: IDmbtInteractionProps) => {
   return (
     <Box align="center" justify="start" pad={asFooter ? "none" : "medium"} fill>
       <Keyboard target="component" onEnter={onSubmit}>
-        <Box
+        <StyledContainer
           width="100%"
           direction="row"
           align="center"
           round="small"
           pad={{ horizontal: "small", vertical: "xsmall" }}
-          border={false}
+          border={true}
         >
           <Grommet theme={props.theme} style={{ width: "100%" }}>
             <StyledDate
@@ -83,9 +90,7 @@ export const BotDatePicker = (props: IDmbtInteractionProps) => {
                 overflow: "scroll",
                 responsive: true,
               }}
-              buttonProps={{
-                className: "gggg",
-              }}
+              style={{ border: "none" }}
               ref={dateInputRef as any}
               format={dateFormat}
               value={text}
@@ -93,7 +98,7 @@ export const BotDatePicker = (props: IDmbtInteractionProps) => {
             />
           </Grommet>
           <Button icon={<StyledPlay />} disabled={!valid} onClick={onSubmit} />
-        </Box>
+        </StyledContainer>
       </Keyboard>
     </Box>
   );

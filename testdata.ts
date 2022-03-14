@@ -264,7 +264,7 @@ export const testBotDefiniton = {
       },
       "ZT-AyLLws-": {
         id: "ZT-AyLLws-",
-        type: "tags",
+        type: "datePicker",
         user: true,
         content: "You picked ${multiOut};\nCan you answer this now?? :smile:",
         position: { x: 478, y: 342 },
@@ -273,7 +273,7 @@ export const testBotDefiniton = {
         properties: {
           placeholder: "answer this...",
           type: "text",
-          displayAs: "message",
+          displayAs: "footer",
           pattern: "123456",
           suggestions: ["www", "sdsdsd"],
           format: "dd/mm/yyyy-dd/mm/yyyy",
