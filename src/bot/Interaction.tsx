@@ -10,6 +10,7 @@ import { prepareInteractionNode } from "./stateHelpers";
 import { BotMaskedInput } from "./interactions/MaskedInputInteraction";
 import { BotInteractionTags } from "./interactions/TagsInteraction";
 import { BotPasswordInteraction } from "./interactions/PasswordInteraction";
+import styled, { css, keyframes } from "styled-components";
 
 const InteractionsMap = new Map<
   string,
@@ -23,6 +24,16 @@ const InteractionsMap = new Map<
   ["tags", BotInteractionTags],
   ["password", BotPasswordInteraction],
 ]);
+
+const StyledBox = styled(Box)`
+  animation: ${(props: any) => css`
+    ${keyframes`
+100% { opacity: 1; }
+`} ${props.theme.bot.bubbleAnimationDuration} ease-in forwards
+  `};
+
+  opacity: 0;
+`;
 
 export const Interaction = (
   props: IDmbtInteractionProps & {
@@ -55,7 +66,7 @@ export const Interaction = (
   }
 
   return (
-    <Box
+    <StyledBox
       ref={containerRef as any}
       tabIndex={0}
       margin={props.margin || "none"}
@@ -70,6 +81,6 @@ export const Interaction = (
       }}
     >
       <InteractionControl {...props} theme={theme} node={nodeSub} />
-    </Box>
+    </StyledBox>
   );
 };
