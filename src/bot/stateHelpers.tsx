@@ -166,7 +166,7 @@ export const getUserAnswer = (
     meta: {
       ...(meta || {}),
       isUser: true,
-      silent: false,
+      silent: meta?.silent || false,
       time: new Date().toISOString(),
     },
   };

@@ -34,7 +34,6 @@ const BotProps: IBotThemableProps = {
   footerTextAlign: "center",
   botAvatar: defaultbotAvatar,
   userAvatar: defaultuserAvatar,
-  finalMessageContent: "Powered by Dumbot!",
   messageDelay: 2000,
   avatarSize: 60,
   disableAvatars: false,
@@ -44,7 +43,6 @@ const BotProps: IBotThemableProps = {
   minBotColumnSize: "200px",
   avatarClock: true,
   jsonViewerTheme: "rjv-default",
-  botCodeHighLightTheme: "nord",
   userNick: "You",
   dumbotNick: "Dumbot",
 };

@@ -151,13 +151,9 @@ export interface IBotThemableProps {
   bubbleAnimationDuration?: string;
   bubbleWidth?: string;
   maxBotColumnSize?: string;
-  finalMessageContent?: string;
   minBotColumnSize?: string;
   allowRestartOnEnd?: boolean;
   jsonViewerTheme?: string;
-  buttonsRadius?: string;
-  onlyIconButtonsRadius?: string;
-  botCodeHighLightTheme?: string;
   userNick?: string;
   dumbotNick?: string;
 }
