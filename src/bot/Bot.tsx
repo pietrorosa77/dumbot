@@ -137,9 +137,17 @@ const DumbotInner = (
       }
     );
 
+    const restartdHandler = DmbtEventBus.subscribe("evt-restart", () => {
+      dispatch({
+        type: "@restart",
+        payload: undefined,
+      });
+    });
+
     return () => {
       DmbtEventBus.unSubscribe("evt-SendDataToHost", sendDataToHostHandler);
       DmbtEventBus.unSubscribe("dmbt-StateChanged", stateChangedHandler);
+      DmbtEventBus.unSubscribe("evt-restart", restartdHandler);
     };
   }, [DmbtEventBus, dispatch, onSendDataToHost, onStateChanged]);
 

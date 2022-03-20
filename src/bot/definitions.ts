@@ -200,7 +200,7 @@ export type DmbtMiddlewhare = (
 ) => (next: DmbtDispatch) => (action: DmbtAction) => any;
 
 export type DmbtEventBusUnsubscibeHandle = (event: CustomEvent) => void;
-export type DmbtEvents = "dmbt-StateChanged" | "evt-SendDataToHost";
+export type DmbtEvents = "dmbt-StateChanged" | "evt-SendDataToHost" | "evt-restart";
 
 export interface IDmbtEventBus {
   subscribe: (

@@ -2,12 +2,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Dumbot } from "./src/bot/Bot";
-import { IDmbtMessage, IDmbtShape } from "./src/bot/definitions";
+import { IDmbtMessage, IDmbtNode, IDmbtShape } from "./src/bot/definitions";
 import { testBotDefiniton } from "./testdata";
 
+const KfB4u17Hzo = testBotDefiniton.chart.nodes.KfB4u17Hzo as IDmbtNode;
 const BotShape: IDmbtShape = {
-  nodes: testBotDefiniton.chart.nodes,
-  paths: testBotDefiniton.chart.paths,
+  nodes: {
+    KfB4u17Hzo,
+  }, //testBotDefiniton.chart.nodes,
+  paths: {}, //testBotDefiniton.chart.paths,
 };
 
 const CustomDisplay = new Map([
