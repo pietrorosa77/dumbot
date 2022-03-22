@@ -117,7 +117,7 @@ export const Message = (props: IMessageProps) => {
             bgColor={
               isUser
                 ? themeContext.global.colors["botUserBubbleColor"]
-                : themeContext.global.colors["brand"]
+                : metadata.bgColor || themeContext.global.colors["brand"]
             }
           />
         </AvatarContainer>

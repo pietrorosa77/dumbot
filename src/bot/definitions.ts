@@ -179,6 +179,7 @@ export type DmbtActionType =
   | "@message"
   | "@restart"
   | "@loading"
+  | "@instantMessage"
   | DmbtEvents;
 
 export type SimpleAction = {
