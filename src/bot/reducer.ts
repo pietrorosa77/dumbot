@@ -70,6 +70,7 @@ export const createReducer = (shape: IDmbtShape, externalVariables?: any) => {
         break;
       case "@instantMessage":
         ret = onInstantMessage(state, action.payload as IDmbtMessage);
+        break;
       case "@answer":
         ret = onAnswer(
           state,
