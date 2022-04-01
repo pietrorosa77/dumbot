@@ -1,4 +1,5 @@
 import { Colors, ThemeType } from "grommet/themes/base";
+import React from "react";
 
 export const START_NODE_TYPE = "start";
 export const DEFAULT_NODE_PORT = "default";
@@ -64,6 +65,7 @@ export interface IDmbtMessage {
     bgColor?: string;
     nicknameColor?: string;
     hasAvatar?: boolean;
+    additionalMessageStyle?: React.CSSProperties;
     width?: string;
     [key: string]: any;
   };
@@ -201,7 +203,10 @@ export type DmbtMiddlewhare = (
 ) => (next: DmbtDispatch) => (action: DmbtAction) => any;
 
 export type DmbtEventBusUnsubscibeHandle = (event: CustomEvent) => void;
-export type DmbtEvents = "dmbt-StateChanged" | "evt-SendDataToHost" | "evt-restart";
+export type DmbtEvents =
+  | "dmbt-StateChanged"
+  | "evt-SendDataToHost"
+  | "evt-restart";
 
 export interface IDmbtEventBus {
   subscribe: (

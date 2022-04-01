@@ -56,8 +56,13 @@ export const Message = (props: IMessageProps) => {
     metadata?.nickname || (isUser ? theme.userNick : theme.dumbotNick);
   const messageWidth = metadata?.width;
   const direction = isUser ? "row-reverse" : "row";
-  const justifyContent = isUser ? "end" : "start";
   const className = isUser ? "message-part-user" : "message-part-bot";
+  const additionalContainerStyle = metadata.additionalMessageStyle || {};
+  const boxStyle = {
+    ...additionalContainerStyle,
+    justifyContent: isUser ? "end" : "start",
+    outline: "none",
+  };
 
   React.useEffect(() => {
     console.log("Mounting", props.message.id);
@@ -98,10 +103,7 @@ export const Message = (props: IMessageProps) => {
       alignSelf="end"
       alignContent="end"
       gap="medium"
-      style={{
-        justifyContent,
-        outline: "none",
-      }}
+      style={boxStyle}
       margin={{ top: "5px" }}
       className={`message-part ${className}`}
     >
