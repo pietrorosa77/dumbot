@@ -29,14 +29,8 @@ export const LoadingMessage = (props: {
     height={props.height || "50px"}
     align="end"
   >
-    <LoadingStep delay="0s" bgColor={props.bgColor}>
-      .
-    </LoadingStep>
-    <LoadingStep delay=".2s" bgColor={props.bgColor}>
-      .
-    </LoadingStep>
-    <LoadingStep delay=".4s" bgColor={props.bgColor}>
-      .
-    </LoadingStep>
+    <LoadingStep delay="0s" bgColor={props.bgColor}></LoadingStep>
+    <LoadingStep delay=".2s" bgColor={props.bgColor}></LoadingStep>
+    <LoadingStep delay=".4s" bgColor={props.bgColor}></LoadingStep>
   </Box>
 );
