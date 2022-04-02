@@ -67,6 +67,7 @@ export interface IDmbtMessage {
     hasAvatar?: boolean;
     additionalMessageStyle?: React.CSSProperties;
     width?: string;
+    containerBgColor?: string;
     [key: string]: any;
   };
 }

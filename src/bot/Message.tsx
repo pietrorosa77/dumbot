@@ -103,6 +103,7 @@ export const Message = (props: IMessageProps) => {
       alignSelf="end"
       alignContent="end"
       gap="medium"
+      background={metadata.containerBgColor}
       style={boxStyle}
       margin={{ top: "5px" }}
       className={`message-part ${className}`}
