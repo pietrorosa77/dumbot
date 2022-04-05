@@ -7,10 +7,12 @@ import { testBotDefiniton } from "./testdata";
 
 const KfB4u17Hzo = testBotDefiniton.chart.nodes.KfB4u17Hzo as IDmbtNode;
 const BotShape: IDmbtShape = {
-  nodes: {
-    KfB4u17Hzo,
-  }, //testBotDefiniton.chart.nodes,
-  paths: {}, //testBotDefiniton.chart.paths,
+  // nodes: {
+  //   KfB4u17Hzo,
+  // },
+  // paths: {},
+  nodes: testBotDefiniton.chart.nodes,
+  paths: testBotDefiniton.chart.paths,
 };
 
 const CustomDisplay = new Map([

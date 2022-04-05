@@ -71,6 +71,8 @@ const DumbotInner = (
     DmbtEventBus
   );
   const activeInteraction = onGetInteractionNode(state.activeInteraction);
+  const interactionTakesAll =
+    activeInteraction && activeInteraction.properties?.displayAs === "full";
   const interactionOnFooter =
     activeInteraction && activeInteraction.properties?.displayAs === "footer";
   const { onSendDataToHost, onStateChanged, onToggle, onCallHost } = props;
@@ -80,6 +82,9 @@ const DumbotInner = (
   );
 
   useEffect(() => {
+    if (interactionTakesAll) {
+      return;
+    }
     const observed = resizeableRef.current;
     const observer = resizeObserver.current;
     if (opened && observed) {
@@ -90,9 +95,12 @@ const DumbotInner = (
         observer.unobserve(observed);
       }
     };
-  }, [opened, scrollerID]);
+  }, [opened, scrollerID, interactionTakesAll]);
 
   const autoscroll = () => {
+    if (interactionTakesAll) {
+      return;
+    }
     requestAnimationFrame(() => {
       if (!scrollElement.current || !scrollElement.current.isConnected) {
         scrollElement.current = document.getElementById(scrollerID);
@@ -207,68 +215,104 @@ const DumbotInner = (
         />
         {opened && (
           <ChatBotOuterContainer>
-            {!hideHeader && (
-              <BotHeader
-                allowClose={allowClose}
-                onClose={() => onToggleCb(false)}
-                isEnd={state.finished || false}
-                interactive={state.activeInteraction ? true : false}
-                onBack={onBack}
-              />
-            )}
-            <ChatbotContent id={scrollerID}>
-              <div ref={resizeableRef as any}>
-                <Messages
-                  active={state.active}
-                  processed={state.processed}
-                  onProcessed={messagesProcessed}
-                  viewSilentNoses={viewSilentNodes}
-                  customMessageDisplay={props.customMessageDisplay}
-                />
-                {activeInteraction && !interactionOnFooter && (
-                  <ErrorBoundary onDismiss={onErrorAction}>
-                    <Interaction
-                      customInteractions={props.customInteractions}
-                      node={activeInteraction}
-                      variables={state.variables}
-                      theme={theme}
-                      dispatcher={dispatch}
-                      round="small"
-                      bgColor="brand"
-                      margin={{ top: "20px" }}
-                      onCallHost={onCallHostCb}
-                    />
-                  </ErrorBoundary>
+            {interactionTakesAll ? (
+              <>
+                {!hideHeader && (
+                  <BotHeader
+                    allowClose={allowClose}
+                    onClose={() => onToggleCb(false)}
+                    isEnd={state.finished || false}
+                    interactive={true}
+                    onBack={onBack}
+                  />
                 )}
-                <Box
-                  ref={scrollAnchor as any}
-                  height="100px"
-                  background="transparent"
-                  id="dumbotBottomAnchor"
-                />
-              </div>
-            </ChatbotContent>
-            {activeInteraction && interactionOnFooter && (
-              <div style={{ maxHeight: "100%" }}>
-                <ErrorBoundary onDismiss={onErrorAction}>
+                <ChatbotContent id="fullInteractionContainer">
                   <Interaction
                     customInteractions={props.customInteractions}
                     node={activeInteraction}
                     variables={state.variables}
                     theme={theme}
                     dispatcher={dispatch}
-                    bgColor="brand"
+                    pad={activeInteraction.properties?.containerPad || "none"}
+                    round="small"
+                    height={
+                      activeInteraction.properties?.containerHeight || "100%"
+                    }
+                    bgColor={activeInteraction.properties?.bgColor || "brand"}
+                    margin="none"
                     onCallHost={onCallHostCb}
+                    processedMessages={state.processed}
                   />
-                </ErrorBoundary>
-              </div>
-            )}
-            {!interactionOnFooter && !hideFooter && (
-              <BotFooter
-                isEnd={state.finished || false}
-                interactive={activeInteraction ? true : false}
-                onBack={onBack}
-              />
+                </ChatbotContent>
+              </>
+            ) : (
+              <>
+                {!hideHeader && (
+                  <BotHeader
+                    allowClose={allowClose}
+                    onClose={() => onToggleCb(false)}
+                    isEnd={state.finished || false}
+                    interactive={state.activeInteraction ? true : false}
+                    onBack={onBack}
+                  />
+                )}
+                <ChatbotContent id={scrollerID}>
+                  <div ref={resizeableRef as any}>
+                    <Messages
+                      active={state.active}
+                      processed={state.processed}
+                      onProcessed={messagesProcessed}
+                      viewSilentNoses={viewSilentNodes}
+                      customMessageDisplay={props.customMessageDisplay}
+                    />
+                    {activeInteraction && !interactionOnFooter && (
+                      <ErrorBoundary onDismiss={onErrorAction}>
+                        <Interaction
+                          customInteractions={props.customInteractions}
+                          node={activeInteraction}
+                          variables={state.variables}
+                          theme={theme}
+                          dispatcher={dispatch}
+                          round="small"
+                          bgColor="brand"
+                          margin={{ top: "20px" }}
+                          onCallHost={onCallHostCb}
+                          processedMessages={state.processed}
+                        />
+                      </ErrorBoundary>
+                    )}
+                    <Box
+                      ref={scrollAnchor as any}
+                      height="100px"
+                      background="transparent"
+                      id="dumbotBottomAnchor"
+                    />
+                  </div>
+                </ChatbotContent>
+                {activeInteraction && interactionOnFooter && (
+                  <div style={{ maxHeight: "100%" }}>
+                    <ErrorBoundary onDismiss={onErrorAction}>
+                      <Interaction
+                        customInteractions={props.customInteractions}
+                        node={activeInteraction}
+                        variables={state.variables}
+                        theme={theme}
+                        dispatcher={dispatch}
+                        bgColor="brand"
+                        onCallHost={onCallHostCb}
+                        processedMessages={state.processed}
+                      />
+                    </ErrorBoundary>
+                  </div>
+                )}
+                {!interactionOnFooter && !hideFooter && (
+                  <BotFooter
+                    isEnd={state.finished || false}
+                    interactive={activeInteraction ? true : false}
+                    onBack={onBack}
+                  />
+                )}
+              </>
             )}
           </ChatBotOuterContainer>
         )}

@@ -1,7 +1,7 @@
 import { Box, ThemeContext } from "grommet";
-import { MarginType } from "grommet/utils";
+import { MarginType, PadType } from "grommet/utils";
 import React from "react";
-import { IBotTheme, IDmbtInteractionProps } from "./definitions";
+import { IBotTheme, IDmbtInteractionProps, IDmbtMessage } from "./definitions";
 import { BotQuestion } from "./interactions/QuestionInteraction";
 import { BotDatePicker } from "./interactions/DatePickerInteraction";
 import { BotMultiChoice } from "./interactions/MultiChoiceInteraction";
@@ -44,6 +44,9 @@ export const Interaction = (
     bgColor?: string;
     margin?: MarginType;
     round?: string;
+    height?: string;
+    pad?: PadType;
+    processedMessages?: IDmbtMessage[]
   }
 ) => {
   const containerRef = React.useRef<HTMLDivElement>();
@@ -70,17 +73,18 @@ export const Interaction = (
       ref={containerRef as any}
       tabIndex={0}
       margin={props.margin || "none"}
-      pad="small"
+      pad={props.pad || "small"}
       className="dmbt-interaction-container"
       focusIndicator={true}
       hoverIndicator="accent-1"
       background={props.bgColor}
       round={props.round}
+      height={props.height}
       style={{
         boxShadow: theme.bot?.bubbleBoxShadow,
       }}
     >
-      <InteractionControl {...props} theme={theme} node={nodeSub} />
+      <InteractionControl {...props} theme={theme} node={nodeSub}  processedMessages={props.processedMessages}/>
     </StyledBox>
   );
 };

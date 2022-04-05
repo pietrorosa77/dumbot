@@ -24,7 +24,7 @@ export interface IDmbtNode {
   properties?: {
     width?: string;
     asStart?: boolean;
-    displayAs: "message" | "footer";
+    displayAs: "message" | "footer" | "full";
     [key: string]: any;
   };
   ports: {

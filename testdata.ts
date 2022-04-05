@@ -51,7 +51,7 @@ export const testBotDefiniton = {
         title: "Buttons",
         output: { id: "multiOut", type: "text" },
         properties: {
-          displayAs: "message",
+          displayAs: "full",
           min: 2,
           max: 4,
           asStart: true,
