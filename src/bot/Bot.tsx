@@ -226,7 +226,7 @@ const DumbotInner = (
                     onBack={onBack}
                   />
                 )}
-                <ChatbotContent id="fullInteractionContainer">
+                <ChatbotContent id="fullInteractionContainer" stopScroll>
                   <Interaction
                     customInteractions={props.customInteractions}
                     node={activeInteraction}

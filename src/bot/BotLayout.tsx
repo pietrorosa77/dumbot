@@ -94,13 +94,23 @@ export const ChatBotOuterContainer = (props: { children: any }) => {
   );
 };
 
-export const ChatbotContent = (props: { children: any; id: string }) => {
+export const ChatbotContent = (props: {
+  children: any;
+  id: string;
+  stopScroll?: boolean;
+}) => {
   return (
     <ChatBotContentWrpper>
       <div className="dumbot-scrollable-container" id={props.id}>
         <BotGrid>
           <div style={{ gridColumn: 1 }}></div>
-          <div style={{ gridColumn: 2, position: "relative" }}>
+          <div
+            style={{
+              gridColumn: 2,
+              position: "relative",
+              overflow: props.stopScroll ? "hidden" : undefined,
+            }}
+          >
             {props.children}
           </div>
           <div style={{ gridColumn: 3 }}></div>
