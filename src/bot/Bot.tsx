@@ -2,7 +2,11 @@ import { Box, Grommet } from "grommet";
 import { deepMerge } from "grommet/utils";
 import React, { useCallback, useEffect, useRef } from "react";
 import { createGlobalStyle } from "styled-components";
-import { ChatbotContent, ChatBotOuterContainer } from "./BotLayout";
+import {
+  ChatbotContent,
+  ChatBotContentWrpper,
+  ChatBotOuterContainer,
+} from "./BotLayout";
 import {
   DEFAULT_NODE_PORT,
   DmbtMiddlewhare,
@@ -226,7 +230,7 @@ const DumbotInner = (
                     onBack={onBack}
                   />
                 )}
-                <ChatbotContent id="fullInteractionContainer" stopScroll>
+                <ChatBotContentWrpper>
                   <Interaction
                     customInteractions={props.customInteractions}
                     node={activeInteraction}
@@ -243,7 +247,7 @@ const DumbotInner = (
                     onCallHost={onCallHostCb}
                     processedMessages={state.processed}
                   />
-                </ChatbotContent>
+                </ChatBotContentWrpper>
               </>
             ) : (
               <>

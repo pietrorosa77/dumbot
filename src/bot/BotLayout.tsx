@@ -30,7 +30,7 @@ const ChatBotContainerStyled = styled.div`
   animation-fill-mode: forwards;
 `;
 
-const ChatBotContentWrpper = styled.div`
+export const ChatBotContentWrpper = styled.div`
   background: ${({ theme }) => theme.global.colors.botBackground};
   height: 100%;
   overflow: hidden;
