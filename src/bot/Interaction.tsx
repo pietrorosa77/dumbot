@@ -5,7 +5,6 @@ import {
   DEFAULT_NODE_PORT,
   IBotTheme,
   IDmbtInteractionProps,
-  IDmbtMessage,
 } from "./definitions";
 import { BotQuestion } from "./interactions/QuestionInteraction";
 import { BotDatePicker } from "./interactions/DatePickerInteraction";
@@ -115,13 +114,12 @@ export const Interaction = (
     round?: string;
     height?: string;
     pad?: PadType;
-    processedMessages?: IDmbtMessage[];
   }
 ) => {
   const containerRef = React.useRef<HTMLDivElement>();
   const customInteractions = props.customInteractions || new Map();
   const theme: IBotTheme = React.useContext(ThemeContext) as IBotTheme;
-  const nodeSub = prepareInteractionNode(props.node, props.variables);
+  const nodeSub = prepareInteractionNode(props.node, props.state.variables);
   const InteractionControl =
     customInteractions.get(props.node.type) ||
     InteractionsMap.get(props.node.type);
@@ -165,7 +163,7 @@ export const Interaction = (
         boxShadow: theme.bot?.bubbleBoxShadow,
       }}
     >
-      {props.botLoading && (
+      {props.state.loading && (
         <Overlay
           round={props.round}
           background={props.bgColor}
@@ -176,7 +174,7 @@ export const Interaction = (
           <BotSpinner themeColor="focus" size={50} />
         </Overlay>
       )}
-      {props.botError && (
+      {props.state.error && (
         <Notification
           status="critical"
           title="Error executing the bot"
@@ -185,12 +183,7 @@ export const Interaction = (
         />
       )}
 
-      <InteractionControl
-        {...props}
-        theme={theme}
-        node={nodeSub}
-        processedMessages={props.processedMessages}
-      />
+      <InteractionControl {...props} theme={theme} node={nodeSub} />
     </StyledBox>
   );
 };

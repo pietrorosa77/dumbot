@@ -235,7 +235,6 @@ const DumbotInner = (
                   <Interaction
                     customInteractions={props.customInteractions}
                     node={activeInteraction}
-                    variables={state.variables}
                     theme={theme}
                     dispatcher={dispatch}
                     pad={activeInteraction.properties?.containerPad || "none"}
@@ -245,10 +244,8 @@ const DumbotInner = (
                     }
                     bgColor={activeInteraction.properties?.bgColor || "brand"}
                     margin="none"
-                    botLoading={state.loading}
-                    botError={state.error}
                     onCallHost={onCallHostCb}
-                    processedMessages={state.processed}
+                    state={state}
                   />
                 </ChatBotContentWrpper>
               </>
@@ -278,16 +275,13 @@ const DumbotInner = (
                         <Interaction
                           customInteractions={props.customInteractions}
                           node={activeInteraction}
-                          variables={state.variables}
                           theme={theme}
                           dispatcher={dispatch}
                           round="small"
                           bgColor="brand"
-                          botLoading={state.loading}
-                          botError={state.error}
                           margin={{ top: "20px" }}
                           onCallHost={onCallHostCb}
-                          processedMessages={state.processed}
+                          state={state}
                         />
                       </ErrorBoundary>
                     )}
@@ -305,14 +299,11 @@ const DumbotInner = (
                       <Interaction
                         customInteractions={props.customInteractions}
                         node={activeInteraction}
-                        variables={state.variables}
                         theme={theme}
                         dispatcher={dispatch}
-                        botLoading={state.loading}
-                        botError={state.error}
                         bgColor="brand"
                         onCallHost={onCallHostCb}
-                        processedMessages={state.processed}
+                        state={state}
                       />
                     </ErrorBoundary>
                   </div>

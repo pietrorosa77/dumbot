@@ -86,9 +86,7 @@ export interface IDmbtState {
 export interface IDmbtInteractionProps {
   node: IDmbtNode;
   theme: IBotTheme;
-  variables: any;
-  botLoading?: boolean;
-  botError?: boolean;
+  state: IDmbtState;
   dispatcher: DmbtDispatch;
   onCallHost?: (
     hostFunctionName: string,
