@@ -89,6 +89,19 @@ const StyledBox = styled(Box)`
   `};
 
   opacity: 0;
+  position: relative;
+`;
+
+const Overlay = styled(Box)`
+  position: absolute;
+  top: 0;
+  z-index: 9999999;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
 `;
 
 export const Interaction = (
@@ -152,7 +165,17 @@ export const Interaction = (
         boxShadow: theme.bot?.bubbleBoxShadow,
       }}
     >
-      {props.botLoading && <BotSpinner themeColor="accent-1" size={50} />}
+      {props.botLoading && (
+        <Overlay
+          round={props.round}
+          background={props.bgColor}
+          fill
+          align="center"
+          justify="center"
+        >
+          <BotSpinner themeColor="focus" size={50} />
+        </Overlay>
+      )}
       {props.botError && (
         <Notification
           status="critical"
@@ -161,14 +184,13 @@ export const Interaction = (
           onClose={moveNextOnError}
         />
       )}
-      {!props.botError && !props.botLoading && (
-        <InteractionControl
-          {...props}
-          theme={theme}
-          node={nodeSub}
-          processedMessages={props.processedMessages}
-        />
-      )}
+
+      <InteractionControl
+        {...props}
+        theme={theme}
+        node={nodeSub}
+        processedMessages={props.processedMessages}
+      />
     </StyledBox>
   );
 };
