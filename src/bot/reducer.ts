@@ -96,6 +96,9 @@ export const createReducer = (shape: IDmbtShape, externalVariables?: any) => {
       case "@loading":
         ret = onLoading(state, action.payload as boolean);
         break;
+      case "@error":
+        ret = onError(state, action.payload as boolean);
+        break;
       default:
         ret = state;
         break;
@@ -129,6 +132,13 @@ const onLoading = (state: IDmbtState, loading: boolean) => {
   return {
     ...state,
     loading,
+  };
+};
+
+const onError = (state: IDmbtState, error: boolean) => {
+  return {
+    ...state,
+    error,
   };
 };
 
@@ -218,6 +228,7 @@ const onAnswer = (
     activeInteraction: undefined,
     finished: false,
     loading: false,
+    error: false,
   };
 };
 

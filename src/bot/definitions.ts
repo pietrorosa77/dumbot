@@ -79,6 +79,7 @@ export interface IDmbtState {
   interactionProgress: string[];
   finished?: boolean;
   loading?: boolean;
+  error?: boolean;
   variables: { [key: string]: any };
 }
 
@@ -86,6 +87,8 @@ export interface IDmbtInteractionProps {
   node: IDmbtNode;
   theme: IBotTheme;
   variables: any;
+  botLoading?: boolean;
+  botError?: boolean;
   dispatcher: DmbtDispatch;
   onCallHost?: (
     hostFunctionName: string,
@@ -182,6 +185,7 @@ export type DmbtActionType =
   | "@message"
   | "@restart"
   | "@loading"
+  | "@error"
   | "@instantMessage"
   | DmbtEvents;
 
