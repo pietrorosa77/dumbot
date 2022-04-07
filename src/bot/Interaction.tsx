@@ -152,9 +152,7 @@ export const Interaction = (
         boxShadow: theme.bot?.bubbleBoxShadow,
       }}
     >
-      {props.botLoading && (
-        <CenteredBotSpinner themeColor="accent-1" size={30} />
-      )}
+      {props.botLoading && <BotSpinner themeColor="accent-1" size={50} />}
       {props.botError && (
         <Notification
           status="critical"
