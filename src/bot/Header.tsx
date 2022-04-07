@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled, { ThemeContext } from "styled-components";
-import { Avatar, Box, Button } from "grommet";
+import { Avatar, Box, Button, Spinner } from "grommet";
 import { FormClose, LinkPrevious, Cycle } from "grommet-icons";
 export interface IBotHeaderProps {
   allowClose?: boolean;
@@ -8,6 +8,7 @@ export interface IBotHeaderProps {
   isEnd: boolean;
   interactive: boolean;
   onBack: () => void;
+  loading: boolean;
 }
 
 const Header = styled(Box)`
@@ -67,8 +68,9 @@ export const BotHeader = (props: IBotHeaderProps) => {
       </HeaderTitle>
       {(props.interactive || props.isEnd) && (
         <Button
-          icon={<Icon />}
+          icon={props.loading ? <Spinner /> : <Icon />}
           plain
+          disabled={props.loading}
           onClick={props.onBack}
           size="small"
           primary
@@ -81,8 +83,9 @@ export const BotHeader = (props: IBotHeaderProps) => {
       )}
       {props.allowClose && (
         <Button
-          icon={<FormClose />}
+          icon={props.loading ? <Spinner /> : <FormClose />}
           plain
+          disabled={props.loading}
           onClick={props.onClose}
           size="small"
           primary

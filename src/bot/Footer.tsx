@@ -1,4 +1,4 @@
-import { Box, Button } from "grommet";
+import { Box, Button, Spinner } from "grommet";
 import { LinkPrevious, Cycle } from "grommet-icons";
 import * as React from "react";
 import styled, { ThemeContext } from "styled-components";
@@ -8,6 +8,7 @@ export interface IBotFooterProps {
   isEnd: boolean;
   interactive: boolean;
   onBack: () => void;
+  loading: boolean;
 }
 
 const Footer = styled(Box)`
@@ -32,8 +33,9 @@ export const BotFooter = (props: IBotFooterProps) => {
       </Box>
       {((props.isEnd && theme.allowRestartOnEnd) || props.interactive) && (
         <Button
-          icon={<Icon />}
+          icon={props.loading ? <Spinner /> : <Icon />}
           plain
+          disabled={props.loading}
           onClick={props.onBack}
           size="small"
           primary

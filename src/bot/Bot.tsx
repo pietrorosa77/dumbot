@@ -228,6 +228,7 @@ const DumbotInner = (
                     isEnd={state.finished || false}
                     interactive={true}
                     onBack={onBack}
+                    loading={!!state.loading}
                   />
                 )}
                 <ChatBotContentWrpper>
@@ -260,6 +261,7 @@ const DumbotInner = (
                     isEnd={state.finished || false}
                     interactive={state.activeInteraction ? true : false}
                     onBack={onBack}
+                    loading={!!state.loading}
                   />
                 )}
                 <ChatbotContent id={scrollerID}>
@@ -320,6 +322,7 @@ const DumbotInner = (
                     isEnd={state.finished || false}
                     interactive={activeInteraction ? true : false}
                     onBack={onBack}
+                    loading={!!state.loading}
                   />
                 )}
               </>
