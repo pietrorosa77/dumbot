@@ -152,7 +152,9 @@ export const Interaction = (
         boxShadow: theme.bot?.bubbleBoxShadow,
       }}
     >
-      {props.botLoading && <CenteredBotSpinner />}
+      {props.botLoading && (
+        <CenteredBotSpinner themeColor="accent-1" size={30} />
+      )}
       {props.botError && (
         <Notification
           status="critical"
@@ -161,12 +163,14 @@ export const Interaction = (
           onClose={moveNextOnError}
         />
       )}
-      <InteractionControl
-        {...props}
-        theme={theme}
-        node={nodeSub}
-        processedMessages={props.processedMessages}
-      />
+      {!props.botError && !props.botLoading && (
+        <InteractionControl
+          {...props}
+          theme={theme}
+          node={nodeSub}
+          processedMessages={props.processedMessages}
+        />
+      )}
     </StyledBox>
   );
 };
