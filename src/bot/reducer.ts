@@ -93,6 +93,9 @@ export const createReducer = (shape: IDmbtShape, externalVariables?: any) => {
       case "@restart":
         ret = getInitialState(shape, undefined, externalVariables);
         break;
+      case "@jump":
+        ret = onJumpTo(state, action.payload as string, shape);
+        break;
       case "@loading":
         ret = onLoading(state, action.payload as boolean);
         break;
@@ -218,7 +221,9 @@ const onAnswer = (
     ...state.variables,
     [`${outputVarId}`]: answer.value,
   };
-  const interactionProgress = state.interactionProgress.concat([activeId]);
+  const interactionProgress = !!userAnswerMessage.meta.silent
+    ? state.interactionProgress
+    : state.interactionProgress.concat([activeId]);
 
   return {
     ...state,
@@ -229,6 +234,17 @@ const onAnswer = (
     finished: false,
     loading: false,
     error: false,
+  };
+};
+
+const onJumpTo = (state: IDmbtState, nodeId: string, shape: IDmbtShape) => {
+  const jumpToNode = shape.nodes[nodeId];
+  return {
+    ...state,
+    active: getNodeMessages(jumpToNode, state.variables),
+    activeInteraction: undefined,
+    finished: false,
+    loading: false,
   };
 };
 

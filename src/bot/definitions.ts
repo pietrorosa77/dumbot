@@ -185,6 +185,7 @@ export type DmbtActionType =
   | "@loading"
   | "@error"
   | "@instantMessage"
+  | "@jump"
   | DmbtEvents;
 
 export type SimpleAction = {
