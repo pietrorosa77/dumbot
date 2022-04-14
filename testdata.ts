@@ -265,7 +265,7 @@ export const testBotDefiniton = {
       },
       "ZT-AyLLws-": {
         id: "ZT-AyLLws-",
-        type: "datePicker",
+        type: "question",
         user: true,
 
         content: "You picked ${multiOut};\nCan you answer this now?? :smile:",
@@ -275,10 +275,9 @@ export const testBotDefiniton = {
         properties: {
           placeholder: "answer this...",
           type: "text",
+          long: true,
           displayAs: "message",
-          pattern: "123456",
           mask: "dateMask",
-          suggestions: ["www", "sdsdsd"],
           format: "dd/mm/yyyy-dd/mm/yyyy",
           validationMessage: "password should have !@#",
         },

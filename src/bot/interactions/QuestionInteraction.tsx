@@ -106,7 +106,10 @@ export const BotQuestion = (props: IDmbtInteractionProps) => {
     setText(event.suggestion);
   };
 
-  const onSubmit = () => {
+  const onSubmit = (event: any) => {
+    if (event.shiftKey) {
+      return true;
+    }
     if (valid) {
       onAnswer(text);
     }
