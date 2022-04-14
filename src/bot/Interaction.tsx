@@ -13,7 +13,6 @@ import { BotSingleChoice } from "./interactions/SingleChoiceInteraction";
 import { prepareInteractionNode } from "./stateHelpers";
 import { BotMaskedInput } from "./interactions/MaskedInputInteraction";
 import { BotInteractionTags } from "./interactions/TagsInteraction";
-import { BotPasswordInteraction } from "./interactions/PasswordInteraction";
 import styled, { css, keyframes } from "styled-components";
 
 const spinning = (color: string, size?: number) => (
@@ -77,7 +76,6 @@ const InteractionsMap = new Map<
   ["multiButtons", BotMultiChoice],
   ["datePicker", BotDatePicker],
   ["tags", BotInteractionTags],
-  ["password", BotPasswordInteraction],
 ]);
 
 const StyledBox = styled(Box)`

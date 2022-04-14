@@ -1,6 +1,6 @@
 import { Box, Button, Keyboard, Text, TextArea, TextInput } from "grommet";
 import { PlayFill } from "grommet-icons";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { DEFAULT_NODE_PORT, IDmbtInteractionProps } from "../definitions";
 
@@ -24,6 +24,8 @@ const StyledPlay = styled(PlayFill)`
 
 const StyledTextarea = styled(TextArea)`
   font-size: 1rem;
+  overflow: auto;
+  max-height: 300px;
 `;
 
 const StyledInput = styled(TextInput)`
@@ -33,7 +35,8 @@ const StyledInput = styled(TextInput)`
 export const BotQuestion = (props: IDmbtInteractionProps) => {
   const dispatch = props.dispatcher;
   const controlProperties = props.node.properties as IBotQuestionProperties;
-  const asFooter = controlProperties.displayAs === "footer";
+  const [focus, setFocus] = useState(true);
+  const tbRef = useRef<HTMLTextAreaElement>();
   const dangerColor = props.theme.global?.colors?.["status-error"];
 
   const outType = props.node.output.type;
@@ -56,10 +59,24 @@ export const BotQuestion = (props: IDmbtInteractionProps) => {
   );
 
   useEffect(() => {
+    if (tbRef.current) {
+      tbRef.current.style.height = "0px";
+      const scrollHeight = tbRef.current.scrollHeight;
+      tbRef.current.style.height = scrollHeight + "px";
+    }
+  }, [text]);
+
+  useEffect(() => {
     if (text) {
       setValid(validate(text));
     }
   }, [text, validate, setValid]);
+
+  useEffect(() => {
+    if (tbRef.current) {
+      tbRef.current.focus();
+    }
+  });
 
   const onAnswer = (value: any) => {
     dispatch({
@@ -96,19 +113,23 @@ export const BotQuestion = (props: IDmbtInteractionProps) => {
   };
 
   return (
-    <Box align="center" justify="start" pad={asFooter ? "none" : "medium"} fill>
+    <Box justify="start" pad="none">
       <Keyboard target="component" onEnter={onSubmit}>
         <Box
-          width="100%"
           direction="row"
+          margin="none"
           align="center"
           round="small"
-          pad={{ horizontal: "small", vertical: "xsmall" }}
-          border={!valid ? { color: dangerColor } : true}
+          fill
+          border={{
+            size: "2px",
+            color: !valid ? dangerColor : focus ? "active" : undefined,
+          }}
         >
           {!controlProperties.long && (
             <StyledInput
               plain
+              ref={tbRef as any}
               value={text}
               onChange={onChangeText}
               onSuggestionSelect={onSuggestionSelect}
@@ -116,13 +137,22 @@ export const BotQuestion = (props: IDmbtInteractionProps) => {
               type={controlProperties.type || undefined}
               placeholder={controlProperties.placeholder}
               pattern={controlProperties.pattern}
+              onFocus={() => setFocus(true)}
+              onBlur={() => setFocus(false)}
+              focusIndicator={false}
             />
           )}
           {controlProperties.long && (
             <StyledTextarea
               plain
+              ref={tbRef as any}
+              onFocus={() => setFocus(true)}
+              onBlur={() => setFocus(false)}
               value={text}
+              resize={false}
+              fill
               onChange={onChangeText}
+              focusIndicator={false}
               placeholder={controlProperties.placeholder}
             />
           )}

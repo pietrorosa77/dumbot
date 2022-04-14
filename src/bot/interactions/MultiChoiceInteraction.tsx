@@ -4,6 +4,7 @@ import { GetIcon, getPortsArray } from "../stateHelpers";
 import { DirectionType } from "grommet/utils";
 import React from "react";
 import { PlayFill } from "grommet-icons";
+import { MarkdownView } from "../MarkdownView";
 
 export interface IBotMultiChoiceSettings {
   direction?: DirectionType;
@@ -59,7 +60,7 @@ export const BotMultiChoice = (props: IDmbtInteractionProps) => {
           return (
             <Button
               size={controlProperties.size}
-              label={p.text || undefined}
+              label={p.text ? <MarkdownView text={p.text} /> : undefined}
               margin={{ top: "small" }}
               icon={Icon ? <Icon /> : undefined}
               key={p.id}

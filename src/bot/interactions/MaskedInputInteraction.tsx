@@ -1,6 +1,6 @@
 import { Box, Button, Keyboard, MaskedInput } from "grommet";
 import { PlayFill } from "grommet-icons";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { DEFAULT_NODE_PORT, IDmbtInteractionProps } from "../definitions";
 import * as masks from "./availableMasks";
@@ -24,11 +24,18 @@ const StyleMaskeddInput = styled(MaskedInput)`
 export const BotMaskedInput = (props: IDmbtInteractionProps) => {
   const dispatch = props.dispatcher;
   const controlProperties = props.node.properties as IBotMaskQuestionProperties;
-  const asFooter = controlProperties.displayAs === "footer";
   const outType = props.node.output.type;
   const [text, setText] = useState<string>("");
+  const [focus, setFocus] = useState(true);
+  const tbRef = useRef<HTMLTextAreaElement>();
   const mask = (masks as any)[controlProperties.mask](text);
   const validator = (masks.ValidateMask as any)[controlProperties.mask];
+
+  useEffect(() => {
+    if (tbRef.current) {
+      tbRef.current.focus();
+    }
+  });
 
   const onAnswer = (value: any) => {
     dispatch({
@@ -54,26 +61,27 @@ export const BotMaskedInput = (props: IDmbtInteractionProps) => {
   };
 
   return (
-    <Box
-      align="center"
-      justify="start"
-      pad={asFooter ? "none" : "medium"}
-      fill
-    >
+    <Box justify="start" pad="none">
       <Keyboard target="component" onEnter={onSubmit}>
         <Box
-          width="100%"
           direction="row"
+          margin="none"
           align="center"
           round="small"
-          pad={{ horizontal: "small", vertical: "xsmall" }}
-          border
+          fill
+          border={{
+            size: "2px",
+            color: focus ? "active" : undefined,
+          }}
         >
           <StyleMaskeddInput
             plain
             onChange={onChangeText}
             value={text}
             mask={mask}
+            focusIndicator={false}
+            onFocus={() => setFocus(true)}
+            onBlur={() => setFocus(false)}
           />
           <Button
             disabled={!text || !validator(text)}

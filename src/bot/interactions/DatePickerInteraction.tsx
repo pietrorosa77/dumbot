@@ -33,6 +33,7 @@ export const BotDatePicker = (props: IDmbtInteractionProps) => {
   const [text, setText] = useState<string>("");
   const [valid, setValid] = useState(false);
   const controlProperties = props.node.properties as IDateIntervalProperties;
+  const [focus, setFocus] = useState(true);
   const asFooter = controlProperties.displayAs === "footer";
   const dateFormat = controlProperties.format || "dd/mm/yyyy";
   const dateInputRef = useRef<HTMLInputElement>();
@@ -76,12 +77,15 @@ export const BotDatePicker = (props: IDmbtInteractionProps) => {
     <Box align="center" justify="start" pad={asFooter ? "none" : "medium"} fill>
       <Keyboard target="component" onEnter={onSubmit}>
         <StyledContainer
-          width="100%"
           direction="row"
+          margin="none"
           align="center"
           round="small"
-          pad={{ horizontal: "small", vertical: "xsmall" }}
-          border={true}
+          fill
+          border={{
+            size: "2px",
+            color: focus ? "active" : undefined,
+          }}
         >
           <Grommet theme={props.theme} style={{ width: "100%" }}>
             <StyledDate
@@ -90,10 +94,13 @@ export const BotDatePicker = (props: IDmbtInteractionProps) => {
                 overflow: "scroll",
                 responsive: true,
               }}
+              onFocus={() => setFocus(true)}
+              onBlur={() => setFocus(false)}
               style={{ border: "none" }}
               ref={dateInputRef as any}
               format={dateFormat}
               value={text}
+              inputProps={{ focusIndicator: false }}
               onChange={onChangeText}
             />
           </Grommet>

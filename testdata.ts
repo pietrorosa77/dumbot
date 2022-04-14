@@ -80,7 +80,7 @@ export const testBotDefiniton = {
           option2: {
             bgColor: "options",
             id: "option2",
-            text: "testport2 😂",
+            text: "$\ne = mc^2\n$\n\n - [x] List item\n$$\n\\begin{aligned}\\\\T( (v_1 + v_2) \\otimes w) &= T(v_1 \\otimes w) + T(v_2 \\otimes w)\\\\\nT( v \\otimes (w_1 + w_2)) &= T(v \\otimes w_1) + T(v \\otimes w_2) \\\\\nT( (\\alpha v) \\otimes w ) &= T( \\alpha ( v \\otimes w) ) \\\\\nT( v \\otimes (\\alpha w) ) &= T( \\alpha ( v \\otimes w) )\n\n\\end{aligned}\n\n$$\n\n$$\n\nT f = T \\left( \\sum_{k=1}^n \\alpha_k (v_k \\otimes w_k) \\right) = \\sum_{k=1}^n \\alpha_k T (v_k \\otimes w_k)\n\n$$\n\n> So you can give people the **choice** to use a more familiar, discoverable interface.\n\n |   First Header |      Second Header |\n| -------------: | -----------------: |\n| Content Cell 1 |   `Content` Cell 1 |\n| Content Cell 2 | **Content** Cell 2 |",
             index: 3,
             properties: {
               value: "testport2 😂",
@@ -267,6 +267,7 @@ export const testBotDefiniton = {
         id: "ZT-AyLLws-",
         type: "datePicker",
         user: true,
+
         content: "You picked ${multiOut};\nCan you answer this now?? :smile:",
         position: { x: 478, y: 342 },
         title: "Question",
@@ -274,8 +275,9 @@ export const testBotDefiniton = {
         properties: {
           placeholder: "answer this...",
           type: "text",
-          displayAs: "footer",
+          displayAs: "message",
           pattern: "123456",
+          mask: "dateMask",
           suggestions: ["www", "sdsdsd"],
           format: "dd/mm/yyyy-dd/mm/yyyy",
           validationMessage: "password should have !@#",

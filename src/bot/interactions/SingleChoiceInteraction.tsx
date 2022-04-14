@@ -2,6 +2,7 @@ import { Box, Button } from "grommet";
 import { IDmbtInteractionProps } from "../definitions";
 import { GetIcon, getPortsArray } from "../stateHelpers";
 import { DirectionType } from "grommet/utils";
+import { MarkdownView } from "../MarkdownView";
 
 export interface IBotSingleChoiceSettings {
   direction?: DirectionType;
@@ -42,7 +43,7 @@ export const BotSingleChoice = (props: IDmbtInteractionProps) => {
               key={p.id}
               primary
               size={controlProperties.size}
-              label={p.text || undefined}
+              label={p.text ? <MarkdownView text={p.text} /> : undefined}
               hoverIndicator
               margin="10px"
               icon={Icon ? <Icon /> : undefined}

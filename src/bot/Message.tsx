@@ -10,7 +10,6 @@ import { ArrayAnswerDisplay } from "./display/ArrayDisplay";
 import { ColorAnswerDisplay } from "./display/ColorDisplay";
 import { JsonObjectDisplay } from "./display/JsonDisplay";
 import { ObjectAnswerDisplay } from "./display/ObjectDisplay";
-import { PasswordAnswerDisplay } from "./display/PasswordDisplay";
 import { MarkdownView } from "./MarkdownView";
 import {
   AvatarContainer,
@@ -36,7 +35,6 @@ const DisplayMessageMap = new Map<
   ["object", ObjectAnswerDisplay],
   ["json", JsonObjectDisplay],
   ["color", ColorAnswerDisplay],
-  ["password", PasswordAnswerDisplay],
 ]);
 
 export const Message = (props: IMessageProps) => {
