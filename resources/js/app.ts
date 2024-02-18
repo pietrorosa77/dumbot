@@ -13,11 +13,15 @@ Alpine.store('dumbotDashboard', {
     },
 
     toasts:[],
-    addToast(toast){
-        this.toasts = this.toasts.concat(toast);
+    addToast(toast, timer = 2000){
+        const index = this.toasts.length;
+        const id = nanoid();
+        let totalVisible = this.toasts.filter((toast) => toast.visible).length + 1;
+        this.toasts = this.toasts.concat({...toast, visible: true, timeOut: timer * totalVisible, id});
+        setTimeout(() => this.removeToast(id), timer * totalVisible);
     },
     removeToast(toastID){
-        this.toasts = this.toasts.filter(el => el.id !== toastID)
+        this.toasts = this.toasts.filter(el => el.id !== toastID);
     }
 })
 
@@ -29,10 +33,10 @@ document.addEventListener('deleteBot', (evt) => {
     Alpine.store('dumbotDashboard').setIsBlocking(true);
     (window as any).axios.delete(`/botEditor/${evtParams.botId}`).then(res => {
         evtParams.holderId.innerHTML = res.data.html;
-        Alpine.store('dumbotDashboard').addToast({id: nanoid(), type: 'success'});
+        Alpine.store('dumbotDashboard').addToast({type: 'success', message: 'bot deleted'});
     }).catch((e: Error) => {
         console.error(e);
-        Alpine.store('dumbotDashboard').addToast({id: nanoid(), type: 'error'})
+        Alpine.store('dumbotDashboard').addToast({ type: 'error' , message: 'error deleting bot'})
     }).finally(() => {
         Alpine.store('dumbotDashboard').setIsBlocking(false);
     })

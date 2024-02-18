@@ -36,12 +36,7 @@
             {{ $slot }}
         </main>
     </div>
-    {{-- <ul x-data="">
-        <template x-for="toast in $store.dumbotDashboard.toasts" :key="toast.id">
-            <li x-text="toast.type"></li>
-        </template>
-    </ul>
-     --}}
+    <x-toasts position='bottom-right' />
 </body>
 
 </html>
